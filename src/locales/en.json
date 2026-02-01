@@ -1,0 +1,294 @@
+{
+  "nav": {
+    "features": "Features",
+    "pricing": "Pricing",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Log in",
+    "signup": "Free trial",
+    "dashboard": "Dashboard"
+  },
+  "hero": {
+    "badge": "Powered by AI",
+    "title": "Your CRM stays clean",
+    "titleHighlight": "automatically",
+    "subtitle": "Receive reactivation lists and campaign segments every week. ROI in 30 days, zero manual work.",
+    "cta": "14-day free trial",
+    "ctaSecondary": "Watch demo",
+    "trustedBy": "Trusted by 500+ sales teams"
+  },
+  "problem": {
+    "title": "The problem you know",
+    "subtitle": "Every sales team faces the same CRM challenges",
+    "card1": {
+      "title": "Polluted CRM",
+      "description": "Duplicates, outdated data, invalid emails... Your database is a graveyard of dead leads."
+    },
+    "card2": {
+      "title": "Inactive leads",
+      "description": "Thousands of contacts sleeping in your CRM. Impossible to know which ones to reactivate."
+    },
+    "card3": {
+      "title": "Wasted time",
+      "description": "15 hours per week spent cleaning manually. Time stolen from prospecting."
+    }
+  },
+  "solution": {
+    "title": "The Kleant solution",
+    "subtitle": "An AI agent that works 24/7 to keep your CRM perfect",
+    "card1": {
+      "title": "Autonomous AI agent",
+      "description": "Set it and forget it. The AI scans, cleans and enriches your data automatically."
+    },
+    "card2": {
+      "title": "Intelligent scoring",
+      "description": "Each contact receives a 0-100 score based on their potential and engagement."
+    },
+    "card3": {
+      "title": "Ready-to-use lists",
+      "description": "Receive your reactivation lists and priority segments every week."
+    }
+  },
+  "features": {
+    "title": "Key features",
+    "subtitle": "Everything you need for a perfect CRM",
+    "health": {
+      "title": "CRM health dashboard",
+      "description": "Visualize the state of your database at a glance with a global health score."
+    },
+    "duplicates": {
+      "title": "Duplicate detection",
+      "description": "The AI automatically identifies and merges duplicate contacts."
+    },
+    "enrichment": {
+      "title": "Auto enrichment",
+      "description": "Automatically complete missing data via external APIs."
+    },
+    "scoring": {
+      "title": "Lead scoring",
+      "description": "Prioritize your leads with an intelligent score based on your ICP."
+    },
+    "reactivation": {
+      "title": "Reactivation lists",
+      "description": "Identify dormant contacts with high re-engagement potential."
+    },
+    "history": {
+      "title": "Full traceability",
+      "description": "Complete history of all modifications with rollback capability."
+    }
+  },
+  "howItWorks": {
+    "title": "How it works",
+    "subtitle": "3 steps to an always-clean CRM",
+    "step1": {
+      "title": "Connect your CRM",
+      "description": "HubSpot, Pipedrive or Salesforce. Secure connection in 2 clicks."
+    },
+    "step2": {
+      "title": "AI analyzes and cleans",
+      "description": "Our agent scans your database, detects problems and fixes them automatically."
+    },
+    "step3": {
+      "title": "Receive your lists",
+      "description": "Every week, receive priority lists and smart alerts."
+    }
+  },
+  "roi": {
+    "title": "ROI guaranteed in 30 days",
+    "subtitle": "Measurable results from the first weeks",
+    "stat1": {
+      "value": "30%",
+      "label": "of leads reactivated"
+    },
+    "stat2": {
+      "value": "15h",
+      "label": "saved per week"
+    },
+    "stat3": {
+      "value": "98%",
+      "label": "valid data"
+    },
+    "stat4": {
+      "value": "2x",
+      "label": "more conversions"
+    }
+  },
+  "testimonials": {
+    "title": "They trust us",
+    "subtitle": "Discover what our clients say about Kleant",
+    "testimonial1": {
+      "quote": "Kleant transformed how we manage our CRM. We reactivated 30% of dormant leads in 2 months.",
+      "name": "Sophie Martin",
+      "role": "Sales Director",
+      "company": "TechCorp France"
+    },
+    "testimonial2": {
+      "quote": "No more spending hours cleaning manually. The AI does all the work for us.",
+      "name": "Marc Dubois",
+      "role": "Head of Sales Ops",
+      "company": "StartupFlow"
+    },
+    "testimonial3": {
+      "quote": "Intelligent scoring helped us double our conversion rate. A must-have for any sales team.",
+      "name": "Julie Bernard",
+      "role": "VP Sales",
+      "company": "GrowthLab"
+    }
+  },
+  "integrations": {
+    "title": "Native integrations",
+    "subtitle": "Connect your CRM in 2 clicks",
+    "hubspot": "HubSpot",
+    "pipedrive": "Pipedrive",
+    "salesforce": "Salesforce",
+    "badge": "Connected in 2 clicks"
+  },
+  "pricing": {
+    "title": "Simple and transparent pricing",
+    "subtitle": "Choose the plan that fits your team",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "yearlyBadge": "-20%",
+    "perMonth": "/month",
+    "popular": "Most popular",
+    "cta": "Get started free",
+    "ctaTrial": "14-day free trial",
+    "ctaContact": "Contact us",
+    "starter": {
+      "name": "Starter",
+      "price": "79",
+      "priceYearly": "63",
+      "description": "For small teams",
+      "features": [
+        "Up to 5,000 contacts",
+        "CRM health dashboard",
+        "Basic duplicate detection",
+        "Lead scoring (0-100)",
+        "Modification history (30d)",
+        "Email support"
+      ]
+    },
+    "professional": {
+      "name": "Professional",
+      "price": "199",
+      "priceYearly": "159",
+      "description": "For growing teams",
+      "features": [
+        "Up to 25,000 contacts",
+        "Everything in Starter +",
+        "Automatic enrichment",
+        "Obsolete contact detection",
+        "Real-time validation",
+        "Smart alerts",
+        "Advanced automations",
+        "Unlimited history",
+        "Priority support"
+      ]
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "price": "499",
+      "priceYearly": "399",
+      "description": "For large organizations",
+      "features": [
+        "Unlimited contacts",
+        "Everything in Professional +",
+        "Account-level consolidation",
+        "Lost opportunity detection",
+        "Territory/coverage analysis",
+        "Custom field cleaning",
+        "API access",
+        "Dedicated onboarding",
+        "Account manager",
+        "Guaranteed SLA"
+      ]
+    },
+    "viewAll": "View all pricing"
+  },
+  "cta": {
+    "title": "Ready to transform your CRM?",
+    "subtitle": "Try Kleant free for 14 days. No credit card required.",
+    "button": "Get started free"
+  },
+  "footer": {
+    "description": "The AI agent that keeps your CRM clean automatically.",
+    "product": "Product",
+    "resources": "Resources",
+    "company": "Company",
+    "legal": "Legal",
+    "features": "Features",
+    "integrations": "Integrations",
+    "changelog": "Changelog",
+    "documentation": "Documentation",
+    "guides": "Guides",
+    "blog": "Blog",
+    "apiDocs": "API Docs",
+    "about": "About",
+    "contact": "Contact",
+    "careers": "Careers",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "cookies": "Cookies",
+    "rights": "© 2025 Kleant. All rights reserved."
+  },
+  "auth": {
+    "login": "Log in",
+    "signup": "Create account",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "fullName": "Full name",
+    "companyName": "Company name",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "terms": "I accept the terms of service",
+    "loginButton": "Log in",
+    "signupButton": "Create my account",
+    "googleButton": "Continue with Google",
+    "orDivider": "or"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "overview": "Overview",
+    "healthScore": "Global health score",
+    "healthGood": "Good health",
+    "healthMedium": "Needs improvement",
+    "healthPoor": "Critical",
+    "vsLastWeek": "vs last week",
+    "totalContacts": "Total contacts",
+    "activeContacts": "Active contacts",
+    "duplicates": "Duplicates detected",
+    "incompleteData": "Incomplete data",
+    "thisWeek": "this week",
+    "vsLastMonth": "vs last month",
+    "critical": "Critical",
+    "medium": "Medium",
+    "alerts": "Alerts & Actions",
+    "recentActivity": "Recent activity",
+    "statistics": "Statistics",
+    "qualityEvolution": "Quality evolution",
+    "contactsByScore": "Distribution by score",
+    "listsOfMoment": "Lists of the moment",
+    "exportCsv": "Export CSV",
+    "viewDetails": "View details",
+    "analyze": "Analyze"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "export": "Export",
+    "import": "Import"
+  }
+}

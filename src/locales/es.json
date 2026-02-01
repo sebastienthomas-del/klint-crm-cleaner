@@ -1,0 +1,294 @@
+{
+  "nav": {
+    "features": "Funcionalidades",
+    "pricing": "Precios",
+    "about": "Nosotros",
+    "contact": "Contacto",
+    "login": "Iniciar sesión",
+    "signup": "Prueba gratis",
+    "dashboard": "Dashboard"
+  },
+  "hero": {
+    "badge": "Impulsado por IA",
+    "title": "Tu CRM se mantiene limpio",
+    "titleHighlight": "automáticamente",
+    "subtitle": "Recibe listas de reactivación y segmentos de campaña cada semana. ROI en 30 días, cero trabajo manual.",
+    "cta": "Prueba gratis 14 días",
+    "ctaSecondary": "Ver demo",
+    "trustedBy": "Usado por más de 500 equipos de ventas"
+  },
+  "problem": {
+    "title": "El problema que conoces",
+    "subtitle": "Todos los equipos de ventas enfrentan los mismos desafíos con su CRM",
+    "card1": {
+      "title": "CRM contaminado",
+      "description": "Duplicados, datos obsoletos, emails inválidos... Tu base es un cementerio de leads muertos."
+    },
+    "card2": {
+      "title": "Leads inactivos",
+      "description": "Miles de contactos durmiendo en tu CRM. Imposible saber cuáles reactivar."
+    },
+    "card3": {
+      "title": "Tiempo perdido",
+      "description": "15 horas por semana limpiando manualmente. Tiempo robado a la prospección."
+    }
+  },
+  "solution": {
+    "title": "La solución Kleant",
+    "subtitle": "Un agente IA que trabaja 24/7 para mantener tu CRM perfecto",
+    "card1": {
+      "title": "Agente IA autónomo",
+      "description": "Configúralo y olvídate. La IA escanea, limpia y enriquece tus datos automáticamente."
+    },
+    "card2": {
+      "title": "Scoring inteligente",
+      "description": "Cada contacto recibe una puntuación 0-100 basada en su potencial y engagement."
+    },
+    "card3": {
+      "title": "Listas listas para usar",
+      "description": "Recibe cada semana tus listas de reactivación y segmentos prioritarios."
+    }
+  },
+  "features": {
+    "title": "Funcionalidades principales",
+    "subtitle": "Todo lo que necesitas para un CRM perfecto",
+    "health": {
+      "title": "Dashboard de salud CRM",
+      "description": "Visualiza el estado de tu base de un vistazo con una puntuación de salud global."
+    },
+    "duplicates": {
+      "title": "Detección de duplicados",
+      "description": "La IA identifica y fusiona automáticamente los contactos duplicados."
+    },
+    "enrichment": {
+      "title": "Enriquecimiento auto",
+      "description": "Completa automáticamente los datos faltantes vía APIs externas."
+    },
+    "scoring": {
+      "title": "Lead scoring",
+      "description": "Prioriza tus leads con una puntuación inteligente basada en tu ICP."
+    },
+    "reactivation": {
+      "title": "Listas de reactivación",
+      "description": "Identifica contactos dormidos con alto potencial de re-engagement."
+    },
+    "history": {
+      "title": "Trazabilidad total",
+      "description": "Historial completo de todas las modificaciones con posibilidad de rollback."
+    }
+  },
+  "howItWorks": {
+    "title": "Cómo funciona",
+    "subtitle": "3 pasos para un CRM siempre limpio",
+    "step1": {
+      "title": "Conecta tu CRM",
+      "description": "HubSpot, Pipedrive o Salesforce. Conexión segura en 2 clics."
+    },
+    "step2": {
+      "title": "La IA analiza y limpia",
+      "description": "Nuestro agente escanea tu base, detecta problemas y los corrige automáticamente."
+    },
+    "step3": {
+      "title": "Recibe tus listas",
+      "description": "Cada semana, recibe listas prioritarias y alertas inteligentes."
+    }
+  },
+  "roi": {
+    "title": "ROI garantizado en 30 días",
+    "subtitle": "Resultados medibles desde las primeras semanas",
+    "stat1": {
+      "value": "30%",
+      "label": "de leads reactivados"
+    },
+    "stat2": {
+      "value": "15h",
+      "label": "ahorradas por semana"
+    },
+    "stat3": {
+      "value": "98%",
+      "label": "de datos válidos"
+    },
+    "stat4": {
+      "value": "2x",
+      "label": "más conversiones"
+    }
+  },
+  "testimonials": {
+    "title": "Confían en nosotros",
+    "subtitle": "Descubre lo que dicen nuestros clientes sobre Kleant",
+    "testimonial1": {
+      "quote": "Kleant transformó nuestra manera de gestionar el CRM. Reactivamos el 30% de nuestros leads dormidos en 2 meses.",
+      "name": "Sophie Martin",
+      "role": "Directora de Ventas",
+      "company": "TechCorp France"
+    },
+    "testimonial2": {
+      "quote": "Ya no pasamos horas limpiando manualmente. La IA hace todo el trabajo por nosotros.",
+      "name": "Marc Dubois",
+      "role": "Head of Sales Ops",
+      "company": "StartupFlow"
+    },
+    "testimonial3": {
+      "quote": "El scoring inteligente nos permitió duplicar nuestra tasa de conversión. Imprescindible para cualquier equipo de ventas.",
+      "name": "Julie Bernard",
+      "role": "VP Sales",
+      "company": "GrowthLab"
+    }
+  },
+  "integrations": {
+    "title": "Integraciones nativas",
+    "subtitle": "Conecta tu CRM en 2 clics",
+    "hubspot": "HubSpot",
+    "pipedrive": "Pipedrive",
+    "salesforce": "Salesforce",
+    "badge": "Conectado en 2 clics"
+  },
+  "pricing": {
+    "title": "Precios simples y transparentes",
+    "subtitle": "Elige el plan que se adapte a tu equipo",
+    "monthly": "Mensual",
+    "yearly": "Anual",
+    "yearlyBadge": "-20%",
+    "perMonth": "/mes",
+    "popular": "El más popular",
+    "cta": "Empezar gratis",
+    "ctaTrial": "Prueba gratis 14 días",
+    "ctaContact": "Contáctanos",
+    "starter": {
+      "name": "Starter",
+      "price": "79",
+      "priceYearly": "63",
+      "description": "Para equipos pequeños",
+      "features": [
+        "Hasta 5.000 contactos",
+        "Dashboard de salud CRM",
+        "Detección básica de duplicados",
+        "Scoring de leads (0-100)",
+        "Historial de modificaciones (30d)",
+        "Soporte por email"
+      ]
+    },
+    "professional": {
+      "name": "Professional",
+      "price": "199",
+      "priceYearly": "159",
+      "description": "Para equipos en crecimiento",
+      "features": [
+        "Hasta 25.000 contactos",
+        "Todo de Starter +",
+        "Enriquecimiento automático",
+        "Detección de contactos obsoletos",
+        "Validación en tiempo real",
+        "Alertas inteligentes",
+        "Automatizaciones avanzadas",
+        "Historial ilimitado",
+        "Soporte prioritario"
+      ]
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "price": "499",
+      "priceYearly": "399",
+      "description": "Para grandes organizaciones",
+      "features": [
+        "Contactos ilimitados",
+        "Todo de Professional +",
+        "Consolidación a nivel cuenta",
+        "Detección de oportunidades perdidas",
+        "Análisis de territorio/cobertura",
+        "Limpieza de campos custom",
+        "Acceso API",
+        "Onboarding dedicado",
+        "Account manager",
+        "SLA garantizado"
+      ]
+    },
+    "viewAll": "Ver todos los precios"
+  },
+  "cta": {
+    "title": "¿Listo para transformar tu CRM?",
+    "subtitle": "Prueba Kleant gratis durante 14 días. Sin tarjeta de crédito.",
+    "button": "Empezar gratis"
+  },
+  "footer": {
+    "description": "El agente IA que mantiene tu CRM limpio automáticamente.",
+    "product": "Producto",
+    "resources": "Recursos",
+    "company": "Empresa",
+    "legal": "Legal",
+    "features": "Funcionalidades",
+    "integrations": "Integraciones",
+    "changelog": "Changelog",
+    "documentation": "Documentación",
+    "guides": "Guías",
+    "blog": "Blog",
+    "apiDocs": "API Docs",
+    "about": "Nosotros",
+    "contact": "Contacto",
+    "careers": "Empleo",
+    "terms": "Términos",
+    "privacy": "Privacidad",
+    "cookies": "Cookies",
+    "rights": "© 2025 Kleant. Todos los derechos reservados."
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "signup": "Crear cuenta",
+    "email": "Email",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "fullName": "Nombre completo",
+    "companyName": "Nombre de empresa",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "noAccount": "¿No tienes cuenta?",
+    "hasAccount": "¿Ya tienes cuenta?",
+    "terms": "Acepto los términos de servicio",
+    "loginButton": "Iniciar sesión",
+    "signupButton": "Crear mi cuenta",
+    "googleButton": "Continuar con Google",
+    "orDivider": "o"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "overview": "Vista general",
+    "healthScore": "Puntuación de salud global",
+    "healthGood": "Buena salud",
+    "healthMedium": "A mejorar",
+    "healthPoor": "Crítico",
+    "vsLastWeek": "vs semana pasada",
+    "totalContacts": "Total contactos",
+    "activeContacts": "Contactos activos",
+    "duplicates": "Duplicados detectados",
+    "incompleteData": "Datos incompletos",
+    "thisWeek": "esta semana",
+    "vsLastMonth": "vs mes pasado",
+    "critical": "Crítico",
+    "medium": "Medio",
+    "alerts": "Alertas y Acciones",
+    "recentActivity": "Actividad reciente",
+    "statistics": "Estadísticas",
+    "qualityEvolution": "Evolución de calidad",
+    "contactsByScore": "Distribución por puntuación",
+    "listsOfMoment": "Listas del momento",
+    "exportCsv": "Exportar CSV",
+    "viewDetails": "Ver detalles",
+    "analyze": "Analizar"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "view": "Ver",
+    "back": "Volver",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "export": "Exportar",
+    "import": "Importar"
+  }
+}
