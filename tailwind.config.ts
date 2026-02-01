@@ -15,7 +15,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ["Inter", "sans-serif"],
-        display: ["Lexend", "sans-serif"],
+        display: ["Space Grotesk", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -69,6 +69,30 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        copper: {
+          50: "hsl(25 60% 95%)",
+          100: "hsl(25 60% 90%)",
+          200: "hsl(25 60% 80%)",
+          300: "hsl(25 65% 70%)",
+          400: "hsl(25 70% 60%)",
+          500: "hsl(25 70% 50%)",
+          600: "hsl(25 70% 45%)",
+          700: "hsl(25 70% 38%)",
+          800: "hsl(25 70% 30%)",
+          900: "hsl(25 70% 22%)",
+        },
+        slate: {
+          50: "hsl(220 10% 98%)",
+          100: "hsl(220 10% 94%)",
+          200: "hsl(220 10% 88%)",
+          300: "hsl(220 12% 75%)",
+          400: "hsl(220 14% 60%)",
+          500: "hsl(220 15% 45%)",
+          600: "hsl(220 15% 35%)",
+          700: "hsl(220 15% 25%)",
+          800: "hsl(220 15% 15%)",
+          900: "hsl(220 15% 10%)",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -101,8 +125,8 @@ export default {
           to: { opacity: "1", transform: "translateX(0)" },
         },
         "pulse-glow": {
-          "0%, 100%": { boxShadow: "0 0 20px hsl(258 90% 66% / 0.3)" },
-          "50%": { boxShadow: "0 0 40px hsl(258 90% 66% / 0.5)" },
+          "0%, 100%": { boxShadow: "0 0 20px hsl(25 70% 50% / 0.3)" },
+          "50%": { boxShadow: "0 0 40px hsl(25 70% 50% / 0.5)" },
         },
         float: {
           "0%, 100%": { transform: "translateY(0)" },
@@ -111,6 +135,10 @@ export default {
         shimmer: {
           from: { backgroundPosition: "200% 0" },
           to: { backgroundPosition: "-200% 0" },
+        },
+        "spin-slow": {
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" },
         },
       },
       animation: {
@@ -123,11 +151,12 @@ export default {
         "pulse-glow": "pulse-glow 2s ease-in-out infinite",
         float: "float 3s ease-in-out infinite",
         shimmer: "shimmer 8s ease-in-out infinite",
+        "spin-slow": "spin-slow 3s linear infinite",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        "hero-pattern": "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%238B5CF6' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
+        "hero-pattern": "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23CD7F32' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
       },
     },
   },

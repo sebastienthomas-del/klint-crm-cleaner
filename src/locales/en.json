@@ -6,7 +6,11 @@
     "contact": "Contact",
     "login": "Log in",
     "signup": "Free trial",
-    "dashboard": "Dashboard"
+    "dashboard": "Dashboard",
+    "duplicates": "Duplicates",
+    "enrichment": "Enrichment",
+    "reactivation": "Reactivation",
+    "settings": "Settings"
   },
   "hero": {
     "badge": "Powered by AI",
@@ -274,6 +278,59 @@
     "viewDetails": "View details",
     "analyze": "Analyze"
   },
+  "duplicates": {
+    "title": "Duplicate management",
+    "description": "Identify and merge duplicate contacts",
+    "confidence": "Confidence",
+    "high": "High",
+    "medium": "Medium",
+    "low": "Low",
+    "merge": "Merge",
+    "ignore": "Ignore",
+    "reason": "Reason"
+  },
+  "enrichment": {
+    "title": "Data enrichment",
+    "description": "Automatically complete missing data",
+    "autoEnrich": "Automatic enrichment",
+    "missingData": "Missing data",
+    "sector": "Industry",
+    "companySize": "Company size",
+    "linkedin": "LinkedIn profile",
+    "emailValidation": "Email validation",
+    "phoneFormat": "Phone format",
+    "position": "Position"
+  },
+  "reactivation": {
+    "title": "Contact reactivation",
+    "description": "Identify dormant contacts to re-engage",
+    "dormant": "Dormant",
+    "potential": "Potential",
+    "lastActivity": "Last activity",
+    "suggestedApproach": "Suggested approach"
+  },
+  "settings": {
+    "title": "Settings",
+    "profile": "Profile",
+    "connections": "Connections",
+    "preferences": "Preferences",
+    "agent": "AI Agent",
+    "notifications": "Notifications",
+    "integrations": "Integrations"
+  },
+  "agent": {
+    "title": "AI Agent",
+    "status": "Status",
+    "active": "Active",
+    "paused": "Paused",
+    "scanning": "Scanning",
+    "lastScan": "Last scan",
+    "nextScan": "Next scan",
+    "scanFrequency": "Scan frequency",
+    "autoMerge": "Automatic merge",
+    "autoEnrich": "Auto enrichment",
+    "threshold": "Confidence threshold"
+  },
   "common": {
     "loading": "Loading...",
     "error": "Error",
@@ -289,6 +346,9 @@
     "search": "Search",
     "filter": "Filter",
     "export": "Export",
-    "import": "Import"
+    "import": "Import",
+    "connect": "Connect",
+    "disconnect": "Disconnect",
+    "configure": "Configure"
   }
 }
