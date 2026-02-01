@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lexend:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,100 +6,100 @@
 
 @layer base {
   :root {
-    /* Background & Foreground */
-    --background: 0 0% 100%;
-    --foreground: 240 10% 10%;
+    /* Background & Foreground - Gris très clair */
+    --background: 220 10% 98%;
+    --foreground: 220 15% 15%;
     
     /* Card surfaces */
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 10%;
+    --card-foreground: 220 15% 15%;
     
     /* Popover */
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 10%;
+    --popover-foreground: 220 15% 15%;
     
-    /* Primary - Violet #8B5CF6 */
-    --primary: 258 90% 66%;
+    /* Primary - Cuivre */
+    --primary: 25 70% 50%;
     --primary-foreground: 0 0% 100%;
     
-    /* Secondary - Indigo #6366F1 */
-    --secondary: 239 84% 67%;
+    /* Secondary - Gris ardoise */
+    --secondary: 220 15% 40%;
     --secondary-foreground: 0 0% 100%;
     
-    /* Muted */
-    --muted: 240 5% 96%;
-    --muted-foreground: 240 5% 45%;
+    /* Muted - Gris moyen */
+    --muted: 220 10% 94%;
+    --muted-foreground: 220 10% 45%;
     
-    /* Accent - Violet lighter */
-    --accent: 258 90% 96%;
-    --accent-foreground: 258 90% 50%;
+    /* Accent - Cuivre clair */
+    --accent: 25 60% 95%;
+    --accent-foreground: 25 70% 40%;
     
-    /* Success - Emerald #10B981 */
+    /* Success - Vert émeraude */
     --success: 160 84% 39%;
     --success-foreground: 0 0% 100%;
     
-    /* Warning - Amber #F59E0B */
+    /* Warning - Ambre */
     --warning: 38 92% 50%;
     --warning-foreground: 0 0% 10%;
     
-    /* Destructive - Red #EF4444 */
+    /* Destructive - Rouge */
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     
-    /* Borders & Inputs */
-    --border: 240 6% 90%;
-    --input: 240 6% 90%;
-    --ring: 258 90% 66%;
+    /* Borders & Inputs - Gris clair */
+    --border: 220 10% 88%;
+    --input: 220 10% 88%;
+    --ring: 25 70% 50%;
     
     /* Radius */
-    --radius: 0.75rem;
+    --radius: 0.5rem;
     
-    /* Sidebar */
-    --sidebar-background: 258 40% 98%;
-    --sidebar-foreground: 240 10% 20%;
-    --sidebar-primary: 258 90% 66%;
+    /* Sidebar - Gris foncé */
+    --sidebar-background: 220 15% 12%;
+    --sidebar-foreground: 220 10% 90%;
+    --sidebar-primary: 25 70% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 258 90% 95%;
-    --sidebar-accent-foreground: 258 90% 50%;
-    --sidebar-border: 258 20% 92%;
-    --sidebar-ring: 258 90% 66%;
+    --sidebar-accent: 220 15% 18%;
+    --sidebar-accent-foreground: 25 60% 65%;
+    --sidebar-border: 220 15% 20%;
+    --sidebar-ring: 25 70% 50%;
     
-    /* Custom gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(258 90% 66%) 0%, hsl(239 84% 67%) 100%);
-    --gradient-hero: linear-gradient(135deg, hsl(258 90% 66%) 0%, hsl(239 84% 67%) 50%, hsl(258 90% 76%) 100%);
-    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(258 40% 99%) 100%);
-    --gradient-dark: linear-gradient(135deg, hsl(240 10% 10%) 0%, hsl(258 30% 15%) 100%);
+    /* Custom gradients - Cuivre */
+    --gradient-primary: linear-gradient(135deg, hsl(25 70% 50%) 0%, hsl(25 60% 40%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(220 15% 15%) 0%, hsl(220 15% 25%) 50%, hsl(25 70% 50%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(220 10% 98%) 100%);
+    --gradient-dark: linear-gradient(135deg, hsl(220 15% 10%) 0%, hsl(220 15% 15%) 100%);
     
     /* Shadows */
-    --shadow-sm: 0 1px 2px 0 hsl(258 30% 20% / 0.05);
-    --shadow-md: 0 4px 6px -1px hsl(258 30% 20% / 0.1), 0 2px 4px -2px hsl(258 30% 20% / 0.1);
-    --shadow-lg: 0 10px 15px -3px hsl(258 30% 20% / 0.1), 0 4px 6px -4px hsl(258 30% 20% / 0.1);
-    --shadow-xl: 0 20px 25px -5px hsl(258 30% 20% / 0.1), 0 8px 10px -6px hsl(258 30% 20% / 0.1);
-    --shadow-glow: 0 0 40px hsl(258 90% 66% / 0.3);
-    --shadow-glow-lg: 0 0 60px hsl(258 90% 66% / 0.4);
+    --shadow-sm: 0 1px 2px 0 hsl(220 15% 20% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(220 15% 20% / 0.1), 0 2px 4px -2px hsl(220 15% 20% / 0.1);
+    --shadow-lg: 0 10px 15px -3px hsl(220 15% 20% / 0.1), 0 4px 6px -4px hsl(220 15% 20% / 0.1);
+    --shadow-xl: 0 20px 25px -5px hsl(220 15% 20% / 0.1), 0 8px 10px -6px hsl(220 15% 20% / 0.1);
+    --shadow-glow: 0 0 40px hsl(25 70% 50% / 0.3);
+    --shadow-glow-lg: 0 0 60px hsl(25 70% 50% / 0.4);
   }
 
   .dark {
-    --background: 240 10% 6%;
-    --foreground: 0 0% 95%;
+    --background: 220 15% 8%;
+    --foreground: 220 10% 95%;
     
-    --card: 240 10% 8%;
-    --card-foreground: 0 0% 95%;
+    --card: 220 15% 10%;
+    --card-foreground: 220 10% 95%;
     
-    --popover: 240 10% 8%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 220 15% 10%;
+    --popover-foreground: 220 10% 95%;
     
-    --primary: 258 90% 66%;
+    --primary: 25 70% 55%;
     --primary-foreground: 0 0% 100%;
     
-    --secondary: 239 84% 67%;
+    --secondary: 220 15% 50%;
     --secondary-foreground: 0 0% 100%;
     
-    --muted: 240 6% 15%;
-    --muted-foreground: 240 5% 65%;
+    --muted: 220 15% 15%;
+    --muted-foreground: 220 10% 60%;
     
-    --accent: 258 30% 15%;
-    --accent-foreground: 258 90% 75%;
+    --accent: 25 40% 15%;
+    --accent-foreground: 25 60% 70%;
     
     --success: 160 84% 39%;
     --success-foreground: 0 0% 100%;
@@ -110,23 +110,23 @@
     --destructive: 0 70% 50%;
     --destructive-foreground: 0 0% 100%;
     
-    --border: 240 6% 20%;
-    --input: 240 6% 20%;
-    --ring: 258 90% 66%;
+    --border: 220 15% 18%;
+    --input: 220 15% 18%;
+    --ring: 25 70% 55%;
     
-    --sidebar-background: 240 10% 8%;
-    --sidebar-foreground: 0 0% 90%;
-    --sidebar-primary: 258 90% 66%;
+    --sidebar-background: 220 15% 6%;
+    --sidebar-foreground: 220 10% 90%;
+    --sidebar-primary: 25 70% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 258 30% 15%;
-    --sidebar-accent-foreground: 258 90% 75%;
-    --sidebar-border: 240 6% 18%;
-    --sidebar-ring: 258 90% 66%;
+    --sidebar-accent: 220 15% 12%;
+    --sidebar-accent-foreground: 25 60% 70%;
+    --sidebar-border: 220 15% 15%;
+    --sidebar-ring: 25 70% 55%;
     
-    --gradient-primary: linear-gradient(135deg, hsl(258 90% 66%) 0%, hsl(239 84% 67%) 100%);
-    --gradient-hero: linear-gradient(135deg, hsl(258 50% 20%) 0%, hsl(239 40% 15%) 100%);
-    --gradient-card: linear-gradient(180deg, hsl(240 10% 10%) 0%, hsl(258 20% 8%) 100%);
-    --gradient-dark: linear-gradient(135deg, hsl(240 10% 4%) 0%, hsl(258 30% 8%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(25 70% 55%) 0%, hsl(25 60% 45%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(220 15% 8%) 0%, hsl(220 15% 15%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(220 15% 12%) 0%, hsl(220 15% 8%) 100%);
+    --gradient-dark: linear-gradient(135deg, hsl(220 15% 4%) 0%, hsl(220 15% 8%) 100%);
   }
 }
 
@@ -141,7 +141,7 @@
   }
   
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Lexend', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
     @apply font-semibold tracking-tight;
   }
 }
@@ -209,12 +209,12 @@
   }
   
   .glass-card {
-    @apply bg-card/80 backdrop-blur-xl border border-border/50 rounded-xl;
+    @apply bg-card/80 backdrop-blur-xl border border-border/50 rounded-lg;
   }
   
   /* Animated gradient background */
   .animated-gradient {
-    background: linear-gradient(-45deg, hsl(258 90% 66%), hsl(239 84% 67%), hsl(258 90% 76%), hsl(239 84% 77%));
+    background: linear-gradient(-45deg, hsl(25 70% 50%), hsl(25 60% 40%), hsl(220 15% 30%), hsl(220 15% 40%));
     background-size: 400% 400%;
     animation: gradient-shift 15s ease infinite;
   }
@@ -246,6 +246,19 @@
   
   .score-cold {
     @apply bg-secondary/10 text-secondary border border-secondary/20;
+  }
+
+  /* Agent status */
+  .agent-active {
+    @apply bg-success/10 text-success border border-success/30;
+  }
+
+  .agent-paused {
+    @apply bg-warning/10 text-warning border border-warning/30;
+  }
+
+  .agent-error {
+    @apply bg-destructive/10 text-destructive border border-destructive/30;
   }
 }
 
