@@ -1,0 +1,147 @@
+import { motion } from 'framer-motion';
+import { 
+  Target, 
+  TrendingUp,
+  Building2,
+  User,
+  DollarSign,
+  Calendar,
+  ArrowRight,
+  Star
+} from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { useSalesOpsAgent } from '@/hooks/useSalesOpsAgent';
+
+const ICPQualification = () => {
+  const { highValueTargets, icpConfig, stats } = useSalesOpsAgent();
+  
+  const formatInactivePeriod = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const months = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24 * 30));
+    return `${months} mois`;
+  };
+  
+  const getICPScoreColor = (score: number) => {
+    if (score >= 95) return 'text-success';
+    if (score >= 80) return 'text-primary';
+    return 'text-warning';
+  };
+
+  return (
+    <Card>
+      <CardHeader className="pb-3">
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-lg font-semibold flex items-center gap-2">
+            <Target className="w-5 h-5 text-primary" />
+            High Value Targets
+          </CardTitle>
+          <Badge variant="outline" className="font-mono">
+            {stats.highValueTargets}
+          </Badge>
+        </div>
+        <div className="flex flex-wrap gap-1.5 mt-2">
+          <Badge variant="secondary" className="text-xs">
+            {icpConfig.sectors.slice(0, 3).join(', ')}
+          </Badge>
+          <Badge variant="secondary" className="text-xs">
+            {icpConfig.companySizes[0]}+ emp
+          </Badge>
+          <Badge variant="secondary" className="text-xs">
+            C-Level / VP
+          </Badge>
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        {highValueTargets.map((hvt, index) => (
+          <motion.div
+            key={hvt.id}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: index * 0.05 }}
+            className="p-4 rounded-lg border border-border bg-card hover:border-primary/30 transition-colors"
+          >
+            <div className="flex items-start justify-between mb-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                  <User className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium text-foreground">
+                      {hvt.firstName} {hvt.lastName}
+                    </span>
+                    <div className="flex items-center gap-1">
+                      <Star className="w-3.5 h-3.5 text-warning fill-warning" />
+                      <span className={`text-sm font-bold ${getICPScoreColor(hvt.icpScore)}`}>
+                        {hvt.icpScore}%
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <span>{hvt.position}</span>
+                    <span>@</span>
+                    <span>{hvt.company}</span>
+                  </div>
+                </div>
+              </div>
+              <Badge 
+                className={hvt.icpFit === 'perfect' 
+                  ? 'bg-success/10 text-success border-success/20' 
+                  : 'bg-primary/10 text-primary border-primary/20'
+                }
+              >
+                {hvt.icpFit === 'perfect' ? 'Match parfait' : 'Bon match'}
+              </Badge>
+            </div>
+            
+            <div className="grid grid-cols-3 gap-2 mb-3">
+              <div className="p-2 rounded bg-muted/50 text-center">
+                <Building2 className="w-4 h-4 mx-auto mb-1 text-muted-foreground" />
+                <p className="text-xs text-muted-foreground">{hvt.sector}</p>
+                <p className="text-xs font-medium">{hvt.companySize}</p>
+              </div>
+              <div className="p-2 rounded bg-muted/50 text-center">
+                <Calendar className="w-4 h-4 mx-auto mb-1 text-muted-foreground" />
+                <p className="text-xs text-muted-foreground">Inactif depuis</p>
+                <p className="text-xs font-medium">{formatInactivePeriod(hvt.inactiveSince)}</p>
+              </div>
+              <div className="p-2 rounded bg-muted/50 text-center">
+                <DollarSign className="w-4 h-4 mx-auto mb-1 text-muted-foreground" />
+                <p className="text-xs text-muted-foreground">Potentiel ARR</p>
+                <p className="text-xs font-medium text-success">{(hvt.potentialARR / 1000).toFixed(0)}K€</p>
+              </div>
+            </div>
+            
+            <div className="p-2 rounded bg-primary/5 border border-primary/20 mb-3">
+              <p className="text-xs text-primary">
+                <span className="font-medium">Pourquoi HVT:</span> {hvt.whyHVT}
+              </p>
+            </div>
+            
+            <p className="text-xs text-muted-foreground italic line-clamp-2 mb-3">
+              "{hvt.suggestedHook}"
+            </p>
+            
+            <Button size="sm" className="w-full gap-1.5">
+              <TrendingUp className="w-4 h-4" />
+              Réactiver ce contact
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Button>
+          </motion.div>
+        ))}
+        
+        {highValueTargets.length === 0 && (
+          <div className="text-center py-8 text-muted-foreground">
+            <Target className="w-8 h-8 mx-auto mb-2 opacity-50" />
+            <p>Aucun High Value Target identifié</p>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+};
+
+export default ICPQualification;

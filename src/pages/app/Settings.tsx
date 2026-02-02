@@ -11,7 +11,9 @@ import {
   Check,
   X,
   ExternalLink,
-  RefreshCw
+  RefreshCw,
+  Target,
+  Plus
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -30,6 +32,7 @@ import {
 } from '@/components/ui/select';
 import { integrations, agentConfig } from '@/data/mockData';
 import { useAgent } from '@/hooks/useAgent';
+import { useSalesOpsAgent } from '@/hooks/useSalesOpsAgent';
 
 // Integration logos (simplified as colored circles for now)
 const integrationLogos: Record<string, { color: string; letter: string }> = {
@@ -45,6 +48,7 @@ const integrationLogos: Record<string, { color: string; letter: string }> = {
 const Settings = () => {
   const { t } = useTranslation();
   const { state: agentState, updateConfig, toggleAgent } = useAgent();
+  const { icpConfig, updateICPConfig } = useSalesOpsAgent();
   const [activeTab, setActiveTab] = useState('profile');
 
   const [profile, setProfile] = useState({
@@ -88,7 +92,7 @@ const Settings = () => {
         transition={{ delay: 0.1 }}
       >
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:inline-grid">
+          <TabsList className="grid w-full grid-cols-5 lg:w-auto lg:inline-grid">
             <TabsTrigger value="profile" className="gap-2">
               <User className="w-4 h-4" />
               <span className="hidden sm:inline">Profil</span>
@@ -100,6 +104,10 @@ const Settings = () => {
             <TabsTrigger value="preferences" className="gap-2">
               <Bell className="w-4 h-4" />
               <span className="hidden sm:inline">Préférences</span>
+            </TabsTrigger>
+            <TabsTrigger value="icp" className="gap-2">
+              <Target className="w-4 h-4" />
+              <span className="hidden sm:inline">ICP & Scoring</span>
             </TabsTrigger>
             <TabsTrigger value="agent" className="gap-2">
               <Bot className="w-4 h-4" />
@@ -369,6 +377,226 @@ const Settings = () => {
                     checked={preferences.weeklyReport}
                     onCheckedChange={(v) => setPreferences(p => ({ ...p, weeklyReport: v }))}
                   />
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+
+          {/* ICP & Scoring Tab */}
+          <TabsContent value="icp" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Critères ICP (Ideal Customer Profile)</CardTitle>
+                <CardDescription>Définissez les caractéristiques de vos clients idéaux</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div>
+                      <Label className="mb-2 block">Tailles d'entreprise cibles</Label>
+                      <div className="flex flex-wrap gap-2">
+                        {['1-50', '50-200', '201-500', '500+'].map(size => (
+                          <Badge 
+                            key={size}
+                            variant={icpConfig.companySizes.includes(size) ? 'default' : 'outline'}
+                            className="cursor-pointer"
+                            onClick={() => {
+                              const newSizes = icpConfig.companySizes.includes(size)
+                                ? icpConfig.companySizes.filter(s => s !== size)
+                                : [...icpConfig.companySizes, size];
+                              updateICPConfig({ companySizes: newSizes });
+                            }}
+                          >
+                            {size} emp.
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <Label className="mb-2 block">Secteurs prioritaires</Label>
+                      <div className="flex flex-wrap gap-2">
+                        {['Tech', 'SaaS', 'FinTech', 'E-commerce', 'Santé', 'Industrie'].map(sector => (
+                          <Badge 
+                            key={sector}
+                            variant={icpConfig.sectors.includes(sector) ? 'default' : 'outline'}
+                            className="cursor-pointer"
+                            onClick={() => {
+                              const newSectors = icpConfig.sectors.includes(sector)
+                                ? icpConfig.sectors.filter(s => s !== sector)
+                                : [...icpConfig.sectors, sector];
+                              updateICPConfig({ sectors: newSectors });
+                            }}
+                          >
+                            {sector}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <div>
+                      <Label className="mb-2 block">Postes décisionnaires</Label>
+                      <div className="flex flex-wrap gap-2">
+                        {['CEO', 'CTO', 'CRO', 'VP Sales', 'Head of Growth', 'Sales Director', 'COO'].map(position => (
+                          <Badge 
+                            key={position}
+                            variant={icpConfig.positions.includes(position) ? 'default' : 'outline'}
+                            className="cursor-pointer"
+                            onClick={() => {
+                              const newPositions = icpConfig.positions.includes(position)
+                                ? icpConfig.positions.filter(p => p !== position)
+                                : [...icpConfig.positions, position];
+                              updateICPConfig({ positions: newPositions });
+                            }}
+                          >
+                            {position}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Pondération du scoring d'intention</CardTitle>
+                <CardDescription>Points attribués par type de signal d'engagement</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <Label>Visite page Tarifs</Label>
+                        <span className="font-mono text-sm">+{icpConfig.scoringWeights.pricingPage} pts</span>
+                      </div>
+                      <Slider
+                        value={[icpConfig.scoringWeights.pricingPage]}
+                        onValueChange={([v]) => updateICPConfig({
+                          scoringWeights: { ...icpConfig.scoringWeights, pricingPage: v }
+                        })}
+                        min={5}
+                        max={50}
+                        step={5}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <Label>Téléchargement ressource</Label>
+                        <span className="font-mono text-sm">+{icpConfig.scoringWeights.download} pts</span>
+                      </div>
+                      <Slider
+                        value={[icpConfig.scoringWeights.download]}
+                        onValueChange={([v]) => updateICPConfig({
+                          scoringWeights: { ...icpConfig.scoringWeights, download: v }
+                        })}
+                        min={5}
+                        max={30}
+                        step={5}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <Label>Interaction LinkedIn</Label>
+                        <span className="font-mono text-sm">+{icpConfig.scoringWeights.linkedin} pts</span>
+                      </div>
+                      <Slider
+                        value={[icpConfig.scoringWeights.linkedin]}
+                        onValueChange={([v]) => updateICPConfig({
+                          scoringWeights: { ...icpConfig.scoringWeights, linkedin: v }
+                        })}
+                        min={5}
+                        max={25}
+                        step={5}
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <Label>Ouverture email</Label>
+                        <span className="font-mono text-sm">+{icpConfig.scoringWeights.emailOpen} pts</span>
+                      </div>
+                      <Slider
+                        value={[icpConfig.scoringWeights.emailOpen]}
+                        onValueChange={([v]) => updateICPConfig({
+                          scoringWeights: { ...icpConfig.scoringWeights, emailOpen: v }
+                        })}
+                        min={1}
+                        max={15}
+                        step={1}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <Label>Visite site web</Label>
+                        <span className="font-mono text-sm">+{icpConfig.scoringWeights.websiteVisit} pts</span>
+                      </div>
+                      <Slider
+                        value={[icpConfig.scoringWeights.websiteVisit]}
+                        onValueChange={([v]) => updateICPConfig({
+                          scoringWeights: { ...icpConfig.scoringWeights, websiteVisit: v }
+                        })}
+                        min={1}
+                        max={10}
+                        step={1}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <Label className="text-destructive">Pénalité inactivité (par mois)</Label>
+                        <span className="font-mono text-sm text-destructive">-{icpConfig.scoringWeights.inactivityPenalty} pts</span>
+                      </div>
+                      <Slider
+                        value={[icpConfig.scoringWeights.inactivityPenalty]}
+                        onValueChange={([v]) => updateICPConfig({
+                          scoringWeights: { ...icpConfig.scoringWeights, inactivityPenalty: v }
+                        })}
+                        min={1}
+                        max={15}
+                        step={1}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Seuils d'alerte</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-3">
+                    <Label>Seuil "Hot Lead": {icpConfig.hotThreshold}/100</Label>
+                    <Slider
+                      value={[icpConfig.hotThreshold]}
+                      onValueChange={([v]) => updateICPConfig({ hotThreshold: v })}
+                      min={50}
+                      max={95}
+                      step={5}
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      Les contacts avec un score supérieur à ce seuil apparaissent dans "Hot Leads"
+                    </p>
+                  </div>
+                  <div className="space-y-3">
+                    <Label>Alerte Ghosting: {icpConfig.ghostingDays} jours</Label>
+                    <Slider
+                      value={[icpConfig.ghostingDays]}
+                      onValueChange={([v]) => updateICPConfig({ ghostingDays: v })}
+                      min={7}
+                      max={45}
+                      step={1}
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      Délai d'inactivité avant qu'une opportunité soit signalée en ghosting
+                    </p>
+                  </div>
                 </div>
               </CardContent>
             </Card>

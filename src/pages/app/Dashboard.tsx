@@ -17,7 +17,10 @@ import {
   Play,
   Sparkles,
   RefreshCw,
-  Bot
+  Bot,
+  Target,
+  Clock,
+  Briefcase
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -31,11 +34,21 @@ import {
   suggestedLists 
 } from '@/data/mockData';
 import { useAgent } from '@/hooks/useAgent';
+import { useSalesOpsAgent } from '@/hooks/useSalesOpsAgent';
 import { Progress } from '@/components/ui/progress';
+import { 
+  PriorityActions, 
+  ClosedLostRecycler, 
+  ChampionTracker, 
+  GhostingAlerts, 
+  ICPQualification 
+} from '@/components/app/dashboard';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const Dashboard = () => {
   const { t } = useTranslation();
   const { state: agentState, startScan } = useAgent();
+  const { stats: salesOpsStats } = useSalesOpsAgent();
   
   const healthScore = dashboardStats.healthScore;
   const healthStatus = healthScore >= 80 ? 'excellent' : healthScore >= 60 ? 'good' : 'poor';
@@ -291,13 +304,88 @@ const Dashboard = () => {
         </motion.div>
       </div>
 
+      {/* Sales Ops Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+      >
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="font-display text-lg font-semibold flex items-center gap-2">
+            <Target className="w-5 h-5 text-primary" />
+            Sales Ops Intelligence
+          </h2>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <span className="flex items-center gap-1">
+              <Flame className="w-4 h-4 text-destructive" />
+              {salesOpsStats.hotLeadsCount} hot leads
+            </span>
+            <span>•</span>
+            <span className="flex items-center gap-1">
+              <Clock className="w-4 h-4 text-warning" />
+              {salesOpsStats.ghostingDeals} à bumper
+            </span>
+            <span>•</span>
+            <span className="flex items-center gap-1">
+              <Briefcase className="w-4 h-4 text-primary" />
+              {salesOpsStats.championsDetected} champions
+            </span>
+          </div>
+        </div>
+        
+        <Tabs defaultValue="priority" className="space-y-4">
+          <TabsList className="grid w-full grid-cols-5">
+            <TabsTrigger value="priority" className="gap-1.5 text-xs">
+              <Flame className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Priorités</span>
+            </TabsTrigger>
+            <TabsTrigger value="ghosting" className="gap-1.5 text-xs">
+              <Clock className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Ghosting</span>
+            </TabsTrigger>
+            <TabsTrigger value="closed-lost" className="gap-1.5 text-xs">
+              <RefreshCw className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Recycler</span>
+            </TabsTrigger>
+            <TabsTrigger value="champions" className="gap-1.5 text-xs">
+              <Briefcase className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Champions</span>
+            </TabsTrigger>
+            <TabsTrigger value="hvt" className="gap-1.5 text-xs">
+              <Target className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">HVT</span>
+            </TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="priority">
+            <PriorityActions />
+          </TabsContent>
+          
+          <TabsContent value="ghosting">
+            <GhostingAlerts />
+          </TabsContent>
+          
+          <TabsContent value="closed-lost">
+            <ClosedLostRecycler />
+          </TabsContent>
+          
+          <TabsContent value="champions">
+            <ChampionTracker />
+          </TabsContent>
+          
+          <TabsContent value="hvt">
+            <ICPQualification />
+          </TabsContent>
+        </Tabs>
+      </motion.div>
+
       {/* Alerts & Activity Row */}
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Alerts */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
+          transition={{ delay: 0.35 }}
         >
           <Card>
             <CardHeader>
@@ -338,7 +426,7 @@ const Dashboard = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35 }}
+          transition={{ delay: 0.4 }}
         >
           <Card>
             <CardHeader>
