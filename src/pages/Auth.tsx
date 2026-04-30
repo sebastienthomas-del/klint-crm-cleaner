@@ -210,6 +210,7 @@ const Auth = () => {
                       type="email" 
                       placeholder="vous@entreprise.com" 
                       className="pl-10"
+                      defaultValue={prefillEmail}
                       required 
                     />
                   </div>
