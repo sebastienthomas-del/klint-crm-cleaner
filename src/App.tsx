@@ -4,6 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
+import { AuthProvider } from "./hooks/useAuth";
+import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 
 // Marketing Pages
 const Index = lazy(() => import("./pages/Index"));
@@ -13,6 +15,7 @@ const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Demo = lazy(() => import("./pages/Demo"));
 const Auth = lazy(() => import("./pages/Auth"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // App Pages
@@ -27,7 +30,6 @@ import { AppLayout } from "./components/app/AppLayout";
 
 const queryClient = new QueryClient();
 
-// Loading component
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-background">
     <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
@@ -40,32 +42,41 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Suspense fallback={<PageLoader />}>
-          <Routes>
-            {/* Marketing Pages */}
-            <Route path="/" element={<Index />} />
-            <Route path="/features" element={<Features />} />
-            <Route path="/pricing" element={<Pricing />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/demo" element={<Demo />} />
-            
-            {/* Auth */}
-            <Route path="/auth" element={<Auth />} />
-            
-            {/* App Pages with Layout */}
-            <Route path="/app" element={<AppLayout />}>
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path="duplicates" element={<Duplicates />} />
-              <Route path="enrichment" element={<Enrichment />} />
-              <Route path="reactivation" element={<Reactivation />} />
-              <Route path="settings" element={<Settings />} />
-            </Route>
-            
-            {/* Catch-all */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
+        <AuthProvider>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              {/* Marketing */}
+              <Route path="/" element={<Index />} />
+              <Route path="/features" element={<Features />} />
+              <Route path="/pricing" element={<Pricing />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/demo" element={<Demo />} />
+
+              {/* Auth */}
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+
+              {/* App (protected) */}
+              <Route
+                path="/app"
+                element={
+                  <ProtectedRoute>
+                    <AppLayout />
+                  </ProtectedRoute>
+                }
+              >
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="duplicates" element={<Duplicates />} />
+                <Route path="enrichment" element={<Enrichment />} />
+                <Route path="reactivation" element={<Reactivation />} />
+                <Route path="settings" element={<Settings />} />
+              </Route>
+
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
