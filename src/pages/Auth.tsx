@@ -14,6 +14,8 @@ const Auth = () => {
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const defaultTab = searchParams.get('tab') === 'signup' ? 'signup' : 'login';
+  const trialDays = searchParams.get('trial');
+  const prefillEmail = searchParams.get('email') ?? '';
   
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -66,6 +68,14 @@ const Auth = () => {
 
         {/* Auth Card */}
         <div className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-6 lg:p-8 shadow-2xl">
+          {trialDays && (
+            <div className="mb-6 flex items-center gap-3 rounded-lg border border-primary/30 bg-accent/60 px-4 py-3 text-sm">
+              <Sparkles className="w-4 h-4 text-primary shrink-0" />
+              <span className="text-foreground">
+                Essai gratuit <strong>{trialDays} jours</strong> activé — créez votre compte pour démarrer.
+              </span>
+            </div>
+          )}
           <Tabs defaultValue={defaultTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-6">
               <TabsTrigger value="login">{t('auth.login')}</TabsTrigger>
