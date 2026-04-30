@@ -32,7 +32,7 @@ export const Footer = () => {
   ];
 
   return (
-    <footer className="bg-muted/30 border-t border-border">
+    <footer className="border-t border-border">
       <div className="container mx-auto px-4 py-12 lg:py-16">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 lg:gap-12">
           {/* Brand Column */}
