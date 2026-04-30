@@ -21,6 +21,23 @@
     "ctaSecondary": "Watch demo",
     "trustedBy": "Trusted by 500+ sales teams"
   },
+  "sections": {
+    "features": {
+      "eyebrow": "Features",
+      "title": "Everything you need for a flawless CRM",
+      "description": "An AI agent that detects, cleans and enriches your data continuously."
+    },
+    "results": {
+      "eyebrow": "Results",
+      "title": "Measurable ROI from the very first weeks",
+      "description": "Tangible gains in data quality and team performance."
+    },
+    "pricing": {
+      "eyebrow": "Pricing & plans",
+      "title": "A plan that fits every team",
+      "description": "Pick the plan that matches your volume and integrations."
+    }
+  },
   "problem": {
     "title": "The problem you know",
     "subtitle": "Every sales team faces the same CRM challenges",
