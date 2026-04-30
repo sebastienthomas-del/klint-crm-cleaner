@@ -88,7 +88,7 @@ const Demo = () => {
                 transition={{ duration: 0.3 }}
               >
                 <div className="text-center mb-10">
-                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-accent/40 to-primary/10 border border-primary/15 mb-6">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/50 border border-primary/15 mb-6">
                     <Sparkles className="w-4 h-4 text-primary" />
                     <span className="text-sm font-medium text-primary">
                       Démo personnalisée + essai gratuit
