@@ -36,7 +36,10 @@ export const HowItWorksSection = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h2 className="font-display text-3xl lg:text-4xl font-bold mb-4">
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-accent/40 to-primary/10 border border-primary/15 text-xs font-semibold uppercase tracking-wider text-primary">
+            {t('howItWorks.eyebrow')}
+          </span>
+          <h2 className="font-display text-3xl lg:text-4xl font-bold mb-4 mt-4">
             {t('howItWorks.title')}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
