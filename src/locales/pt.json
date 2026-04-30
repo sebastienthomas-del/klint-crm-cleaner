@@ -17,6 +17,23 @@
     "ctaSecondary": "Ver demo",
     "trustedBy": "Usado por mais de 500 equipes de vendas"
   },
+  "sections": {
+    "features": {
+      "eyebrow": "Funcionalidades",
+      "title": "Tudo o que precisa para um CRM impecável",
+      "description": "Um agente IA que deteta, limpa e enriquece os seus dados continuamente."
+    },
+    "results": {
+      "eyebrow": "Resultados",
+      "title": "ROI mensurável desde as primeiras semanas",
+      "description": "Ganhos concretos na qualidade dos dados e na performance das equipas."
+    },
+    "pricing": {
+      "eyebrow": "Preços e assinatura",
+      "title": "Um plano adaptado a cada equipa",
+      "description": "Escolha o plano que corresponde ao seu volume e integrações."
+    }
+  },
   "problem": {
     "title": "O problema que você conhece",
     "subtitle": "Toda equipe de vendas enfrenta os mesmos desafios com seu CRM",

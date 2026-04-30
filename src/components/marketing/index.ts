@@ -8,3 +8,4 @@ export { TestimonialsSection } from './TestimonialsSection';
 export { IntegrationsSection } from './IntegrationsSection';
 export { PricingPreviewSection } from './PricingPreviewSection';
 export { CTASection } from './CTASection';
+export { SectionHeader } from './SectionHeader';
