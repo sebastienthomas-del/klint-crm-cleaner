@@ -8,9 +8,7 @@ export const HeroSection = () => {
   const { t } = useTranslation();
 
   return (
-    <section className="relative overflow-hidden bg-hero-pattern">
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-accent/50 via-background to-background" />
+    <section className="relative overflow-hidden">
       
       {/* Floating Elements */}
       <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-float" />
