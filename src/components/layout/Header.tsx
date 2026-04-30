@@ -59,7 +59,7 @@ export const Header = () => {
                 {t('nav.login')}
               </Button>
             </Link>
-            <Link to="/auth?tab=signup">
+            <Link to="/demo">
               <Button size="sm" className="gradient-primary shadow-glow hover:shadow-glow-lg transition-all duration-300">
                 {t('nav.signup')}
               </Button>
@@ -109,7 +109,7 @@ export const Header = () => {
                     {t('nav.login')}
                   </Button>
                 </Link>
-                <Link to="/auth?tab=signup" onClick={() => setIsOpen(false)}>
+                <Link to="/demo" onClick={() => setIsOpen(false)}>
                   <Button className="w-full gradient-primary">
                     {t('nav.signup')}
                   </Button>

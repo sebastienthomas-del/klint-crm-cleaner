@@ -30,7 +30,7 @@ export const CTASection = () => {
           <p className="text-lg lg:text-xl text-primary-foreground/80 mb-10">
             {t('cta.subtitle')}
           </p>
-          <Link to="/auth?tab=signup">
+          <Link to="/demo">
             <Button 
               size="lg" 
               className="bg-background text-primary hover:bg-background/90 gap-2 text-base px-8 shadow-xl"

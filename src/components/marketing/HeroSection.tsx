@@ -55,16 +55,18 @@ export const HeroSection = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
           >
-            <Link to="/auth?tab=signup">
+            <Link to="/demo">
               <Button size="lg" className="gradient-primary shadow-glow hover:shadow-glow-lg transition-all duration-300 gap-2 text-base px-8">
                 {t('hero.cta')}
                 <ArrowRight className="w-4 h-4" />
               </Button>
             </Link>
-            <Button variant="outline" size="lg" className="gap-2 text-base px-8">
-              <Play className="w-4 h-4" />
-              {t('hero.ctaSecondary')}
-            </Button>
+            <Link to="/demo">
+              <Button variant="outline" size="lg" className="gap-2 text-base px-8">
+                <Play className="w-4 h-4" />
+                {t('hero.ctaSecondary')}
+              </Button>
+            </Link>
           </motion.div>
 
           {/* Trust Badge */}
