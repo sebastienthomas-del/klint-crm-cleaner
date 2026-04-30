@@ -45,7 +45,7 @@ export const HeroSection = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
           >
-            {t('hero.subtitle')}
+            <span dangerouslySetInnerHTML={{ __html: t('hero.subtitle') }} />
           </motion.p>
 
           {/* CTAs */}
