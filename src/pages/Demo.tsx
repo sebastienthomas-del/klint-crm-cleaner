@@ -98,8 +98,8 @@ const Demo = () => {
                     Découvrez Kleant en 2 minutes
                   </h1>
                   <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                    Réservez votre démo personnalisée — accessible à toutes les équipes.
-                    À l'issue, activez votre essai gratuit 14 jours en un clic.
+                    Découvrez notre outil : démo sur mesure et transformez l'essai :
+                    votre premier cleaning gratuit !
                   </p>
                 </div>
 
