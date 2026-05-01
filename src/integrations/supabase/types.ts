@@ -122,6 +122,190 @@ export type Database = {
         }
         Relationships: []
       }
+      crm_contacts: {
+        Row: {
+          company: string | null
+          company_size: string | null
+          created_at: string
+          email: string | null
+          external_id: string
+          first_name: string | null
+          id: string
+          last_activity_at: string | null
+          last_name: string | null
+          linkedin_url: string | null
+          phone: string | null
+          position: string | null
+          provider: string
+          raw: Json
+          sector: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          company?: string | null
+          company_size?: string | null
+          created_at?: string
+          email?: string | null
+          external_id: string
+          first_name?: string | null
+          id?: string
+          last_activity_at?: string | null
+          last_name?: string | null
+          linkedin_url?: string | null
+          phone?: string | null
+          position?: string | null
+          provider?: string
+          raw?: Json
+          sector?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          company?: string | null
+          company_size?: string | null
+          created_at?: string
+          email?: string | null
+          external_id?: string
+          first_name?: string | null
+          id?: string
+          last_activity_at?: string | null
+          last_name?: string | null
+          linkedin_url?: string | null
+          phone?: string | null
+          position?: string | null
+          provider?: string
+          raw?: Json
+          sector?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      duplicate_group_contacts: {
+        Row: {
+          contact_id: string
+          group_id: string
+        }
+        Insert: {
+          contact_id: string
+          group_id: string
+        }
+        Update: {
+          contact_id?: string
+          group_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "duplicate_group_contacts_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "crm_contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "duplicate_group_contacts_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "duplicate_groups"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      duplicate_groups: {
+        Row: {
+          confidence: number
+          created_at: string
+          detected_at: string
+          id: string
+          master_contact_id: string | null
+          metadata: Json
+          reason: string
+          resolved_at: string | null
+          status: Database["public"]["Enums"]["duplicate_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          confidence: number
+          created_at?: string
+          detected_at?: string
+          id?: string
+          master_contact_id?: string | null
+          metadata?: Json
+          reason: string
+          resolved_at?: string | null
+          status?: Database["public"]["Enums"]["duplicate_status"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          confidence?: number
+          created_at?: string
+          detected_at?: string
+          id?: string
+          master_contact_id?: string | null
+          metadata?: Json
+          reason?: string
+          resolved_at?: string | null
+          status?: Database["public"]["Enums"]["duplicate_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "duplicate_groups_master_contact_id_fkey"
+            columns: ["master_contact_id"]
+            isOneToOne: false
+            referencedRelation: "crm_contacts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      enrichment_jobs: {
+        Row: {
+          contact_id: string
+          created_at: string
+          error: string | null
+          fields: string[]
+          id: string
+          result: Json
+          status: Database["public"]["Enums"]["enrichment_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          contact_id: string
+          created_at?: string
+          error?: string | null
+          fields?: string[]
+          id?: string
+          result?: Json
+          status?: Database["public"]["Enums"]["enrichment_status"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          contact_id?: string
+          created_at?: string
+          error?: string | null
+          fields?: string[]
+          id?: string
+          result?: Json
+          status?: Database["public"]["Enums"]["enrichment_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "enrichment_jobs_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "crm_contacts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -185,6 +369,8 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "member"
+      duplicate_status: "pending" | "merged" | "dismissed"
+      enrichment_status: "pending" | "done" | "failed"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -313,6 +499,8 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "member"],
+      duplicate_status: ["pending", "merged", "dismissed"],
+      enrichment_status: ["pending", "done", "failed"],
     },
   },
 } as const
