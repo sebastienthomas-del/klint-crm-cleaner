@@ -126,7 +126,7 @@ export const HeroSection = () => {
                 <div className="w-3 h-3 rounded-full bg-success/60" />
                 <div className="flex-1 flex justify-center">
                   <div className="px-4 py-1 rounded-md bg-background text-xs text-muted-foreground">
-                    app.kleant.io/dashboard
+                    app.klint.io/dashboard
                   </div>
                 </div>
               </div>

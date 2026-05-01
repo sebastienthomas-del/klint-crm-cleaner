@@ -196,7 +196,7 @@ const Pricing = () => {
           >
             <div className="inline-flex flex-col items-center gap-4 p-8 rounded-2xl bg-accent/50 border border-primary/20">
               <h3 className="font-display text-xl font-semibold">
-                Prêt à essayer Kleant ?
+                Prêt à essayer Klint ?
               </h3>
               <p className="text-muted-foreground">
                 14 jours d'essai gratuit • Aucune carte bancaire requise

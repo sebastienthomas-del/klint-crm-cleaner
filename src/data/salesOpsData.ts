@@ -312,7 +312,7 @@ export const championMoves: ChampionMove[] = [
     newPosition: 'Chief Revenue Officer',
     detectedAt: '2025-01-25',
     linkedInUrl: 'https://linkedin.com/in/alexmoreau',
-    suggestedHook: 'Alexandre, CRO chez InnovTech - quelle évolution ! Chez OldCorp vous aviez doublé votre taux de réactivation avec Kleant...'
+    suggestedHook: 'Alexandre, CRO chez InnovTech - quelle évolution ! Chez OldCorp vous aviez doublé votre taux de réactivation avec Klint...'
   },
   {
     id: 'ch-3',
@@ -409,7 +409,7 @@ export const highValueTargets: HighValueTarget[] = [
     inactiveSince: '2024-06-01',
     potentialARR: 75000,
     whyHVT: 'Tech, 150 emp, décideur C-Level, potentiel €75K ARR',
-    suggestedHook: 'Les CEOs tech qui ont adopté Kleant économisent en moyenne 15h/semaine sur la maintenance CRM - 15 min pour en discuter ?'
+    suggestedHook: 'Les CEOs tech qui ont adopté Klint économisent en moyenne 15h/semaine sur la maintenance CRM - 15 min pour en discuter ?'
   },
   {
     id: 'hvt-2',

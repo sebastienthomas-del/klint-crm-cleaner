@@ -51,7 +51,7 @@
     }
   },
   "solution": {
-    "title": "La soluzione Kleant",
+    "title": "La soluzione Klint",
     "subtitle": "Un agente IA che lavora 24/7 per mantenere il tuo CRM perfetto",
     "card1": {
       "title": "Agente IA autonomo",
@@ -133,9 +133,9 @@
   },
   "testimonials": {
     "title": "Si fidano di noi",
-    "subtitle": "Scopri cosa dicono i nostri clienti su Kleant",
+    "subtitle": "Scopri cosa dicono i nostri clienti su Klint",
     "testimonial1": {
-      "quote": "Kleant ha trasformato il modo in cui gestiamo il CRM. Abbiamo riattivato il 30% dei lead dormienti in 2 mesi.",
+      "quote": "Klint ha trasformato il modo in cui gestiamo il CRM. Abbiamo riattivato il 30% dei lead dormienti in 2 mesi.",
       "name": "Sophie Martin",
       "role": "Direttore Vendite",
       "company": "TechCorp France"
@@ -225,7 +225,7 @@
   },
   "cta": {
     "title": "Pronto a trasformare il tuo CRM?",
-    "subtitle": "Prova Kleant gratis per 14 giorni. Senza carta di credito.",
+    "subtitle": "Prova Klint gratis per 14 giorni. Senza carta di credito.",
     "button": "Inizia gratis"
   },
   "footer": {
@@ -247,7 +247,7 @@
     "terms": "Termini",
     "privacy": "Privacy",
     "cookies": "Cookie",
-    "rights": "© 2025 Kleant. Tutti i diritti riservati."
+    "rights": "© 2025 Klint. Tutti i diritti riservati."
   },
   "auth": {
     "login": "Accedi",

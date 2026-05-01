@@ -72,7 +72,7 @@ const ResetPassword = () => {
           <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center shadow-glow">
             <Pickaxe className="w-6 h-6 text-primary-foreground" />
           </div>
-          <span className="font-display text-2xl font-bold">Kleant</span>
+          <span className="font-display text-2xl font-bold">Klint</span>
         </Link>
 
         <div className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-6 lg:p-8 shadow-2xl">

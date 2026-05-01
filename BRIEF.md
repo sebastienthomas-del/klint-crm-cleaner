@@ -1,4 +1,4 @@
-# KLEANT — Brief produit & technique
+# KLINT — Brief produit & technique
 
 > Document de référence pour briefer un contributeur (humain ou IA) sur le projet.
 > Toute modification structurelle qui contredit ce brief doit être refusée ou remontée.
@@ -8,11 +8,11 @@
 ## Prompt de référence (copiable)
 
 ```
-// KLEANT — Brief produit & technique
+// KLINT — Brief produit & technique
 // Agent IA autonome de maintenance CRM
 
 PRODUIT
-Nom : KLEANT
+Nom : KLINT
 Vision : Agent IA autonome qui maintient un CRM propre sans intervention humaine.
         Détecte et fusionne les doublons (>95% confiance = auto-merge),
         enrichit les fiches incomplètes, réactive les contacts dormants,
@@ -53,7 +53,7 @@ Esthétique : sobre, premium, Apple-like. Pas de néon, pas de glassmorphism agr
 LAYOUT APPLICATIF (/app/*)
 - Sidebar shadcn collapsible="icon" (mini-strip avec icônes quand réduite)
 - Header sticky : SidebarTrigger + barre recherche contact + cloche notifs
-- Logo : icône Pickaxe (lucide) dans pastille gradient raspberry + wordmark "Kleant"
+- Logo : icône Pickaxe (lucide) dans pastille gradient raspberry + wordmark "Klint"
 - Mini-card "Agent IA actif" en bas du SidebarContent (dot pulsant + dernier scan)
 
 NAVIGATION (figée — ne pas inventer d'autres entrées)
@@ -127,9 +127,9 @@ mémoire (ex: réintroduire Scoring), refuser et proposer une alternative.
 
 ## Annexe : challenge du prompt original (Claude)
 
-| Proposition Claude | Réalité KLEANT | Décision |
+| Proposition Claude | Réalité KLINT | Décision |
 |---|---|---|
-| Nom "Agent IA CRM" | KLEANT | Renommé |
+| Nom "Agent IA CRM" | KLINT | Renommé |
 | Zustand pour state | React Query + hooks custom | Retiré |
 | Nav avec Import CRM / Nettoyage / Intelligence / **Scoring** | Dashboard / Doublons / Enrichissement / Réactivation / Paramètres | Remplacé — Scoring interdit |
 | Palette Slate-900 + Indigo-500 | Raspberry #b43052 + Sand #e8ceb0 + Slate Gray | Remplacé |
