@@ -82,7 +82,7 @@ export function AppSidebar() {
           </div>
           {!isCollapsed && (
             <span className="font-display text-xl font-bold text-sidebar-foreground">
-              Kleant
+              Klint
             </span>
           )}
         </Link>

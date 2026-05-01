@@ -1,4 +1,4 @@
-// Mock data for the Kleant CRM maintenance application
+// Mock data for the Klint CRM maintenance application
 
 export interface Contact {
   id: string;

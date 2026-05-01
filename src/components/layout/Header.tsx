@@ -31,7 +31,7 @@ export const Header = () => {
                 <Sparkles className="w-5 h-5 text-primary-foreground" />
               </div>
             </div>
-            <span className="font-display text-xl font-bold gradient-text">Kleant</span>
+            <span className="font-display text-xl font-bold gradient-text">Klint</span>
           </Link>
 
           {/* Desktop Navigation */}

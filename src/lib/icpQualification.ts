@@ -76,7 +76,7 @@ export function qualifyLead(lead: DemoLead): QualificationResult {
   // Goal completeness
   if (lead.goal === 'all') {
     score += 5;
-    reasons.push('Objectif global : Kleant adresse tout le périmètre');
+    reasons.push('Objectif global : Klint adresse tout le périmètre');
   }
 
   score = Math.max(0, Math.min(100, score));
