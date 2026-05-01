@@ -16,7 +16,7 @@ const heroData = {
 
 const heroKpis = [
   { icon: TrendingUp, label: 'Score qualité base', value: `${heroData.finalScore}/100`, delta: `+${heroData.finalScore - heroData.initialScore} pts en 30 j`, color: 'text-success' },
-  { icon: GitMerge, label: 'Doublons nettoyés', value: heroData.duplicatesMerged.toLocaleString('fr-FR'), delta: 'fusion automatique', color: 'text-primary' },
+  { icon: GitMerge, label: 'Doublons détectés', value: heroData.duplicatesMerged.toLocaleString('fr-FR'), delta: 'fusions à valider', color: 'text-primary' },
   { icon: Sparkles, label: 'Fiches enrichies', value: heroData.contactsEnriched.toLocaleString('fr-FR'), delta: 'secteur · taille · poste', color: 'text-primary' },
   { icon: Activity, label: 'Pipeline réveillé', value: `+€${heroData.pipelineUnlocked}k`, delta: 'leads dormants relancés', color: 'text-success' },
 ];
@@ -163,7 +163,7 @@ export const HeroSection = () => {
                     </div>
                     <div className="space-y-2.5">
                       {[
-                        { time: 'à l\'instant', text: '5 doublons fusionnés sur Lumen Studio', color: 'text-primary' },
+                        { time: 'à l\'instant', text: '5 fusions proposées sur Lumen Studio · à valider', color: 'text-primary' },
                         { time: 'il y a 12 min', text: '38 fiches enrichies · secteur & effectif', color: 'text-primary' },
                         { time: 'il y a 1 h', text: '12 contacts dormants relancés', color: 'text-success' },
                         { time: 'ce matin', text: 'Score qualité : 90 → 92', color: 'text-success' },
