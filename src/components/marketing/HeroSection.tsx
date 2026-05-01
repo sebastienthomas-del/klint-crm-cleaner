@@ -61,10 +61,10 @@ export const HeroSection = () => {
                 <ArrowRight className="w-4 h-4" />
               </Button>
             </Link>
-            <Link to="/demo">
+            <Link to="/demo-tour">
               <Button variant="outline" size="lg" className="gap-2 text-base px-8">
                 <Play className="w-4 h-4" />
-                {t('hero.ctaSecondary')}
+                Voir une démo guidée
               </Button>
             </Link>
           </motion.div>
