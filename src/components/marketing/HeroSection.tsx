@@ -1,8 +1,16 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { ArrowRight, Play, Sparkles, Users } from 'lucide-react';
+import { ArrowRight, Play, Sparkles, Users, TrendingUp, GitMerge, Activity } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { demoStats } from '@/data/demoTourData';
+
+const heroKpis = [
+  { icon: TrendingUp, label: 'Score qualité', value: `${demoStats.finalScore}/100`, delta: `+${demoStats.finalScore - demoStats.initialScore} pts`, color: 'text-success' },
+  { icon: GitMerge, label: 'Doublons fusionnés', value: demoStats.duplicatesMerged.toLocaleString('fr-FR'), delta: 'auto-merge', color: 'text-primary' },
+  { icon: Sparkles, label: 'Contacts enrichis', value: demoStats.contactsEnriched.toLocaleString('fr-FR'), delta: '+5 champs/contact', color: 'text-primary' },
+  { icon: Activity, label: 'Pipeline débloqué', value: `+€${(demoStats.pipelineUnlocked / 1000).toFixed(0)}k`, delta: 'leads réactivés', color: 'text-success' },
+];
 
 export const HeroSection = () => {
   const { t } = useTranslation();
@@ -114,76 +122,68 @@ export const HeroSection = () => {
                 </div>
               </div>
               <div className="p-6 lg:p-8 bg-gradient-to-br from-background to-accent/20">
-                <div className="grid grid-cols-4 gap-4 mb-6">
-                  {/* Health Score Card */}
-                  <div className="col-span-4 lg:col-span-1 bg-card border border-border rounded-lg p-4">
-                    <div className="text-sm text-muted-foreground mb-2">Score de santé</div>
-                    <div className="flex items-center gap-3">
-                      <div className="relative w-16 h-16">
-                        <svg className="w-16 h-16 transform -rotate-90">
-                          <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="4" fill="none" className="text-muted" />
-                          <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="4" fill="none" className="text-warning" strokeDasharray="176" strokeDashoffset="39" strokeLinecap="round" />
-                        </svg>
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <span className="text-lg font-bold text-warning">78%</span>
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-sm font-medium">Bonne santé</div>
-                        <div className="text-xs text-success">+3% vs semaine</div>
-                      </div>
-                    </div>
+                {/* Mission accomplie badge */}
+                <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-success/10 border border-success/20">
+                    <Sparkles className="w-3.5 h-3.5 text-success" />
+                    <span className="text-xs font-medium text-success">Mission accomplie · 7 jours</span>
                   </div>
-                  
-                  {/* KPI Cards */}
-                  {[
-                    { label: 'Total contacts', value: '12,847', change: '+234' },
-                    { label: 'Contacts actifs', value: '8,234', change: '+12%' },
-                    { label: 'Doublons', value: '234', status: 'Critique' },
-                  ].map((kpi, i) => (
-                    <div key={i} className="bg-card border border-border rounded-lg p-4">
-                      <div className="text-sm text-muted-foreground mb-1">{kpi.label}</div>
-                      <div className="text-2xl font-bold">{kpi.value}</div>
-                      <div className={`text-xs ${kpi.status ? 'text-destructive' : 'text-success'}`}>
-                        {kpi.change || kpi.status}
-                      </div>
+                  <div className="text-xs text-muted-foreground">
+                    Base : <span className="font-medium text-foreground">{demoStats.totalContacts.toLocaleString('fr-FR')}</span> contacts
+                  </div>
+                </div>
+
+                {/* KPI grid - même rendu que StepResults */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                  {heroKpis.map((k) => (
+                    <div key={k.label} className="bg-card border border-border rounded-xl p-4 lg:p-5">
+                      <k.icon className={`w-5 h-5 mb-3 ${k.color}`} />
+                      <div className="text-xs text-muted-foreground mb-1">{k.label}</div>
+                      <div className="font-display text-xl lg:text-2xl font-bold tabular-nums">{k.value}</div>
+                      <div className={`text-xs mt-1 ${k.color}`}>{k.delta}</div>
                     </div>
                   ))}
                 </div>
-                
-                {/* Activity Preview */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-card border border-border rounded-lg p-4">
-                    <div className="text-sm font-medium mb-3">Alertes récentes</div>
-                    <div className="space-y-2">
+
+                {/* Activity preview */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <div className="bg-card border border-border rounded-xl p-4">
+                    <div className="text-sm font-medium mb-3 flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
+                      Activité agent
+                    </div>
+                    <div className="space-y-2.5">
                       {[
-                        { type: 'error', text: '234 doublons détectés' },
-                        { type: 'warning', text: '456 contacts sans secteur' },
-                        { type: 'success', text: '89 contacts réactivables' },
-                      ].map((alert, i) => (
-                        <div key={i} className="flex items-center gap-2 text-xs">
-                          <div className={`w-2 h-2 rounded-full ${
-                            alert.type === 'error' ? 'bg-destructive' :
-                            alert.type === 'warning' ? 'bg-warning' : 'bg-success'
-                          }`} />
-                          <span className="text-muted-foreground">{alert.text}</span>
+                        { time: '2 min', text: '3 doublons fusionnés (Acme Corp)', color: 'text-primary' },
+                        { time: '15 min', text: '12 contacts enrichis · secteur + taille', color: 'text-primary' },
+                        { time: '1 h', text: 'Score qualité : 87 → 89', color: 'text-success' },
+                      ].map((a, i) => (
+                        <div key={i} className="flex items-center gap-3 text-xs">
+                          <span className="text-muted-foreground w-12 tabular-nums">{a.time}</span>
+                          <span className={`${a.color}`}>{a.text}</span>
                         </div>
                       ))}
                     </div>
                   </div>
-                  <div className="bg-card border border-border rounded-lg p-4">
-                    <div className="text-sm font-medium mb-3">Activité IA</div>
-                    <div className="space-y-2">
-                      {[
-                        { time: '2 min', text: 'Contact enrichi' },
-                        { time: '15 min', text: '3 doublons fusionnés' },
-                        { time: '1h', text: 'Scoring mis à jour' },
-                      ].map((activity, i) => (
-                        <div key={i} className="flex items-center gap-2 text-xs">
-                          <span className="text-muted-foreground w-12">{activity.time}</span>
-                          <span className="text-foreground">{activity.text}</span>
+                  <div className="bg-card border border-border rounded-xl p-4">
+                    <div className="text-sm font-medium mb-3">Score de santé CRM</div>
+                    <div className="flex items-center gap-4">
+                      <div className="relative w-16 h-16 shrink-0">
+                        <svg className="w-16 h-16 transform -rotate-90">
+                          <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="5" fill="none" className="text-muted" />
+                          <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="5" fill="none" className="text-success" strokeDasharray="176" strokeDashoffset="19" strokeLinecap="round" />
+                        </svg>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span className="text-base font-bold text-success">{demoStats.finalScore}</span>
                         </div>
-                      ))}
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-sm font-medium">Excellente santé</div>
+                        <div className="text-xs text-success mt-0.5">+{demoStats.finalScore - demoStats.initialScore} pts vs J-7</div>
+                        <div className="mt-2 h-1.5 rounded-full bg-muted overflow-hidden">
+                          <div className="h-full gradient-primary" style={{ width: `${demoStats.finalScore}%` }} />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
