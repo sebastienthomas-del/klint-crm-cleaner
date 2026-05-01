@@ -47,6 +47,87 @@ export type Database = {
         }
         Relationships: []
       }
+      agent_suggestions: {
+        Row: {
+          actions: Json
+          created_at: string
+          id: string
+          message: string
+          metadata: Json
+          priority: number
+          related_entity: string | null
+          related_id: string | null
+          resolved_at: string | null
+          status: Database["public"]["Enums"]["suggestion_status"]
+          trigger: string
+          user_id: string
+        }
+        Insert: {
+          actions?: Json
+          created_at?: string
+          id?: string
+          message: string
+          metadata?: Json
+          priority?: number
+          related_entity?: string | null
+          related_id?: string | null
+          resolved_at?: string | null
+          status?: Database["public"]["Enums"]["suggestion_status"]
+          trigger: string
+          user_id: string
+        }
+        Update: {
+          actions?: Json
+          created_at?: string
+          id?: string
+          message?: string
+          metadata?: Json
+          priority?: number
+          related_entity?: string | null
+          related_id?: string | null
+          resolved_at?: string | null
+          status?: Database["public"]["Enums"]["suggestion_status"]
+          trigger?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      audit_runs: {
+        Row: {
+          contacts_scanned: number
+          created_at: string
+          duplicates_found: number
+          duration_ms: number
+          hidden_opportunities: number
+          id: string
+          insights: Json
+          obsolete_contacts: number
+          user_id: string
+        }
+        Insert: {
+          contacts_scanned?: number
+          created_at?: string
+          duplicates_found?: number
+          duration_ms?: number
+          hidden_opportunities?: number
+          id?: string
+          insights?: Json
+          obsolete_contacts?: number
+          user_id: string
+        }
+        Update: {
+          contacts_scanned?: number
+          created_at?: string
+          duplicates_found?: number
+          duration_ms?: number
+          hidden_opportunities?: number
+          id?: string
+          insights?: Json
+          obsolete_contacts?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       automation_rules: {
         Row: {
           alerts_enabled: boolean
@@ -83,6 +164,164 @@ export type Database = {
           updated_at?: string
           user_id?: string
           weekly_report_enabled?: boolean
+        }
+        Relationships: []
+      }
+      company_signals: {
+        Row: {
+          acknowledged: boolean
+          company_name: string
+          description: string | null
+          detected_at: string
+          id: string
+          metadata: Json
+          signal_type: Database["public"]["Enums"]["company_signal_type"]
+          source_url: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          acknowledged?: boolean
+          company_name: string
+          description?: string | null
+          detected_at?: string
+          id?: string
+          metadata?: Json
+          signal_type: Database["public"]["Enums"]["company_signal_type"]
+          source_url?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          acknowledged?: boolean
+          company_name?: string
+          description?: string | null
+          detected_at?: string
+          id?: string
+          metadata?: Json
+          signal_type?: Database["public"]["Enums"]["company_signal_type"]
+          source_url?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      contact_changes: {
+        Row: {
+          acknowledged: boolean
+          change_type: Database["public"]["Enums"]["contact_change_type"]
+          contact_id: string
+          detected_at: string
+          id: string
+          metadata: Json
+          new_value: string | null
+          previous_value: string | null
+          source: string
+          user_id: string
+        }
+        Insert: {
+          acknowledged?: boolean
+          change_type: Database["public"]["Enums"]["contact_change_type"]
+          contact_id: string
+          detected_at?: string
+          id?: string
+          metadata?: Json
+          new_value?: string | null
+          previous_value?: string | null
+          source?: string
+          user_id: string
+        }
+        Update: {
+          acknowledged?: boolean
+          change_type?: Database["public"]["Enums"]["contact_change_type"]
+          contact_id?: string
+          detected_at?: string
+          id?: string
+          metadata?: Json
+          new_value?: string | null
+          previous_value?: string | null
+          source?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      credit_transactions: {
+        Row: {
+          action: string | null
+          amount: number
+          balance_after: number
+          created_at: string
+          description: string | null
+          id: string
+          metadata: Json
+          type: Database["public"]["Enums"]["credit_tx_type"]
+          user_id: string
+          wallet_id: string
+        }
+        Insert: {
+          action?: string | null
+          amount: number
+          balance_after: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          metadata?: Json
+          type: Database["public"]["Enums"]["credit_tx_type"]
+          user_id: string
+          wallet_id: string
+        }
+        Update: {
+          action?: string | null
+          amount?: number
+          balance_after?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          metadata?: Json
+          type?: Database["public"]["Enums"]["credit_tx_type"]
+          user_id?: string
+          wallet_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "credit_transactions_wallet_id_fkey"
+            columns: ["wallet_id"]
+            isOneToOne: false
+            referencedRelation: "credit_wallets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      credit_wallets: {
+        Row: {
+          balance: number
+          created_at: string
+          id: string
+          monthly_grant: number
+          plan: Database["public"]["Enums"]["plan_tier"]
+          renews_at: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          balance?: number
+          created_at?: string
+          id?: string
+          monthly_grant?: number
+          plan?: Database["public"]["Enums"]["plan_tier"]
+          renews_at?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          balance?: number
+          created_at?: string
+          id?: string
+          monthly_grant?: number
+          plan?: Database["public"]["Enums"]["plan_tier"]
+          renews_at?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -128,15 +367,20 @@ export type Database = {
           company_size: string | null
           created_at: string
           email: string | null
+          email_status: string | null
           external_id: string
           first_name: string | null
           id: string
+          is_inactive: boolean
           last_activity_at: string | null
           last_name: string | null
+          last_verified_at: string | null
           linkedin_url: string | null
           phone: string | null
           position: string | null
           provider: string
+          quality_breakdown: Json
+          quality_score: number | null
           raw: Json
           sector: string | null
           updated_at: string
@@ -147,15 +391,20 @@ export type Database = {
           company_size?: string | null
           created_at?: string
           email?: string | null
+          email_status?: string | null
           external_id: string
           first_name?: string | null
           id?: string
+          is_inactive?: boolean
           last_activity_at?: string | null
           last_name?: string | null
+          last_verified_at?: string | null
           linkedin_url?: string | null
           phone?: string | null
           position?: string | null
           provider?: string
+          quality_breakdown?: Json
+          quality_score?: number | null
           raw?: Json
           sector?: string | null
           updated_at?: string
@@ -166,15 +415,20 @@ export type Database = {
           company_size?: string | null
           created_at?: string
           email?: string | null
+          email_status?: string | null
           external_id?: string
           first_name?: string | null
           id?: string
+          is_inactive?: boolean
           last_activity_at?: string | null
           last_name?: string | null
+          last_verified_at?: string | null
           linkedin_url?: string | null
           phone?: string | null
           position?: string | null
           provider?: string
+          quality_breakdown?: Json
+          quality_score?: number | null
           raw?: Json
           sector?: string | null
           updated_at?: string
@@ -306,6 +560,57 @@ export type Database = {
           },
         ]
       }
+      import_jobs: {
+        Row: {
+          cleaned_storage_path: string | null
+          column_mapping: Json
+          created_at: string
+          duplicates_found: number
+          filename: string
+          id: string
+          invalid_emails: number
+          report: Json
+          rows_total: number
+          status: Database["public"]["Enums"]["import_status"]
+          storage_path: string
+          unknown_companies: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cleaned_storage_path?: string | null
+          column_mapping?: Json
+          created_at?: string
+          duplicates_found?: number
+          filename: string
+          id?: string
+          invalid_emails?: number
+          report?: Json
+          rows_total?: number
+          status?: Database["public"]["Enums"]["import_status"]
+          storage_path: string
+          unknown_companies?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cleaned_storage_path?: string | null
+          column_mapping?: Json
+          created_at?: string
+          duplicates_found?: number
+          filename?: string
+          id?: string
+          invalid_emails?: number
+          report?: Json
+          rows_total?: number
+          status?: Database["public"]["Enums"]["import_status"]
+          storage_path?: string
+          unknown_companies?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -330,6 +635,120 @@ export type Database = {
           full_name?: string | null
           id?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      quality_score_history: {
+        Row: {
+          avg_score: number
+          contacts_total: number
+          created_at: string
+          duplicates_total: number
+          id: string
+          inactive_total: number
+          metadata: Json
+          snapshot_date: string
+          user_id: string
+        }
+        Insert: {
+          avg_score: number
+          contacts_total?: number
+          created_at?: string
+          duplicates_total?: number
+          id?: string
+          inactive_total?: number
+          metadata?: Json
+          snapshot_date?: string
+          user_id: string
+        }
+        Update: {
+          avg_score?: number
+          contacts_total?: number
+          created_at?: string
+          duplicates_total?: number
+          id?: string
+          inactive_total?: number
+          metadata?: Json
+          snapshot_date?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      reactivation_leads: {
+        Row: {
+          contact_id: string
+          detected_at: string
+          id: string
+          metadata: Json
+          reason: string
+          recommended_action: string | null
+          resolved_at: string | null
+          score: number
+          status: string
+          trigger: string | null
+          user_id: string
+        }
+        Insert: {
+          contact_id: string
+          detected_at?: string
+          id?: string
+          metadata?: Json
+          reason: string
+          recommended_action?: string | null
+          resolved_at?: string | null
+          score: number
+          status?: string
+          trigger?: string | null
+          user_id: string
+        }
+        Update: {
+          contact_id?: string
+          detected_at?: string
+          id?: string
+          metadata?: Json
+          reason?: string
+          recommended_action?: string | null
+          resolved_at?: string | null
+          score?: number
+          status?: string
+          trigger?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      reports: {
+        Row: {
+          content: Json
+          created_at: string
+          id: string
+          period: Database["public"]["Enums"]["report_period"]
+          period_end: string
+          period_start: string
+          recipients: string[]
+          sent_at: string | null
+          user_id: string
+        }
+        Insert: {
+          content?: Json
+          created_at?: string
+          id?: string
+          period: Database["public"]["Enums"]["report_period"]
+          period_end: string
+          period_start: string
+          recipients?: string[]
+          sent_at?: string | null
+          user_id: string
+        }
+        Update: {
+          content?: Json
+          created_at?: string
+          id?: string
+          period?: Database["public"]["Enums"]["report_period"]
+          period_end?: string
+          period_start?: string
+          recipients?: string[]
+          sent_at?: string | null
+          user_id?: string
         }
         Relationships: []
       }
@@ -359,6 +778,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      consume_credits: {
+        Args: {
+          _action: string
+          _amount: number
+          _description?: string
+          _metadata?: Json
+        }
+        Returns: number
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -369,8 +797,31 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "member"
+      company_signal_type:
+        | "funding"
+        | "ma"
+        | "hiring"
+        | "expansion"
+        | "bankruptcy"
+        | "rename"
+      contact_change_type:
+        | "job_change"
+        | "company_change"
+        | "email_bounce"
+        | "unsubscribed"
+        | "left_company"
+      credit_tx_type: "debit" | "credit" | "grant" | "rollover" | "refund"
       duplicate_status: "pending" | "merged" | "dismissed"
       enrichment_status: "pending" | "done" | "failed"
+      import_status:
+        | "uploaded"
+        | "analyzing"
+        | "cleaned"
+        | "imported"
+        | "failed"
+      plan_tier: "starter" | "growth" | "scale" | "enterprise"
+      report_period: "weekly" | "monthly"
+      suggestion_status: "pending" | "accepted" | "dismissed" | "expired"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -499,8 +950,28 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "member"],
+      company_signal_type: [
+        "funding",
+        "ma",
+        "hiring",
+        "expansion",
+        "bankruptcy",
+        "rename",
+      ],
+      contact_change_type: [
+        "job_change",
+        "company_change",
+        "email_bounce",
+        "unsubscribed",
+        "left_company",
+      ],
+      credit_tx_type: ["debit", "credit", "grant", "rollover", "refund"],
       duplicate_status: ["pending", "merged", "dismissed"],
       enrichment_status: ["pending", "done", "failed"],
+      import_status: ["uploaded", "analyzing", "cleaned", "imported", "failed"],
+      plan_tier: ["starter", "growth", "scale", "enterprise"],
+      report_period: ["weekly", "monthly"],
+      suggestion_status: ["pending", "accepted", "dismissed", "expired"],
     },
   },
 } as const
