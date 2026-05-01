@@ -11,16 +11,6 @@ export const IntegrationsSection = () => {
       logo: 'H',
       color: 'from-orange-500 to-orange-600',
     },
-    {
-      name: 'Pipedrive',
-      logo: 'P',
-      color: 'from-green-500 to-green-600',
-    },
-    {
-      name: 'Salesforce',
-      logo: 'S',
-      color: 'from-blue-500 to-blue-600',
-    },
   ];
 
   return (
