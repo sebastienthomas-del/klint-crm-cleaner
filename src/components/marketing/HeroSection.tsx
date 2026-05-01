@@ -3,13 +3,22 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { ArrowRight, Play, Sparkles, Users, TrendingUp, GitMerge, Activity } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { demoStats } from '@/data/demoTourData';
+
+// Données illustratives Hero (indépendantes de la démo guidée)
+const heroData = {
+  totalContacts: 24560,
+  initialScore: 52,
+  finalScore: 92,
+  duplicatesMerged: 487,
+  contactsEnriched: 3120,
+  pipelineUnlocked: 86,
+};
 
 const heroKpis = [
-  { icon: TrendingUp, label: 'Score qualité', value: `${demoStats.finalScore}/100`, delta: `+${demoStats.finalScore - demoStats.initialScore} pts`, color: 'text-success' },
-  { icon: GitMerge, label: 'Doublons fusionnés', value: demoStats.duplicatesMerged.toLocaleString('fr-FR'), delta: 'auto-merge', color: 'text-primary' },
-  { icon: Sparkles, label: 'Contacts enrichis', value: demoStats.contactsEnriched.toLocaleString('fr-FR'), delta: '+5 champs/contact', color: 'text-primary' },
-  { icon: Activity, label: 'Pipeline débloqué', value: `+€${(demoStats.pipelineUnlocked / 1000).toFixed(0)}k`, delta: 'leads réactivés', color: 'text-success' },
+  { icon: TrendingUp, label: 'Score qualité base', value: `${heroData.finalScore}/100`, delta: `+${heroData.finalScore - heroData.initialScore} pts en 30 j`, color: 'text-success' },
+  { icon: GitMerge, label: 'Doublons nettoyés', value: heroData.duplicatesMerged.toLocaleString('fr-FR'), delta: 'fusion automatique', color: 'text-primary' },
+  { icon: Sparkles, label: 'Fiches enrichies', value: heroData.contactsEnriched.toLocaleString('fr-FR'), delta: 'secteur · taille · poste', color: 'text-primary' },
+  { icon: Activity, label: 'Pipeline réveillé', value: `+€${heroData.pipelineUnlocked}k`, delta: 'leads dormants relancés', color: 'text-success' },
 ];
 
 export const HeroSection = () => {
@@ -126,14 +135,14 @@ export const HeroSection = () => {
                 <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
                   <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-success/10 border border-success/20">
                     <Sparkles className="w-3.5 h-3.5 text-success" />
-                    <span className="text-xs font-medium text-success">Mission accomplie · 7 jours</span>
+                    <span className="text-xs font-medium text-success">Agent actif · 30 derniers jours</span>
                   </div>
                   <div className="text-xs text-muted-foreground">
-                    Base : <span className="font-medium text-foreground">{demoStats.totalContacts.toLocaleString('fr-FR')}</span> contacts
+                    Base CRM : <span className="font-medium text-foreground">{heroData.totalContacts.toLocaleString('fr-FR')}</span> contacts
                   </div>
                 </div>
 
-                {/* KPI grid - même rendu que StepResults */}
+                {/* KPI grid */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                   {heroKpis.map((k) => (
                     <div key={k.label} className="bg-card border border-border rounded-xl p-4 lg:p-5">
@@ -150,38 +159,39 @@ export const HeroSection = () => {
                   <div className="bg-card border border-border rounded-xl p-4">
                     <div className="text-sm font-medium mb-3 flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
-                      Activité agent
+                      Ce que l'agent a fait aujourd'hui
                     </div>
                     <div className="space-y-2.5">
                       {[
-                        { time: '2 min', text: '3 doublons fusionnés (Acme Corp)', color: 'text-primary' },
-                        { time: '15 min', text: '12 contacts enrichis · secteur + taille', color: 'text-primary' },
-                        { time: '1 h', text: 'Score qualité : 87 → 89', color: 'text-success' },
+                        { time: 'à l\'instant', text: '5 doublons fusionnés sur Lumen Studio', color: 'text-primary' },
+                        { time: 'il y a 12 min', text: '38 fiches enrichies · secteur & effectif', color: 'text-primary' },
+                        { time: 'il y a 1 h', text: '12 contacts dormants relancés', color: 'text-success' },
+                        { time: 'ce matin', text: 'Score qualité : 90 → 92', color: 'text-success' },
                       ].map((a, i) => (
-                        <div key={i} className="flex items-center gap-3 text-xs">
-                          <span className="text-muted-foreground w-12 tabular-nums">{a.time}</span>
-                          <span className={`${a.color}`}>{a.text}</span>
+                        <div key={i} className="flex items-start gap-3 text-xs">
+                          <span className="text-muted-foreground w-20 shrink-0 tabular-nums">{a.time}</span>
+                          <span className={a.color}>{a.text}</span>
                         </div>
                       ))}
                     </div>
                   </div>
                   <div className="bg-card border border-border rounded-xl p-4">
-                    <div className="text-sm font-medium mb-3">Score de santé CRM</div>
+                    <div className="text-sm font-medium mb-3">Santé de votre CRM</div>
                     <div className="flex items-center gap-4">
                       <div className="relative w-16 h-16 shrink-0">
                         <svg className="w-16 h-16 transform -rotate-90">
                           <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="5" fill="none" className="text-muted" />
-                          <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="5" fill="none" className="text-success" strokeDasharray="176" strokeDashoffset="19" strokeLinecap="round" />
+                          <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="5" fill="none" className="text-success" strokeDasharray="176" strokeDashoffset="14" strokeLinecap="round" />
                         </svg>
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <span className="text-base font-bold text-success">{demoStats.finalScore}</span>
+                          <span className="text-base font-bold text-success">{heroData.finalScore}</span>
                         </div>
                       </div>
                       <div className="flex-1">
-                        <div className="text-sm font-medium">Excellente santé</div>
-                        <div className="text-xs text-success mt-0.5">+{demoStats.finalScore - demoStats.initialScore} pts vs J-7</div>
+                        <div className="text-sm font-medium">Base saine et actionnable</div>
+                        <div className="text-xs text-success mt-0.5">+{heroData.finalScore - heroData.initialScore} pts depuis l'activation</div>
                         <div className="mt-2 h-1.5 rounded-full bg-muted overflow-hidden">
-                          <div className="h-full gradient-primary" style={{ width: `${demoStats.finalScore}%` }} />
+                          <div className="h-full gradient-primary" style={{ width: `${heroData.finalScore}%` }} />
                         </div>
                       </div>
                     </div>
