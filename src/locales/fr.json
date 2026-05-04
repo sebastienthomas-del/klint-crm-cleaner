@@ -174,8 +174,8 @@
     "ctaContact": "Contactez-nous",
     "starter": {
       "name": "Starter",
-      "price": "79",
-      "priceYearly": "63",
+      "price": "89",
+      "priceYearly": "71",
       "description": "Pour les petites équipes",
       "features": [
         "Jusqu'à 5 000 contacts",
@@ -188,8 +188,8 @@
     },
     "professional": {
       "name": "Professional",
-      "price": "199",
-      "priceYearly": "159",
+      "price": "229",
+      "priceYearly": "183",
       "description": "Pour les équipes en croissance",
       "features": [
         "Jusqu'à 25 000 contacts",
@@ -205,8 +205,8 @@
     },
     "enterprise": {
       "name": "Enterprise",
-      "price": "499",
-      "priceYearly": "399",
+      "price": "579",
+      "priceYearly": "463",
       "description": "Pour les grandes organisations",
       "features": [
         "Contacts illimités",
