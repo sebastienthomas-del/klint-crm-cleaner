@@ -56,11 +56,26 @@ const Reactivation = () => {
     return 'text-muted-foreground';
   };
 
-  const filteredContacts = contactsToReactivate.filter(contact => 
-    contact.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    contact.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (contact.company && contact.company.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
+  const monthsAgo = (months: number) => {
+    const d = new Date();
+    d.setMonth(d.getMonth() - months);
+    return d;
+  };
+
+  const filteredContacts = contactsToReactivate.filter((contact) => {
+    const matchesSearch =
+      contact.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      contact.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (contact.company && contact.company.toLowerCase().includes(searchQuery.toLowerCase()));
+    if (!matchesSearch) return false;
+
+    if (inactivityFilter === 'all' || !contact.lastActivity) return true;
+    const lastActive = new Date(contact.lastActivity);
+    if (inactivityFilter === '3m') return lastActive < monthsAgo(3);
+    if (inactivityFilter === '6m') return lastActive < monthsAgo(6);
+    if (inactivityFilter === '12m') return lastActive < monthsAgo(12);
+    return true;
+  });
 
   return (
     <div className="space-y-6">

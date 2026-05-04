@@ -95,7 +95,7 @@ const Demo = () => {
                     </span>
                   </div>
                   <h1 className="font-display text-4xl lg:text-5xl font-bold mb-4">
-                    Découvrez Klint en 2 minutes
+                    Découvrez Klea en 2 minutes
                   </h1>
                   <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                     Découvrez notre outil avec une démo sur mesure et transformez l'essai :
@@ -404,7 +404,7 @@ const PlannedDemoScreen = ({
       Réservons un créneau, {lead.firstName}
     </h2>
     <p className="text-lg text-muted-foreground mb-8">
-      Votre contexte mérite un accompagnement dédié. Un expert Klint prépare
+      Votre contexte mérite un accompagnement dédié. Un expert Klea prépare
       une démo personnalisée pour {lead.company}.
     </p>
 

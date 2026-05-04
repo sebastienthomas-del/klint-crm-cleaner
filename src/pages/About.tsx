@@ -25,7 +25,7 @@ const About = () => {
   ];
 
   const milestones = [
-    { year: '2023', title: 'L\'idée', description: 'Naissance de Klint suite à notre frustration de Sales Ops face aux CRM mal entretenus.' },
+    { year: '2023', title: 'L\'idée', description: 'Naissance de Klea suite à notre frustration de Sales Ops face aux CRM mal entretenus.' },
     { year: '2023', title: 'MVP', description: 'Lancement de la première version avec détection de doublons et scoring basique.' },
     { year: '2024', title: '100 clients', description: 'Franchissement du cap des 100 clients actifs et levée de fonds seed.' },
     { year: '2024', title: 'V2.0', description: 'Lancement de l\'agent IA autonome avec enrichissement et réactivation automatique.' },
@@ -50,10 +50,10 @@ const About = () => {
             className="max-w-3xl mx-auto text-center"
           >
             <h1 className="font-display text-4xl lg:text-5xl font-bold mb-6">
-              À propos de <span className="gradient-text">Klint</span>
+              À propos de <span className="gradient-text">Klea</span>
             </h1>
             <p className="text-lg text-muted-foreground">
-              Nous avons créé Klint parce que nous avons vécu la frustration d'un CRM pollué. 
+              Nous avons créé Klea parce que nous avons vécu la frustration d'un CRM pollué. 
               En tant que Sales Ops, nous passions 15h par semaine à nettoyer des données au lieu 
               de nous concentrer sur ce qui compte : aider les équipes à vendre plus.
             </p>

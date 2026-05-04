@@ -51,7 +51,7 @@
     }
   },
   "solution": {
-    "title": "La solución Klint",
+    "title": "La solución Klea",
     "subtitle": "Un agente IA que trabaja 24/7 para mantener tu CRM perfecto",
     "card1": {
       "title": "Agente IA autónomo",
@@ -133,9 +133,9 @@
   },
   "testimonials": {
     "title": "Confían en nosotros",
-    "subtitle": "Descubre lo que dicen nuestros clientes sobre Klint",
+    "subtitle": "Descubre lo que dicen nuestros clientes sobre Klea",
     "testimonial1": {
-      "quote": "Klint transformó nuestra manera de gestionar el CRM. Reactivamos el 30% de nuestros leads dormidos en 2 meses.",
+      "quote": "Klea transformó nuestra manera de gestionar el CRM. Reactivamos el 30% de nuestros leads dormidos en 2 meses.",
       "name": "Sophie Martin",
       "role": "Directora de Ventas",
       "company": "TechCorp France"
@@ -225,7 +225,7 @@
   },
   "cta": {
     "title": "¿Listo para transformar tu CRM?",
-    "subtitle": "Prueba Klint gratis durante 14 días. Sin tarjeta de crédito.",
+    "subtitle": "Prueba Klea gratis durante 14 días. Sin tarjeta de crédito.",
     "button": "Empezar gratis"
   },
   "footer": {
@@ -247,7 +247,7 @@
     "terms": "Términos",
     "privacy": "Privacidad",
     "cookies": "Cookies",
-    "rights": "© 2025 Klint. Todos los derechos reservados."
+    "rights": "© 2025 Klea. Todos los derechos reservados."
   },
   "auth": {
     "login": "Iniciar sesión",

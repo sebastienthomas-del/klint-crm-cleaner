@@ -1,16 +1,17 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { 
-  LayoutDashboard, 
-  Users2, 
-  Sparkles, 
-  RefreshCw, 
-  Settings, 
+import {
+  LayoutDashboard,
+  Users2,
+  Sparkles,
+  RefreshCw,
+  Settings,
   Bot,
   ChevronLeft,
   ChevronRight,
   Pickaxe
 } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { 
@@ -66,7 +67,16 @@ export function AppSidebar() {
   const location = useLocation();
   const { t } = useTranslation();
   const { state, toggleSidebar } = useSidebar();
+  const { user } = useAuth();
   const isCollapsed = state === 'collapsed';
+
+  const displayName = user?.user_metadata?.full_name ?? user?.email?.split('@')[0] ?? 'Utilisateur';
+  const initials = displayName
+    .split(' ')
+    .map((w: string) => w[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2);
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -82,7 +92,7 @@ export function AppSidebar() {
           </div>
           {!isCollapsed && (
             <span className="font-display text-xl font-bold text-sidebar-foreground">
-              Klint
+              Klea
             </span>
           )}
         </Link>
@@ -185,17 +195,17 @@ export function AppSidebar() {
         {!isCollapsed && (
           <div className="mt-2 p-3 rounded-lg bg-sidebar-accent/30 flex items-center gap-3">
             <div className="w-8 h-8 rounded-full gradient-primary flex items-center justify-center shrink-0">
-              <span className="text-xs font-bold text-primary-foreground">JD</span>
+              <span className="text-xs font-bold text-primary-foreground">{initials}</span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-sidebar-foreground truncate">Jean Dupont</p>
-              <p className="text-xs text-sidebar-foreground/60 truncate">Admin</p>
+              <p className="text-sm font-medium text-sidebar-foreground truncate">{displayName}</p>
+              <p className="text-xs text-sidebar-foreground/60 truncate">{user?.email ?? ''}</p>
             </div>
           </div>
         )}
         {isCollapsed && (
           <div className="mx-auto mt-2 w-8 h-8 rounded-full gradient-primary flex items-center justify-center">
-            <span className="text-xs font-bold text-primary-foreground">JD</span>
+            <span className="text-xs font-bold text-primary-foreground">{initials}</span>
           </div>
         )}
       </SidebarFooter>

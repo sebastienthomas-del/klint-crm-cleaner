@@ -41,7 +41,7 @@ export const Footer = () => {
               <div className="w-9 h-9 rounded-xl gradient-primary flex items-center justify-center">
                 <Sparkles className="w-5 h-5 text-primary-foreground" />
               </div>
-              <span className="font-display text-xl font-bold gradient-text">Klint</span>
+              <span className="font-display text-xl font-bold gradient-text">Klea</span>
             </Link>
             <p className="text-sm text-muted-foreground mb-6 max-w-xs">
               {t('footer.description')}
