@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Check, ArrowRight, HelpCircle } from 'lucide-react';
+import { Check, ArrowRight, HelpCircle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { MarketingLayout } from '@/components/layout';
@@ -12,13 +12,23 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
+
+const PLAN_KEYS = ['starter', 'professional', 'enterprise'] as const;
 
 const Pricing = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const { toast } = useToast();
   const [isYearly, setIsYearly] = useState(true);
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
 
   const plans = [
     {
+      key: 'starter',
       name: t('pricing.starter.name'),
       price: isYearly ? t('pricing.starter.priceYearly') : t('pricing.starter.price'),
       description: t('pricing.starter.description'),
@@ -27,6 +37,7 @@ const Pricing = () => {
       popular: false,
     },
     {
+      key: 'professional',
       name: t('pricing.professional.name'),
       price: isYearly ? t('pricing.professional.priceYearly') : t('pricing.professional.price'),
       description: t('pricing.professional.description'),
@@ -35,6 +46,7 @@ const Pricing = () => {
       popular: true,
     },
     {
+      key: 'enterprise',
       name: t('pricing.enterprise.name'),
       price: isYearly ? t('pricing.enterprise.priceYearly') : t('pricing.enterprise.price'),
       description: t('pricing.enterprise.description'),
@@ -67,6 +79,50 @@ const Pricing = () => {
     },
   ];
 
+  async function handleCheckout(planKey: string) {
+    if (planKey === 'enterprise') {
+      navigate('/contact');
+      return;
+    }
+
+    if (!user) {
+      navigate('/auth?tab=signup');
+      return;
+    }
+
+    setLoadingPlan(planKey);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/stripe-create-checkout`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session?.access_token}`,
+          },
+          body: JSON.stringify({
+            plan: planKey,
+            billing_cycle: isYearly ? 'yearly' : 'monthly',
+            success_url: `${window.location.origin}/app/dashboard?subscribed=true`,
+            cancel_url: `${window.location.origin}/pricing`,
+          }),
+        }
+      );
+
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        toast({ title: data.error ?? 'Erreur lors de la création de la session', variant: 'destructive' });
+      }
+    } catch {
+      toast({ title: 'Erreur réseau', variant: 'destructive' });
+    } finally {
+      setLoadingPlan(null);
+    }
+  }
+
   return (
     <MarketingLayout>
       <section className="py-20 lg:py-32">
@@ -83,7 +139,7 @@ const Pricing = () => {
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
               {t('pricing.subtitle')}
             </p>
-            
+
             {/* Billing Toggle */}
             <div className="inline-flex items-center gap-3 p-1 rounded-full bg-muted">
               <span className={`px-4 py-2 text-sm font-medium rounded-full transition-colors ${!isYearly ? 'bg-background shadow-sm' : 'text-muted-foreground'}`}>
@@ -107,8 +163,8 @@ const Pricing = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className={`relative bg-card border rounded-2xl p-6 lg:p-8 ${
-                  plan.popular 
-                    ? 'border-primary shadow-glow' 
+                  plan.popular
+                    ? 'border-primary shadow-glow'
                     : 'border-border hover-lift'
                 }`}
               >
@@ -138,14 +194,18 @@ const Pricing = () => {
                   ))}
                 </ul>
 
-                <Link to={index === 2 ? '/contact' : '/auth?tab=signup'}>
-                  <Button 
-                    className={`w-full ${plan.popular ? 'gradient-primary shadow-glow hover:shadow-glow-lg' : ''}`}
-                    variant={plan.popular ? 'default' : 'outline'}
-                  >
-                    {plan.cta}
-                  </Button>
-                </Link>
+                <Button
+                  className={`w-full ${plan.popular ? 'gradient-primary shadow-glow hover:shadow-glow-lg' : ''}`}
+                  variant={plan.popular ? 'default' : 'outline'}
+                  disabled={loadingPlan === plan.key}
+                  onClick={() => handleCheckout(plan.key)}
+                >
+                  {loadingPlan === plan.key ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    plan.cta
+                  )}
+                </Button>
               </motion.div>
             ))}
           </div>
@@ -170,8 +230,8 @@ const Pricing = () => {
 
             <Accordion type="single" collapsible className="space-y-4">
               {faqItems.map((item, index) => (
-                <AccordionItem 
-                  key={index} 
+                <AccordionItem
+                  key={index}
                   value={`item-${index}`}
                   className="bg-card border border-border rounded-xl px-6"
                 >
@@ -201,12 +261,20 @@ const Pricing = () => {
               <p className="text-muted-foreground">
                 14 jours d'essai gratuit • Aucune carte bancaire requise
               </p>
-              <Link to="/auth?tab=signup">
-                <Button className="gradient-primary shadow-glow hover:shadow-glow-lg gap-2">
-                  Commencer gratuitement
-                  <ArrowRight className="w-4 h-4" />
-                </Button>
-              </Link>
+              <Button
+                className="gradient-primary shadow-glow hover:shadow-glow-lg gap-2"
+                onClick={() => handleCheckout('professional')}
+                disabled={loadingPlan === 'professional'}
+              >
+                {loadingPlan === 'professional' ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <>
+                    Commencer gratuitement
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
+              </Button>
             </div>
           </motion.div>
         </div>

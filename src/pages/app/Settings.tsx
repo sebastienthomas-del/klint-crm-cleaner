@@ -1,11 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
-import { 
-  Settings as SettingsIcon, 
-  User, 
-  Link2, 
-  Bell, 
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  Settings as SettingsIcon,
+  User,
+  Link2,
+  Bell,
   Bot,
   Save,
   Check,
@@ -13,7 +15,9 @@ import {
   ExternalLink,
   RefreshCw,
   Target,
-  Plus
+  Plus,
+  Loader2,
+  Unplug
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -33,6 +37,8 @@ import {
 import { integrations, agentConfig } from '@/data/mockData';
 import { useAgent } from '@/hooks/useAgent';
 import { useSalesOpsAgent } from '@/hooks/useSalesOpsAgent';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 // Integration logos (simplified as colored circles for now)
 const integrationLogos: Record<string, { color: string; letter: string }> = {
@@ -50,6 +56,87 @@ const Settings = () => {
   const { state: agentState, updateConfig, toggleAgent } = useAgent();
   const { icpConfig, updateICPConfig } = useSalesOpsAgent();
   const [activeTab, setActiveTab] = useState('profile');
+  const { toast } = useToast();
+  const location = useLocation();
+  const qc = useQueryClient();
+  const [connectingHubspot, setConnectingHubspot] = useState(false);
+  const [syncingHubspot, setSyncingHubspot] = useState(false);
+
+  // Show toast on redirect-back from OAuth
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get('connected') === 'hubspot') {
+      setActiveTab('connections');
+      toast({ title: 'HubSpot connecté', description: 'La synchronisation initiale a démarré.' });
+      qc.invalidateQueries({ queryKey: ['crm_connection_hubspot'] });
+    }
+    if (params.get('error')) {
+      setActiveTab('connections');
+      toast({ title: 'Erreur de connexion HubSpot', description: params.get('error')!, variant: 'destructive' });
+    }
+  }, []);
+
+  // Real HubSpot connection state
+  const { data: hubspotConn, isLoading: hubspotLoading } = useQuery({
+    queryKey: ['crm_connection_hubspot'],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from('crm_connections')
+        .select('status, connected_at, last_sync_at, metadata')
+        .eq('provider', 'hubspot')
+        .maybeSingle();
+      return data;
+    },
+  });
+
+  async function connectHubspot() {
+    setConnectingHubspot(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/hubspot-oauth-start`,
+        { headers: { 'Authorization': `Bearer ${session?.access_token}` } }
+      );
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+      else toast({ title: data.error ?? 'Erreur', variant: 'destructive' });
+    } catch {
+      toast({ title: 'Erreur réseau', variant: 'destructive' });
+    } finally {
+      setConnectingHubspot(false);
+    }
+  }
+
+  async function disconnectHubspot() {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    await supabase.from('crm_connections').update({ status: 'disconnected' }).eq('provider', 'hubspot').eq('user_id', user.id);
+    qc.invalidateQueries({ queryKey: ['crm_connection_hubspot'] });
+    toast({ title: 'HubSpot déconnecté' });
+  }
+
+  async function syncHubspot() {
+    setSyncingHubspot(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/hubspot-sync-contacts`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${session?.access_token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      toast({ title: 'Synchronisation lancée' });
+      qc.invalidateQueries({ queryKey: ['crm_connection_hubspot'] });
+    } catch {
+      toast({ title: 'Erreur de synchronisation', variant: 'destructive' });
+    } finally {
+      setSyncingHubspot(false);
+    }
+  }
 
   const [profile, setProfile] = useState({
     fullName: 'Jean Dupont',
@@ -194,52 +281,90 @@ const Settings = () => {
             <div className="space-y-4">
               <h3 className="font-semibold text-lg">CRM</h3>
               <div className="grid md:grid-cols-3 gap-4">
-                {integrations.filter(i => i.type === 'crm').map((integration) => {
-                  const logo = integrationLogos[integration.id];
-                  return (
-                    <Card key={integration.id} className={integration.connected ? 'border-success/50' : ''}>
-                      <CardContent className="p-4">
-                        <div className="flex items-start justify-between mb-4">
-                          <div className={`w-12 h-12 rounded-lg ${logo.color} flex items-center justify-center`}>
-                            <span className="text-white font-bold text-lg">{logo.letter}</span>
-                          </div>
-                          {integration.connected ? (
-                            <Badge className="bg-success/10 text-success border-success/20">
-                              <Check className="w-3 h-3 mr-1" />
-                              Connecté
-                            </Badge>
-                          ) : (
-                            <Badge variant="outline">Non connecté</Badge>
-                          )}
-                        </div>
-                        <h4 className="font-semibold mb-1">{integration.name}</h4>
-                        {integration.connected && (
-                          <div className="text-xs text-muted-foreground mb-3">
-                            <p>Dernière sync: {integration.lastSync}</p>
-                            <p>{integration.contactsCount?.toLocaleString()} contacts</p>
-                          </div>
+                {/* HubSpot — real connection */}
+                <Card className={hubspotConn?.status === 'connected' ? 'border-success/50' : ''}>
+                  <CardContent className="p-4">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="w-12 h-12 rounded-lg bg-orange-500 flex items-center justify-center">
+                        <span className="text-white font-bold text-lg">H</span>
+                      </div>
+                      {hubspotLoading ? (
+                        <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
+                      ) : hubspotConn?.status === 'connected' ? (
+                        <Badge className="bg-success/10 text-success border-success/20">
+                          <Check className="w-3 h-3 mr-1" />
+                          Connecté
+                        </Badge>
+                      ) : (
+                        <Badge variant="outline">Non connecté</Badge>
+                      )}
+                    </div>
+                    <h4 className="font-semibold mb-1">HubSpot</h4>
+                    {hubspotConn?.status === 'connected' && (
+                      <div className="text-xs text-muted-foreground mb-3">
+                        {hubspotConn.last_sync_at && (
+                          <p>Dernière sync : {new Date(hubspotConn.last_sync_at).toLocaleDateString('fr-FR')}</p>
                         )}
-                        <Button 
-                          variant={integration.connected ? 'outline' : 'default'} 
-                          size="sm" 
+                        {(hubspotConn.metadata as Record<string, unknown>)?.portal_id && (
+                          <p>Portal : {String((hubspotConn.metadata as Record<string, unknown>).portal_id)}</p>
+                        )}
+                      </div>
+                    )}
+                    <div className="flex flex-col gap-2">
+                      {hubspotConn?.status === 'connected' ? (
+                        <>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="w-full gap-2"
+                            onClick={syncHubspot}
+                            disabled={syncingHubspot}
+                          >
+                            {syncingHubspot ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
+                            Synchroniser
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="w-full gap-2 text-destructive hover:text-destructive"
+                            onClick={disconnectHubspot}
+                          >
+                            <Unplug className="w-4 h-4" />
+                            Déconnecter
+                          </Button>
+                        </>
+                      ) : (
+                        <Button
+                          size="sm"
                           className="w-full gap-2"
+                          onClick={connectHubspot}
+                          disabled={connectingHubspot}
                         >
-                          {integration.connected ? (
-                            <>
-                              <RefreshCw className="w-4 h-4" />
-                              Synchroniser
-                            </>
-                          ) : (
-                            <>
-                              <ExternalLink className="w-4 h-4" />
-                              Connecter
-                            </>
-                          )}
+                          {connectingHubspot ? <Loader2 className="w-4 h-4 animate-spin" /> : <ExternalLink className="w-4 h-4" />}
+                          Connecter HubSpot
                         </Button>
-                      </CardContent>
-                    </Card>
-                  );
-                })}
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Other CRMs — coming soon */}
+                {['Pipedrive', 'Salesforce'].map((name) => (
+                  <Card key={name} className="opacity-60">
+                    <CardContent className="p-4">
+                      <div className="flex items-start justify-between mb-4">
+                        <div className={`w-12 h-12 rounded-lg ${name === 'Pipedrive' ? 'bg-green-500' : 'bg-blue-500'} flex items-center justify-center`}>
+                          <span className="text-white font-bold text-lg">{name[0]}</span>
+                        </div>
+                        <Badge variant="outline" className="text-xs">Bientôt</Badge>
+                      </div>
+                      <h4 className="font-semibold mb-1">{name}</h4>
+                      <Button variant="outline" size="sm" className="w-full" disabled>
+                        Connecter
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
             </div>
 

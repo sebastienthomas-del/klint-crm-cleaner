@@ -49,7 +49,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       email,
       password,
       options: {
-        emailRedirectTo: `${window.location.origin}/`,
+        emailRedirectTo: `${window.location.origin}/app/onboarding`,
         data: {
           full_name: fullName,
           company_name: companyName,
@@ -61,7 +61,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signInWithGoogle = async () => {
     const result = await lovable.auth.signInWithOAuth('google', {
-      redirect_uri: `${window.location.origin}/app/dashboard`,
+      redirect_uri: `${window.location.origin}/app/onboarding`,
     });
     if (result.error) return { error: result.error as Error };
     return { error: null };

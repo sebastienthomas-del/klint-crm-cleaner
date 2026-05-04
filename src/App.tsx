@@ -26,6 +26,7 @@ const Enrichment = lazy(() => import("./pages/app/Enrichment"));
 const Reactivation = lazy(() => import("./pages/app/Reactivation"));
 const Settings = lazy(() => import("./pages/app/Settings"));
 const ApiKeys = lazy(() => import("./pages/app/ApiKeys"));
+const Onboarding = lazy(() => import("./pages/app/Onboarding"));
 
 // App Layout
 import { AppLayout } from "./components/app/AppLayout";
@@ -75,6 +76,7 @@ const App = () => (
                 <Route path="reactivation" element={<Reactivation />} />
                 <Route path="settings" element={<Settings />} />
                 <Route path="api" element={<ApiKeys />} />
+                <Route path="onboarding" element={<Onboarding />} />
               </Route>
 
               <Route path="*" element={<NotFound />} />
