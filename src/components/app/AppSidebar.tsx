@@ -9,7 +9,8 @@ import {
   Bot,
   ChevronLeft,
   ChevronRight,
-  Pickaxe
+  Pickaxe,
+  Code2
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
@@ -55,9 +56,15 @@ const mainNavItems = [
 ];
 
 const bottomNavItems = [
-  { 
-    title: 'Paramètres', 
-    path: '/app/settings', 
+  {
+    title: 'API',
+    path: '/app/api',
+    icon: Code2,
+    translationKey: 'nav.api'
+  },
+  {
+    title: 'Paramètres',
+    path: '/app/settings',
     icon: Settings,
     translationKey: 'nav.settings'
   },
