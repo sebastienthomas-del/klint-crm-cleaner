@@ -1,4 +1,5 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0'
+// Kléa API — REST gateway for external CRM integration
+// Uses Supabase REST API directly (no SDK import needed)
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -7,439 +8,285 @@ const CORS = {
 }
 
 const json = (data: unknown, status = 200) =>
-  new Response(JSON.stringify(data), {
-    status,
-    headers: { ...CORS, 'Content-Type': 'application/json' },
-  })
+  new Response(JSON.stringify(data), { status, headers: { ...CORS, 'Content-Type': 'application/json' } })
 
-const err = (status: number, message: string) =>
-  json({ error: message }, status)
+const err = (status: number, message: string) => json({ error: message }, status)
+
+// ── Supabase REST helpers ─────────────────────────────────────────────────────
+
+function supaHeaders() {
+  const key = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+  return {
+    'apikey': key,
+    'Authorization': `Bearer ${key}`,
+    'Content-Type': 'application/json',
+    'Prefer': 'return=representation',
+  }
+}
+
+function supaUrl(path: string) {
+  return `${Deno.env.get('SUPABASE_URL')}/rest/v1/${path}`
+}
+
+async function dbGet(table: string, query: string): Promise<{ data: unknown[]; count: number }> {
+  const res = await fetch(`${supaUrl(table)}?${query}`, {
+    headers: { ...supaHeaders(), 'Prefer': 'count=exact' },
+  })
+  const countHeader = res.headers.get('content-range')
+  const count = countHeader ? parseInt(countHeader.split('/')[1] ?? '0') : 0
+  const data = await res.json()
+  return { data: Array.isArray(data) ? data : [], count }
+}
+
+async function dbPost(table: string, body: unknown): Promise<unknown[]> {
+  const res = await fetch(supaUrl(table), {
+    method: 'POST',
+    headers: { ...supaHeaders(), 'Prefer': 'return=representation,resolution=merge-duplicates' },
+    body: JSON.stringify(body),
+  })
+  const data = await res.json()
+  return Array.isArray(data) ? data : [data]
+}
+
+async function dbPatch(table: string, query: string, body: unknown): Promise<unknown> {
+  const res = await fetch(`${supaUrl(table)}?${query}`, {
+    method: 'PATCH',
+    headers: supaHeaders(),
+    body: JSON.stringify(body),
+  })
+  const data = await res.json()
+  return Array.isArray(data) ? data[0] : data
+}
+
+async function dbDelete(table: string, query: string): Promise<void> {
+  await fetch(`${supaUrl(table)}?${query}`, { method: 'DELETE', headers: supaHeaders() })
+}
+
+// ── API key auth ──────────────────────────────────────────────────────────────
 
 async function hashKey(key: string): Promise<string> {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key))
-  return Array.from(new Uint8Array(buf))
-    .map((b) => b.toString(16).padStart(2, '0'))
-    .join('')
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('')
 }
 
-async function authenticate(req: Request) {
+async function authenticate(req: Request): Promise<{ userId: string } | null> {
   const auth = req.headers.get('Authorization') ?? ''
   if (!auth.startsWith('Bearer klea_')) return null
 
-  const key = auth.replace('Bearer ', '')
-  const hash = await hashKey(key)
+  const hash = await hashKey(auth.replace('Bearer ', ''))
+  const { data } = await dbGet('api_keys', `key_hash=eq.${hash}&is_active=eq.true&select=user_id`)
 
-  const admin = createClient(
-    Deno.env.get('SUPABASE_URL')!,
-    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-  )
+  if (!data.length) return null
 
-  const { data } = await admin
-    .from('api_keys')
-    .select('user_id, permissions, is_active')
-    .eq('key_hash', hash)
-    .eq('is_active', true)
-    .single()
+  await dbPatch('api_keys', `key_hash=eq.${hash}`, { last_used_at: new Date().toISOString() })
 
-  if (!data) return null
-
-  await admin
-    .from('api_keys')
-    .update({ last_used_at: new Date().toISOString() })
-    .eq('key_hash', hash)
-
-  return { userId: data.user_id as string, permissions: data.permissions as string[] }
+  return { userId: (data[0] as { user_id: string }).user_id }
 }
 
-function adminClient() {
-  return createClient(
-    Deno.env.get('SUPABASE_URL')!,
-    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-  )
-}
+// ── Router ────────────────────────────────────────────────────────────────────
 
 Deno.serve(async (req: Request) => {
   if (req.method === 'OPTIONS') return new Response(null, { headers: CORS })
 
   const url = new URL(req.url)
-  const rawPath = url.pathname.replace(/^\/klea-api\/?/, '')
-  const segments = rawPath.split('/').filter(Boolean)
-  const method = req.method
+  const path = url.pathname.replace(/^\/klea-api\/?/, '')
+  const seg = path.split('/').filter(Boolean)
+  const p = url.searchParams
 
-  // ─── Public endpoints ───────────────────────────────────────────────────────
-
-  if (method === 'GET' && segments.length === 0) {
+  // Public
+  if (req.method === 'GET' && seg.length === 0) {
     return json({
-      api: 'Kléa API',
-      version: '1.0.0',
-      description: 'Connectez votre CRM à Kléa pour détecter les doublons, enrichir et scorer vos contacts.',
-      authentication: 'Authorization: Bearer klea_<votre_clé>',
+      api: 'Kléa API', version: '1.0.0',
+      authentication: 'Authorization: Bearer klea_<clé>',
       endpoints: {
-        'GET  /health':                   'Statut de l\'API',
-        'POST /contacts':                 'Importer des contacts (batch)',
-        'GET  /contacts':                 'Lister les contacts (limit, offset, search, provider)',
-        'GET  /contacts/:id':             'Obtenir un contact',
-        'PATCH /contacts/:id':            'Mettre à jour un contact',
-        'DELETE /contacts/:id':           'Supprimer un contact',
-        'POST /analyze':                  'Lancer la détection de doublons + scoring',
-        'GET  /duplicates':               'Lister les groupes de doublons (status=pending|merged|dismissed)',
-        'PATCH /duplicates/:id':          'Ignorer / changer le statut d\'un groupe',
-        'POST /duplicates/:id/merge':     'Fusionner un groupe (body: { master_contact_id })',
-        'GET  /quality':                  'Résumé de la santé CRM',
+        'GET  /health':                  'Statut',
+        'POST /contacts':                'Importer des contacts',
+        'GET  /contacts':                'Lister les contacts',
+        'GET  /contacts/:id':            'Obtenir un contact',
+        'PATCH /contacts/:id':           'Mettre à jour un contact',
+        'DELETE /contacts/:id':          'Supprimer un contact',
+        'POST /analyze':                 'Détecter les doublons + scorer',
+        'GET  /duplicates':              'Lister les doublons',
+        'POST /duplicates/:id/merge':    'Fusionner un groupe',
+        'PATCH /duplicates/:id':         'Ignorer un groupe',
+        'GET  /quality':                 'Score santé CRM',
       },
     })
   }
 
-  if (method === 'GET' && segments[0] === 'health') {
+  if (req.method === 'GET' && seg[0] === 'health') {
     return json({ status: 'ok', api: 'Kléa API', version: '1.0.0', ts: new Date().toISOString() })
   }
 
-  // ─── Auth required ───────────────────────────────────────────────────────────
-
+  // Auth required
   const session = await authenticate(req)
-  if (!session) return err(401, 'Clé API invalide ou manquante. Utilisez : Authorization: Bearer klea_...')
+  if (!session) return err(401, 'Clé API invalide. Utilisez : Authorization: Bearer klea_...')
+  const uid = session.userId
 
-  const db = adminClient()
-  const userId = session.userId
-  const params = url.searchParams
-
-  // ─── POST /contacts ──────────────────────────────────────────────────────────
-  // Body: { contacts: [{ external_id, email, first_name, last_name, company, ... }], provider?: string }
-
-  if (method === 'POST' && segments[0] === 'contacts' && !segments[1]) {
+  // ── POST /contacts ──────────────────────────────────────────────────────────
+  if (req.method === 'POST' && seg[0] === 'contacts' && !seg[1]) {
     const body = await req.json().catch(() => null)
     if (!body?.contacts || !Array.isArray(body.contacts)) {
       return err(400, 'Corps invalide. Attendu : { contacts: [...] }')
     }
-
     const provider = body.provider ?? 'api'
-    const allowed = ['external_id', 'email', 'first_name', 'last_name', 'company', 'position', 'phone', 'sector', 'linkedin_url', 'company_size']
-
+    const allowed = ['external_id','email','first_name','last_name','company','position','phone','sector','linkedin_url','company_size']
     const records = body.contacts.map((c: Record<string, unknown>) => {
-      const record: Record<string, unknown> = { user_id: userId, provider }
-      for (const field of allowed) {
-        if (c[field] !== undefined) record[field] = c[field]
-      }
-      return record
+      const r: Record<string, unknown> = { user_id: uid, provider }
+      for (const f of allowed) if (c[f] !== undefined) r[f] = c[f]
+      return r
     })
-
-    const { data, error: dbErr } = await db
-      .from('crm_contacts')
-      .upsert(records, { onConflict: 'user_id,provider,external_id', ignoreDuplicates: false })
-      .select('id, email, first_name, last_name, company')
-
-    if (dbErr) return err(500, dbErr.message)
-    return json({ imported: data?.length ?? 0, contacts: data }, 201)
+    const data = await dbPost('crm_contacts', records)
+    return json({ imported: data.length, contacts: data }, 201)
   }
 
-  // ─── GET /contacts ───────────────────────────────────────────────────────────
+  // ── GET /contacts ───────────────────────────────────────────────────────────
+  if (req.method === 'GET' && seg[0] === 'contacts' && !seg[1]) {
+    const limit = Math.min(parseInt(p.get('limit') ?? '50'), 200)
+    const offset = parseInt(p.get('offset') ?? '0')
+    const search = p.get('search')
+    const provider = p.get('provider')
 
-  if (method === 'GET' && segments[0] === 'contacts' && !segments[1]) {
-    const limit = Math.min(parseInt(params.get('limit') ?? '50'), 200)
-    const offset = parseInt(params.get('offset') ?? '0')
-    const search = params.get('search')
-    const provider = params.get('provider')
+    let q = `user_id=eq.${uid}&order=created_at.desc&limit=${limit}&offset=${offset}`
+    if (provider) q += `&provider=eq.${provider}`
+    if (search) q += `&or=(email.ilike.*${search}*,first_name.ilike.*${search}*,last_name.ilike.*${search}*,company.ilike.*${search}*)`
 
-    let query = db
-      .from('crm_contacts')
-      .select('*', { count: 'exact' })
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false })
-      .range(offset, offset + limit - 1)
-
-    if (search) {
-      query = query.or(
-        `email.ilike.%${search}%,first_name.ilike.%${search}%,last_name.ilike.%${search}%,company.ilike.%${search}%`
-      )
-    }
-    if (provider) query = query.eq('provider', provider)
-
-    const { data, error: dbErr, count } = await query
-    if (dbErr) return err(500, dbErr.message)
-
+    const { data, count } = await dbGet('crm_contacts', q)
     return json({ contacts: data, total: count, limit, offset })
   }
 
-  // ─── GET /contacts/:id ───────────────────────────────────────────────────────
-
-  if (method === 'GET' && segments[0] === 'contacts' && segments[1]) {
-    const { data, error: dbErr } = await db
-      .from('crm_contacts')
-      .select('*')
-      .eq('id', segments[1])
-      .eq('user_id', userId)
-      .single()
-
-    if (dbErr || !data) return err(404, 'Contact introuvable')
-    return json(data)
+  // ── GET /contacts/:id ───────────────────────────────────────────────────────
+  if (req.method === 'GET' && seg[0] === 'contacts' && seg[1]) {
+    const { data } = await dbGet('crm_contacts', `id=eq.${seg[1]}&user_id=eq.${uid}`)
+    if (!data.length) return err(404, 'Contact introuvable')
+    return json(data[0])
   }
 
-  // ─── PATCH /contacts/:id ─────────────────────────────────────────────────────
-
-  if (method === 'PATCH' && segments[0] === 'contacts' && segments[1]) {
+  // ── PATCH /contacts/:id ─────────────────────────────────────────────────────
+  if (req.method === 'PATCH' && seg[0] === 'contacts' && seg[1]) {
     const body = await req.json().catch(() => null)
-    if (!body?.properties) return err(400, 'Corps invalide. Attendu : { properties: { ... } }')
-
-    const allowed = ['email', 'first_name', 'last_name', 'company', 'position', 'phone', 'sector', 'linkedin_url', 'company_size']
-    const updates: Record<string, string> = {}
-    for (const [k, v] of Object.entries(body.properties as Record<string, unknown>)) {
-      if (allowed.includes(k)) updates[k] = v as string
+    if (!body?.properties) return err(400, 'Corps invalide. Attendu : { properties: {...} }')
+    const allowed = ['email','first_name','last_name','company','position','phone','sector','linkedin_url','company_size']
+    const updates: Record<string, unknown> = {}
+    for (const [k, v] of Object.entries(body.properties)) {
+      if (allowed.includes(k)) updates[k] = v
     }
-
-    if (Object.keys(updates).length === 0) {
-      return err(400, `Aucun champ valide. Champs autorisés : ${allowed.join(', ')}`)
-    }
-
-    const { data, error: dbErr } = await db
-      .from('crm_contacts')
-      .update({ ...updates, updated_at: new Date().toISOString() })
-      .eq('id', segments[1])
-      .eq('user_id', userId)
-      .select()
-      .single()
-
-    if (dbErr || !data) return err(404, 'Contact introuvable ou mise à jour échouée')
+    if (!Object.keys(updates).length) return err(400, `Champs autorisés : ${allowed.join(', ')}`)
+    const data = await dbPatch('crm_contacts', `id=eq.${seg[1]}&user_id=eq.${uid}`, updates)
+    if (!data) return err(404, 'Contact introuvable')
     return json(data)
   }
 
-  // ─── DELETE /contacts/:id ────────────────────────────────────────────────────
-
-  if (method === 'DELETE' && segments[0] === 'contacts' && segments[1]) {
-    const { error: dbErr } = await db
-      .from('crm_contacts')
-      .delete()
-      .eq('id', segments[1])
-      .eq('user_id', userId)
-
-    if (dbErr) return err(500, dbErr.message)
-    return json({ deleted: true, id: segments[1] })
+  // ── DELETE /contacts/:id ────────────────────────────────────────────────────
+  if (req.method === 'DELETE' && seg[0] === 'contacts' && seg[1]) {
+    await dbDelete('crm_contacts', `id=eq.${seg[1]}&user_id=eq.${uid}`)
+    return json({ deleted: true, id: seg[1] })
   }
 
-  // ─── POST /analyze ───────────────────────────────────────────────────────────
-  // Détecte les doublons parmi les contacts de l'utilisateur
+  // ── POST /analyze ───────────────────────────────────────────────────────────
+  if (req.method === 'POST' && seg[0] === 'analyze') {
+    const { data: contacts } = await dbGet('crm_contacts', `user_id=eq.${uid}&select=id,email,phone,first_name,last_name,company&limit=5000`)
+    if (!contacts.length) return json({ groups_detected: 0, message: 'Aucun contact à analyser' })
 
-  if (method === 'POST' && segments[0] === 'analyze') {
-    const { data: contacts, error: fetchErr } = await db
-      .from('crm_contacts')
-      .select('id, email, phone, first_name, last_name, company')
-      .eq('user_id', userId)
-      .limit(5000)
+    type C = { id: string; email?: string; phone?: string; first_name?: string; last_name?: string; company?: string }
+    const norm = (s?: string) => (s ?? '').toLowerCase().trim()
+    const digits = (s?: string) => (s ?? '').replace(/\D/g, '').slice(-9)
+    const buckets: Record<string, { ids: string[]; confidence: number; reason: string }> = {}
 
-    if (fetchErr) return err(500, fetchErr.message)
-    if (!contacts || contacts.length === 0) {
-      return json({ groups_detected: 0, message: 'Aucun contact à analyser' })
-    }
-
-    type Contact = { id: string; email?: string; phone?: string; first_name?: string; last_name?: string; company?: string }
-    const buckets: Record<string, { contacts: string[]; confidence: number; reason: string }> = {}
-
-    const normalize = (s?: string) => (s ?? '').toLowerCase().trim()
-    const phoneDigits = (p?: string) => (p ?? '').replace(/\D/g, '').slice(-9)
-
-    for (const c of contacts as Contact[]) {
-      const email = normalize(c.email)
+    for (const c of contacts as C[]) {
+      const email = norm(c.email)
       if (email) {
         const k = `email:${email}`
-        if (!buckets[k]) buckets[k] = { contacts: [], confidence: 100, reason: 'email_identique' }
-        buckets[k].contacts.push(c.id)
+        if (!buckets[k]) buckets[k] = { ids: [], confidence: 100, reason: 'email_identique' }
+        buckets[k].ids.push(c.id)
       }
-
-      const phone = phoneDigits(c.phone)
+      const phone = digits(c.phone)
       if (phone.length >= 9) {
         const k = `phone:${phone}`
-        if (!buckets[k]) buckets[k] = { contacts: [], confidence: 92, reason: 'telephone_identique' }
-        buckets[k].contacts.push(c.id)
+        if (!buckets[k]) buckets[k] = { ids: [], confidence: 92, reason: 'telephone_identique' }
+        buckets[k].ids.push(c.id)
       }
-
-      const lastName = normalize(c.last_name)
-      const company = normalize(c.company)
-      if (lastName && company) {
-        const k = `name:${lastName}|${company}`
-        if (!buckets[k]) buckets[k] = { contacts: [], confidence: 78, reason: 'nom_entreprise_identiques' }
-        buckets[k].contacts.push(c.id)
+      const last = norm(c.last_name), company = norm(c.company)
+      if (last && company) {
+        const k = `name:${last}|${company}`
+        if (!buckets[k]) buckets[k] = { ids: [], confidence: 78, reason: 'nom_entreprise_identiques' }
+        buckets[k].ids.push(c.id)
       }
     }
 
     let groupsCreated = 0
-    for (const bucket of Object.values(buckets)) {
-      if (bucket.contacts.length < 2) continue
-
-      const { data: group, error: gErr } = await db
-        .from('duplicate_groups')
-        .insert({
-          user_id: userId,
-          confidence: bucket.confidence,
-          reason: bucket.reason,
-          status: 'pending',
-        })
-        .select('id')
-        .single()
-
-      if (gErr || !group) continue
-
-      await db.from('duplicate_group_contacts').insert(
-        bucket.contacts.map((cid) => ({ group_id: group.id, contact_id: cid }))
-      )
-
+    for (const b of Object.values(buckets)) {
+      if (b.ids.length < 2) continue
+      const [group] = await dbPost('duplicate_groups', {
+        user_id: uid, confidence: b.confidence, reason: b.reason, status: 'pending'
+      }) as [{ id: string }]
+      if (!group?.id) continue
+      await dbPost('duplicate_group_contacts', b.ids.map(cid => ({ group_id: group.id, contact_id: cid })))
       groupsCreated++
     }
-
-    await db.from('activity_log').insert({
-      user_id: userId,
-      type: 'scan',
-      description: `Analyse API : ${groupsCreated} groupes de doublons détectés`,
-      contacts_affected: contacts.length,
-      status: 'completed',
-    })
-
+    await dbPost('activity_log', { user_id: uid, type: 'scan', description: `Analyse API : ${groupsCreated} groupes détectés`, contacts_affected: contacts.length, status: 'completed' })
     return json({ groups_detected: groupsCreated, contacts_analyzed: contacts.length })
   }
 
-  // ─── GET /duplicates ─────────────────────────────────────────────────────────
-
-  if (method === 'GET' && segments[0] === 'duplicates' && !segments[1]) {
-    const status = params.get('status') ?? 'pending'
-    const limit = Math.min(parseInt(params.get('limit') ?? '50'), 200)
-    const offset = parseInt(params.get('offset') ?? '0')
-
-    const { data, error: dbErr, count } = await db
-      .from('duplicate_groups')
-      .select(
-        `id, confidence, reason, status, detected_at, resolved_at, master_contact_id,
-         duplicate_group_contacts ( contact_id, crm_contacts ( id, email, first_name, last_name, company ) )`,
-        { count: 'exact' }
-      )
-      .eq('user_id', userId)
-      .eq('status', status)
-      .order('detected_at', { ascending: false })
-      .range(offset, offset + limit - 1)
-
-    if (dbErr) return err(500, dbErr.message)
+  // ── GET /duplicates ─────────────────────────────────────────────────────────
+  if (req.method === 'GET' && seg[0] === 'duplicates' && !seg[1]) {
+    const status = p.get('status') ?? 'pending'
+    const limit = Math.min(parseInt(p.get('limit') ?? '50'), 200)
+    const offset = parseInt(p.get('offset') ?? '0')
+    const q = `user_id=eq.${uid}&status=eq.${status}&order=detected_at.desc&limit=${limit}&offset=${offset}&select=id,confidence,reason,status,detected_at,resolved_at,master_contact_id,duplicate_group_contacts(contact_id,crm_contacts(id,email,first_name,last_name,company))`
+    const { data, count } = await dbGet('duplicate_groups', q)
     return json({ groups: data, total: count, limit, offset })
   }
 
-  // ─── PATCH /duplicates/:id ───────────────────────────────────────────────────
-
-  if (method === 'PATCH' && segments[0] === 'duplicates' && segments[1] && !segments[2]) {
+  // ── PATCH /duplicates/:id ───────────────────────────────────────────────────
+  if (req.method === 'PATCH' && seg[0] === 'duplicates' && seg[1] && !seg[2]) {
     const body = await req.json().catch(() => null)
-    const allowed = ['status', 'master_contact_id']
     const updates: Record<string, unknown> = {}
-    for (const field of allowed) {
-      if (body?.[field] !== undefined) updates[field] = body[field]
-    }
+    if (body?.status) updates.status = body.status
+    if (body?.master_contact_id) updates.master_contact_id = body.master_contact_id
     if (updates.status === 'dismissed') updates.resolved_at = new Date().toISOString()
-
-    const { data, error: dbErr } = await db
-      .from('duplicate_groups')
-      .update(updates)
-      .eq('id', segments[1])
-      .eq('user_id', userId)
-      .select()
-      .single()
-
-    if (dbErr || !data) return err(404, 'Groupe introuvable')
+    const data = await dbPatch('duplicate_groups', `id=eq.${seg[1]}&user_id=eq.${uid}`, updates)
+    if (!data) return err(404, 'Groupe introuvable')
     return json(data)
   }
 
-  // ─── POST /duplicates/:id/merge ──────────────────────────────────────────────
-
-  if (method === 'POST' && segments[0] === 'duplicates' && segments[2] === 'merge') {
+  // ── POST /duplicates/:id/merge ──────────────────────────────────────────────
+  if (req.method === 'POST' && seg[0] === 'duplicates' && seg[2] === 'merge') {
     const body = await req.json().catch(() => null)
     if (!body?.master_contact_id) return err(400, 'Champ requis : master_contact_id')
 
-    const groupId = segments[1]
-    const masterId = body.master_contact_id
+    const { data: groups } = await dbGet('duplicate_groups', `id=eq.${seg[1]}&user_id=eq.${uid}`)
+    if (!groups.length) return err(404, 'Groupe introuvable')
+    const group = groups[0] as { status: string }
+    if (group.status !== 'pending') return err(409, `Groupe déjà "${group.status}"`)
 
-    const { data: group } = await db
-      .from('duplicate_groups')
-      .select('id, status')
-      .eq('id', groupId)
-      .eq('user_id', userId)
-      .single()
+    const { data: links } = await dbGet('duplicate_group_contacts', `group_id=eq.${seg[1]}&select=contact_id`)
+    const toDelete = (links as { contact_id: string }[]).map(l => l.contact_id).filter(id => id !== body.master_contact_id)
+    if (toDelete.length) await dbDelete('crm_contacts', `id=in.(${toDelete.join(',')})&user_id=eq.${uid}`)
 
-    if (!group) return err(404, 'Groupe introuvable')
-    if (group.status !== 'pending') return err(409, `Ce groupe est déjà "${group.status}"`)
-
-    const { data: links } = await db
-      .from('duplicate_group_contacts')
-      .select('contact_id')
-      .eq('group_id', groupId)
-
-    const toDelete = (links ?? [])
-      .map((l: { contact_id: string }) => l.contact_id)
-      .filter((id: string) => id !== masterId)
-
-    if (toDelete.length > 0) {
-      await db.from('crm_contacts').delete().in('id', toDelete).eq('user_id', userId)
-    }
-
-    await db
-      .from('duplicate_groups')
-      .update({ status: 'merged', master_contact_id: masterId, resolved_at: new Date().toISOString() })
-      .eq('id', groupId)
-      .eq('user_id', userId)
-
-    await db.from('activity_log').insert({
-      user_id: userId,
-      type: 'merge',
-      description: `Fusion API : groupe ${groupId}, ${toDelete.length} contact(s) supprimé(s)`,
-      contacts_affected: toDelete.length + 1,
-      status: 'completed',
+    await dbPatch('duplicate_groups', `id=eq.${seg[1]}&user_id=eq.${uid}`, {
+      status: 'merged', master_contact_id: body.master_contact_id, resolved_at: new Date().toISOString()
     })
-
-    return json({ merged: true, master_contact_id: masterId, deleted_contacts: toDelete.length })
+    await dbPost('activity_log', { user_id: uid, type: 'merge', description: `Fusion API : ${toDelete.length} contact(s) supprimé(s)`, contacts_affected: toDelete.length + 1, status: 'completed' })
+    return json({ merged: true, master_contact_id: body.master_contact_id, deleted_contacts: toDelete.length })
   }
 
-  // ─── GET /quality ────────────────────────────────────────────────────────────
-
-  if (method === 'GET' && segments[0] === 'quality') {
-    const { count: total } = await db
-      .from('crm_contacts')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', userId)
-
-    const { count: withEmail } = await db
-      .from('crm_contacts')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', userId)
-      .not('email', 'is', null)
-
-    const { count: withPhone } = await db
-      .from('crm_contacts')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', userId)
-      .not('phone', 'is', null)
-
-    const { count: duplicates } = await db
-      .from('duplicate_groups')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', userId)
-      .eq('status', 'pending')
-
-    const { count: inactive } = await db
-      .from('crm_contacts')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', userId)
-      .eq('is_inactive', true)
-
-    const t = total ?? 0
-    const emailRate = t > 0 ? Math.round(((withEmail ?? 0) / t) * 100) : 0
-    const phoneRate = t > 0 ? Math.round(((withPhone ?? 0) / t) * 100) : 0
-    const score = Math.round(
-      emailRate * 0.4 + phoneRate * 0.2 + (100 - Math.min((duplicates ?? 0) / Math.max(t, 1) * 100, 100)) * 0.4
-    )
-
-    return json({
-      score,
-      total_contacts: t,
-      with_email: withEmail ?? 0,
-      email_rate: emailRate,
-      with_phone: withPhone ?? 0,
-      phone_rate: phoneRate,
-      pending_duplicates: duplicates ?? 0,
-      inactive_contacts: inactive ?? 0,
-    })
+  // ── GET /quality ────────────────────────────────────────────────────────────
+  if (req.method === 'GET' && seg[0] === 'quality') {
+    const [total, withEmail, withPhone, duplicates, inactive] = await Promise.all([
+      dbGet('crm_contacts', `user_id=eq.${uid}&select=id`),
+      dbGet('crm_contacts', `user_id=eq.${uid}&email=not.is.null&select=id`),
+      dbGet('crm_contacts', `user_id=eq.${uid}&phone=not.is.null&select=id`),
+      dbGet('duplicate_groups', `user_id=eq.${uid}&status=eq.pending&select=id`),
+      dbGet('crm_contacts', `user_id=eq.${uid}&is_inactive=eq.true&select=id`),
+    ])
+    const t = total.count, e = withEmail.count, ph = withPhone.count
+    const emailRate = t > 0 ? Math.round(e / t * 100) : 0
+    const phoneRate = t > 0 ? Math.round(ph / t * 100) : 0
+    const dupPenalty = Math.min(duplicates.count / Math.max(t, 1) * 100, 100)
+    const score = Math.round(emailRate * 0.4 + phoneRate * 0.2 + (100 - dupPenalty) * 0.4)
+    return json({ score, total_contacts: t, with_email: e, email_rate: emailRate, with_phone: ph, phone_rate: phoneRate, pending_duplicates: duplicates.count, inactive_contacts: inactive.count })
   }
 
-  return err(404, `Endpoint introuvable : ${method} /${segments.join('/')}`)
+  return err(404, `Endpoint introuvable : ${req.method} /${seg.join('/')}`)
 })
