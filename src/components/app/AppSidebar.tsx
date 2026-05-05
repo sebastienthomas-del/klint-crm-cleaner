@@ -10,7 +10,8 @@ import {
   ChevronLeft,
   ChevronRight,
   Pickaxe,
-  Code2
+  Code2,
+  CreditCard
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
@@ -56,6 +57,12 @@ const mainNavItems = [
 ];
 
 const bottomNavItems = [
+  {
+    title: 'Abonnement',
+    path: '/app/subscription',
+    icon: CreditCard,
+    translationKey: 'nav.subscription'
+  },
   {
     title: 'API',
     path: '/app/api',
