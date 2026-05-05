@@ -124,9 +124,12 @@ Deno.serve(async (req: Request) => {
   if (!customerId) {
     const customer = await stripePost('customers', {
       email: user.email,
-      metadata: { supabase_user_id: user.id },
+      'metadata[supabase_user_id]': user.id,
     })
-    if (customer.error) return err(500, 'Erreur création client Stripe')
+    if (customer.error) {
+      const e = customer.error as { message?: string }
+      return err(500, `Stripe customer: ${e.message ?? JSON.stringify(customer.error)}`)
+    }
     customerId = customer.id as string
 
     await dbUpsert('subscriptions', {

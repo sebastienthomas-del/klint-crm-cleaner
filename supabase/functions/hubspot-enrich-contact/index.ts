@@ -1,157 +1,122 @@
-// Patch a HubSpot contact with new property values.
-// Body: { contact_id: uuid, properties: Record<string, string> }
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+// hubspot-enrich-contact — pushes property updates to HubSpot + updates local DB
+// No static imports (Cloudflare WAF)
 
-const GATEWAY_URL = "https://connector-gateway.lovable.dev/hubspot";
+const CORS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+}
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
-};
+const json = (data: unknown, status = 200) =>
+  new Response(JSON.stringify(data), { status, headers: { ...CORS, 'Content-Type': 'application/json' } })
 
-const ALLOWED_PROPS = new Set([
-  "email",
-  "firstname",
-  "lastname",
-  "company",
-  "jobtitle",
-  "phone",
-  "industry",
-  "hs_linkedin_url",
-  "num_employees",
-]);
+const ALLOWED_HS_PROPS = new Set([
+  'email', 'firstname', 'lastname', 'company', 'jobtitle',
+  'phone', 'industry', 'hs_linkedin_url', 'num_employees',
+])
 
-const LOCAL_FIELD_MAP: Record<string, string> = {
-  email: "email",
-  firstname: "first_name",
-  lastname: "last_name",
-  company: "company",
-  jobtitle: "position",
-  phone: "phone",
-  industry: "sector",
-  hs_linkedin_url: "linkedin_url",
-  num_employees: "company_size",
-};
+const HS_TO_LOCAL: Record<string, string> = {
+  firstname: 'first_name',
+  lastname: 'last_name',
+  company: 'company',
+  jobtitle: 'position',
+  phone: 'phone',
+  industry: 'sector',
+  hs_linkedin_url: 'linkedin_url',
+  num_employees: 'company_size',
+  email: 'email',
+}
 
-Deno.serve(async (req) => {
-  if (req.method === "OPTIONS") {
-    return new Response("ok", { headers: corsHeaders });
+async function getUser(authHeader: string): Promise<{ id: string } | null> {
+  const url = Deno.env.get('SUPABASE_URL')!
+  const key = Deno.env.get('SUPABASE_ANON_KEY')!
+  const res = await fetch(`${url}/auth/v1/user`, {
+    headers: { 'apikey': key, 'Authorization': authHeader },
+  })
+  if (!res.ok) return null
+  const u = await res.json() as { id?: string }
+  return u.id ? { id: u.id } : null
+}
+
+function supaHeaders() {
+  const key = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+  return { 'apikey': key, 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' }
+}
+
+function supaUrl(path: string) {
+  return `${Deno.env.get('SUPABASE_URL')}/rest/v1/${path}`
+}
+
+Deno.serve(async (req: Request) => {
+  if (req.method === 'OPTIONS') return new Response('ok', { headers: CORS })
+
+  const authHeader = req.headers.get('Authorization') ?? ''
+  const user = await getUser(authHeader)
+  if (!user) return json({ error: 'Non authentifié' }, 401)
+
+  const body = await req.json().catch(() => null) as { contact_id?: string; properties?: Record<string, string> } | null
+  if (!body?.contact_id || !body?.properties) return json({ error: 'contact_id et properties requis' }, 400)
+
+  // Filter to allowed HubSpot props only
+  const hsProps: Record<string, string> = {}
+  for (const [k, v] of Object.entries(body.properties)) {
+    if (ALLOWED_HS_PROPS.has(k) && v?.trim()) hsProps[k] = v.trim()
+  }
+  if (!Object.keys(hsProps).length) return json({ error: 'Aucune propriété valide' }, 400)
+
+  // Get HubSpot token + contact external_id
+  const [connRes, contactRes] = await Promise.all([
+    fetch(`${supaUrl('crm_connections')}?user_id=eq.${user.id}&provider=eq.hubspot&select=metadata&limit=1`, { headers: supaHeaders() }),
+    fetch(`${supaUrl('crm_contacts')}?id=eq.${body.contact_id}&user_id=eq.${user.id}&select=external_id&limit=1`, { headers: supaHeaders() }),
+  ])
+
+  const conns = await connRes.json() as Array<{ metadata: { access_token?: string } }>
+  const contacts = await contactRes.json() as Array<{ external_id: string }>
+
+  const accessToken = conns?.[0]?.metadata?.access_token
+  const externalId = contacts?.[0]?.external_id
+
+  if (!accessToken) return json({ error: 'HubSpot non connecté' }, 400)
+  if (!externalId) return json({ error: 'Contact introuvable' }, 404)
+
+  // Push to HubSpot
+  const hsRes = await fetch(`https://api.hubapi.com/crm/v3/objects/contacts/${externalId}`, {
+    method: 'PATCH',
+    headers: { 'Authorization': `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ properties: hsProps }),
+  })
+
+  if (!hsRes.ok) {
+    const err = await hsRes.text()
+    return json({ error: `HubSpot PATCH échoué: ${err}` }, 500)
   }
 
-  try {
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    const HUBSPOT_API_KEY = Deno.env.get("HUBSPOT_API_KEY");
-    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY not configured");
-    if (!HUBSPOT_API_KEY) {
-      return new Response(
-        JSON.stringify({ error: "HubSpot non connecté." }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
-    }
+  // Update local crm_contacts
+  const localUpdate: Record<string, string> = {}
+  for (const [hs, val] of Object.entries(hsProps)) {
+    const local = HS_TO_LOCAL[hs]
+    if (local) localUpdate[local] = val
+  }
 
-    const authHeader = req.headers.get("Authorization");
-    if (!authHeader?.startsWith("Bearer ")) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
+  if (Object.keys(localUpdate).length) {
+    await fetch(`${supaUrl('crm_contacts')}?id=eq.${body.contact_id}`, {
+      method: 'PATCH',
+      headers: { ...supaHeaders(), 'Prefer': 'return=minimal' },
+      body: JSON.stringify(localUpdate),
+    })
+  }
 
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_ANON_KEY")!,
-      { global: { headers: { Authorization: authHeader } } },
-    );
-
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-    const userId = user.id;
-
-    const body = await req.json().catch(() => ({}));
-    const contactId = body.contact_id as string | undefined;
-    const properties = body.properties as Record<string, string> | undefined;
-
-    if (!contactId || !properties || typeof properties !== "object") {
-      return new Response(
-        JSON.stringify({ error: "contact_id and properties required" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
-    }
-
-    const filtered: Record<string, string> = {};
-    for (const [k, v] of Object.entries(properties)) {
-      if (ALLOWED_PROPS.has(k) && typeof v === "string" && v.length > 0 && v.length < 500) {
-        filtered[k] = v;
-      }
-    }
-    if (Object.keys(filtered).length === 0) {
-      return new Response(
-        JSON.stringify({ error: "No valid properties to update" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
-    }
-
-    const { data: contact, error: cErr } = await supabase
-      .from("crm_contacts")
-      .select("id, user_id, external_id, provider")
-      .eq("id", contactId)
-      .single();
-    if (cErr || !contact) throw new Error("Contact not found");
-    if (contact.user_id !== userId) throw new Error("Forbidden");
-    if (contact.provider !== "hubspot") throw new Error("Contact is not from HubSpot");
-
-    const res = await fetch(
-      `${GATEWAY_URL}/crm/v3/objects/contacts/${contact.external_id}`,
-      {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${LOVABLE_API_KEY}`,
-          "X-Connection-Api-Key": HUBSPOT_API_KEY,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ properties: filtered }),
-      },
-    );
-
-    if (!res.ok) {
-      const t = await res.text();
-      throw new Error(`HubSpot patch failed [${res.status}]: ${t}`);
-    }
-
-    // Mirror update locally.
-    const localUpdate: Record<string, string> = {};
-    for (const [hsKey, val] of Object.entries(filtered)) {
-      const localKey = LOCAL_FIELD_MAP[hsKey];
-      if (localKey) localUpdate[localKey] = val;
-    }
-    if (Object.keys(localUpdate).length > 0) {
-      await supabase.from("crm_contacts").update(localUpdate).eq("id", contactId);
-    }
-
-    await supabase.from("activity_log").insert({
-      user_id: userId,
-      type: "enrich",
-      description: `Contact enrichi sur HubSpot (${Object.keys(filtered).join(", ")})`,
+  // Log
+  await fetch(supaUrl('activity_log'), {
+    method: 'POST',
+    headers: { ...supaHeaders(), 'Prefer': 'return=minimal' },
+    body: JSON.stringify({
+      user_id: user.id,
+      type: 'enrich',
+      description: `Contact enrichi : ${Object.keys(hsProps).join(', ')}`,
       contacts_affected: 1,
-      metadata: { contact_id: contactId, properties: filtered },
-    });
+      metadata: { contact_id: body.contact_id, properties: hsProps },
+    }),
+  })
 
-    return new Response(
-      JSON.stringify({ success: true, updated: filtered }),
-      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
-    );
-  } catch (e) {
-    const msg = e instanceof Error ? e.message : "Unknown error";
-    console.error("hubspot-enrich-contact error:", msg);
-    return new Response(JSON.stringify({ error: msg }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
-  }
-});
+  return json({ success: true, updated: hsProps })
+})
