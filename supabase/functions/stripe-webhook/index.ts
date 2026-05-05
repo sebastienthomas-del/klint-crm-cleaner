@@ -77,18 +77,41 @@ async function verifyStripeSignature(payload: string, sigHeader: string, secret:
 
 async function upsertSubscription(sub: Record<string, unknown>): Promise<void> {
   const metadata = (sub.metadata ?? {}) as Record<string, string>
-  const userId = metadata.supabase_user_id
 
-  if (!userId) {
-    // Try to find user by customer id
-    const existing = await dbGet('subscriptions', `stripe_customer_id=eq.${sub.customer}&select=user_id`)
-    if (!existing.length) return
+  // Always look up by stripe_customer_id (guaranteed unique, always present)
+  const existing = await dbGet('subscriptions', `stripe_customer_id=eq.${sub.customer}&select=user_id`)
+  if (existing.length) {
     const row = existing[0] as { user_id: string }
-    await dbPatch('subscriptions', `user_id=eq.${row.user_id}`, buildSubRow(sub, row.user_id, metadata))
+    await dbPatch('subscriptions', `stripe_customer_id=eq.${sub.customer}`, {
+      stripe_subscription_id: sub.id,
+      plan: metadata.plan ?? 'starter',
+      billing_cycle: metadata.billing_cycle ?? 'monthly',
+      status: mapStatus(sub.status as string),
+      current_period_end: sub.current_period_end
+        ? new Date((sub.current_period_end as number) * 1000).toISOString()
+        : null,
+      cancel_at_period_end: sub.cancel_at_period_end ?? false,
+      updated_at: new Date().toISOString(),
+    })
     return
   }
 
-  await dbUpsert('subscriptions', buildSubRow(sub, userId, metadata), 'stripe_subscription_id')
+  // No existing row — insert fresh (new customer created outside of our flow)
+  const userId = metadata.supabase_user_id
+  if (!userId) return
+  await dbUpsert('subscriptions', {
+    user_id: userId,
+    stripe_customer_id: sub.customer,
+    stripe_subscription_id: sub.id,
+    plan: metadata.plan ?? 'starter',
+    billing_cycle: metadata.billing_cycle ?? 'monthly',
+    status: mapStatus(sub.status as string),
+    current_period_end: sub.current_period_end
+      ? new Date((sub.current_period_end as number) * 1000).toISOString()
+      : null,
+    cancel_at_period_end: sub.cancel_at_period_end ?? false,
+    updated_at: new Date().toISOString(),
+  }, 'stripe_customer_id')
 }
 
 function buildSubRow(sub: Record<string, unknown>, userId: string, metadata: Record<string, string>) {
