@@ -272,7 +272,10 @@ const Auth = () => {
                 <div className="flex items-center gap-2">
                   <Checkbox id="terms" required />
                   <Label htmlFor="terms" className="text-sm text-muted-foreground">
-                    {t('auth.terms')}
+                    J'accepte les{' '}
+                    <a href="/terms" target="_blank" className="text-primary hover:underline">conditions d'utilisation</a>
+                    {' '}et la{' '}
+                    <a href="/privacy" target="_blank" className="text-primary hover:underline">politique de confidentialité</a>
                   </Label>
                 </div>
 

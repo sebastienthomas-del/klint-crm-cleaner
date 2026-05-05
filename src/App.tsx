@@ -17,6 +17,8 @@ const Demo = lazy(() => import("./pages/Demo"));
 const DemoTour = lazy(() => import("./pages/DemoTour"));
 const Auth = lazy(() => import("./pages/Auth"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const Terms = lazy(() => import("./pages/Terms"));
+const Privacy = lazy(() => import("./pages/Privacy"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // App Pages
@@ -60,6 +62,8 @@ const App = () => (
               {/* Auth */}
               <Route path="/auth" element={<Auth />} />
               <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/privacy" element={<Privacy />} />
 
               {/* App (protected) */}
               <Route
