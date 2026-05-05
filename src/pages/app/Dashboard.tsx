@@ -67,13 +67,6 @@ const Dashboard = () => {
       variant: 'destructive' as const
     },
     {
-      icon: Sparkles,
-      label: 'Enrichir contacts',
-      description: `${realStats?.contactsToEnrich ?? 0} à enrichir`,
-      link: '/app/enrichment',
-      variant: 'warning' as const
-    },
-    {
       icon: RefreshCw,
       label: 'Réactiver contacts',
       description: `${realStats?.contactsToReactivate ?? 0} dormants`,
@@ -84,7 +77,6 @@ const Dashboard = () => {
 
   const alerts = realStats ? [
     duplicates > 0 && { id: 'dup', type: 'error', title: `${duplicates} doublons détectés`, link: '/app/duplicates', action: 'Fusionner' },
-    (realStats.contactsToEnrich ?? 0) > 0 && { id: 'enrich', type: 'warning', title: `${realStats.contactsToEnrich} contacts à enrichir`, link: '/app/enrichment', action: 'Enrichir' },
     (realStats.contactsToReactivate ?? 0) > 0 && { id: 'react', type: 'success', title: `${realStats.contactsToReactivate} contacts dormants`, link: '/app/reactivation', action: 'Réactiver' },
   ].filter(Boolean) as { id: string; type: string; title: string; link: string; action: string }[] : [];
 

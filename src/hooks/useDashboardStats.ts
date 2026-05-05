@@ -6,7 +6,6 @@ export type DashboardStats = {
   activeContacts: number;
   inactiveContacts: number;
   duplicatesDetected: number;
-  contactsToEnrich: number;
   contactsToReactivate: number;
   healthScore: number;
   recentActivity: Array<{
@@ -66,11 +65,6 @@ export function useDashboardStats() {
 
       const active = total - inactive;
 
-      const toEnrich = contacts.filter((c) => {
-        const raw = c as Record<string, unknown>;
-        return !raw.company && !raw.position && !raw.phone;
-      }).length;
-
       const threeMonthsAgo = new Date();
       threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
       const toReactivate = contacts.filter(
@@ -82,7 +76,6 @@ export function useDashboardStats() {
         activeContacts: active,
         inactiveContacts: inactive,
         duplicatesDetected: duplicates,
-        contactsToEnrich: toEnrich,
         contactsToReactivate: toReactivate,
         healthScore: computeHealthScore(total, duplicates, inactive),
         recentActivity: (activityRes.data ?? []) as DashboardStats['recentActivity'],

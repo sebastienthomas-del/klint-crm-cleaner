@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import {
   LayoutDashboard,
   Users2,
-  Sparkles,
   RefreshCw,
   Settings,
   Bot,
@@ -42,13 +41,7 @@ const mainNavItems = [
     icon: Users2,
     translationKey: 'nav.duplicates'
   },
-  { 
-    title: 'Enrichissement', 
-    path: '/app/enrichment', 
-    icon: Sparkles,
-    translationKey: 'nav.enrichment'
-  },
-  { 
+  {
     title: 'Réactivation', 
     path: '/app/reactivation', 
     icon: RefreshCw,

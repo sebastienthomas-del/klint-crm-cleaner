@@ -24,7 +24,6 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 // App Pages
 const Dashboard = lazy(() => import("./pages/app/Dashboard"));
 const Duplicates = lazy(() => import("./pages/app/Duplicates"));
-const Enrichment = lazy(() => import("./pages/app/Enrichment"));
 const Reactivation = lazy(() => import("./pages/app/Reactivation"));
 const Settings = lazy(() => import("./pages/app/Settings"));
 const ApiKeys = lazy(() => import("./pages/app/ApiKeys"));
@@ -77,7 +76,6 @@ const App = () => (
               >
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="duplicates" element={<Duplicates />} />
-                <Route path="enrichment" element={<Enrichment />} />
                 <Route path="reactivation" element={<Reactivation />} />
                 <Route path="settings" element={<Settings />} />
                 <Route path="api" element={<ApiKeys />} />
