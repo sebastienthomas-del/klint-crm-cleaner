@@ -1,81 +1,92 @@
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { 
-  Activity, 
-  Users, 
-  UserX, 
+import {
+  Activity,
+  Users,
+  UserX,
   TrendingUp,
   ArrowRight,
   CheckCircle,
   Merge,
   Search,
-  Download,
-  Flame,
-  Thermometer,
-  Snowflake,
-  Play,
   Sparkles,
   RefreshCw,
   Bot,
   Target,
   Clock,
-  Briefcase
+  Briefcase,
+  Flame,
+  Play,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { 
-  dashboardStats, 
-  healthData, 
-  scoreDistribution, 
-  alerts, 
-  recentActivity, 
-  suggestedLists 
-} from '@/data/mockData';
 import { useAgent } from '@/hooks/useAgent';
 import { useSalesOpsAgent } from '@/hooks/useSalesOpsAgent';
+import { useDashboardStats } from '@/hooks/useDashboardStats';
 import { Progress } from '@/components/ui/progress';
-import { 
-  PriorityActions, 
-  ClosedLostRecycler, 
-  ChampionTracker, 
-  GhostingAlerts, 
-  ICPQualification 
+import {
+  PriorityActions,
+  ClosedLostRecycler,
+  ChampionTracker,
+  GhostingAlerts,
+  ICPQualification
 } from '@/components/app/dashboard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+function formatRelativeTime(isoDate: string): string {
+  const diff = Date.now() - new Date(isoDate).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 60) return `il y a ${mins} min`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `il y a ${hours}h`;
+  const days = Math.floor(hours / 24);
+  return `il y a ${days}j`;
+}
 
 const Dashboard = () => {
   const { t } = useTranslation();
   const { state: agentState, startScan } = useAgent();
   const { stats: salesOpsStats } = useSalesOpsAgent();
-  
-  const healthScore = dashboardStats.healthScore;
+  const { data: realStats } = useDashboardStats();
+
+  const healthScore = realStats?.healthScore ?? 0;
   const healthStatus = healthScore >= 80 ? 'excellent' : healthScore >= 60 ? 'good' : 'poor';
 
+  const total = realStats?.totalContacts ?? 0;
+  const active = realStats?.activeContacts ?? 0;
+  const inactive = realStats?.inactiveContacts ?? 0;
+  const duplicates = realStats?.duplicatesDetected ?? 0;
+
   const quickActions = [
-    { 
-      icon: UserX, 
-      label: 'Fusionner doublons', 
-      description: `${dashboardStats.duplicatesDetected} détectés`, 
+    {
+      icon: UserX,
+      label: 'Fusionner doublons',
+      description: `${duplicates} détectés`,
       link: '/app/duplicates',
       variant: 'destructive' as const
     },
-    { 
-      icon: Sparkles, 
-      label: 'Enrichir contacts', 
-      description: `${dashboardStats.contactsToEnrich} à enrichir`, 
+    {
+      icon: Sparkles,
+      label: 'Enrichir contacts',
+      description: `${realStats?.contactsToEnrich ?? 0} à enrichir`,
       link: '/app/enrichment',
       variant: 'warning' as const
     },
-    { 
-      icon: RefreshCw, 
-      label: 'Réactiver contacts', 
-      description: `${dashboardStats.contactsToReactivate} dormants`, 
+    {
+      icon: RefreshCw,
+      label: 'Réactiver contacts',
+      description: `${realStats?.contactsToReactivate ?? 0} dormants`,
       link: '/app/reactivation',
       variant: 'success' as const
     },
   ];
+
+  const alerts = realStats ? [
+    duplicates > 0 && { id: 'dup', type: 'error', title: `${duplicates} doublons détectés`, link: '/app/duplicates', action: 'Fusionner' },
+    (realStats.contactsToEnrich ?? 0) > 0 && { id: 'enrich', type: 'warning', title: `${realStats.contactsToEnrich} contacts à enrichir`, link: '/app/enrichment', action: 'Enrichir' },
+    (realStats.contactsToReactivate ?? 0) > 0 && { id: 'react', type: 'success', title: `${realStats.contactsToReactivate} contacts dormants`, link: '/app/reactivation', action: 'Réactiver' },
+  ].filter(Boolean) as { id: string; type: string; title: string; link: string; action: string }[] : [];
 
   const getAlertIcon = (type: string) => {
     switch (type) {
@@ -108,7 +119,7 @@ const Dashboard = () => {
           <h1 className="font-display text-2xl lg:text-3xl font-bold text-foreground">{t('dashboard.overview')}</h1>
           <p className="text-muted-foreground">Bienvenue ! Voici l'état de votre CRM.</p>
         </div>
-        
+
         {/* Agent Control */}
         <div className="flex items-center gap-3 p-3 rounded-lg bg-card border border-border">
           <div className={`w-2.5 h-2.5 rounded-full ${
@@ -119,12 +130,12 @@ const Dashboard = () => {
           <div className="text-sm">
             <span className="font-medium">Agent IA </span>
             <span className="text-muted-foreground">
-              {agentState.status === 'scanning' ? 'Scan en cours...' : 
+              {agentState.status === 'scanning' ? 'Scan en cours...' :
                agentState.status === 'active' ? 'Actif' : 'En pause'}
             </span>
           </div>
-          <Button 
-            size="sm" 
+          <Button
+            size="sm"
             variant="outline"
             onClick={startScan}
             disabled={agentState.status === 'scanning'}
@@ -203,15 +214,15 @@ const Dashboard = () => {
                 <div className="relative w-16 h-16">
                   <svg className="w-16 h-16 transform -rotate-90">
                     <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="4" fill="none" className="text-muted" />
-                    <circle 
-                      cx="32" cy="32" r="28" 
-                      stroke="currentColor" 
-                      strokeWidth="4" 
-                      fill="none" 
+                    <circle
+                      cx="32" cy="32" r="28"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      fill="none"
                       className={`health-${healthStatus}`}
-                      strokeDasharray="176" 
-                      strokeDashoffset={176 - (176 * healthScore / 100)} 
-                      strokeLinecap="round" 
+                      strokeDasharray="176"
+                      strokeDashoffset={176 - (176 * healthScore / 100)}
+                      strokeLinecap="round"
                     />
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
@@ -220,12 +231,12 @@ const Dashboard = () => {
                 </div>
                 <div>
                   <div className="text-sm font-medium">
-                    {healthStatus === 'excellent' ? t('dashboard.healthGood') : 
+                    {healthStatus === 'excellent' ? t('dashboard.healthGood') :
                      healthStatus === 'good' ? t('dashboard.healthMedium') : t('dashboard.healthPoor')}
                   </div>
-                  <div className="text-xs text-success flex items-center gap-1">
+                  <div className="text-xs text-muted-foreground flex items-center gap-1">
                     <TrendingUp className="w-3 h-3" />
-                    +3% {t('dashboard.vsLastWeek')}
+                    Score CRM
                   </div>
                 </div>
               </div>
@@ -247,8 +258,8 @@ const Dashboard = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-foreground">{dashboardStats.totalContacts.toLocaleString()}</div>
-              <div className="text-xs text-success">+{dashboardStats.weeklyNewContacts} {t('dashboard.thisWeek')}</div>
+              <div className="text-2xl font-bold text-foreground">{total.toLocaleString()}</div>
+              <div className="text-xs text-muted-foreground">Contacts synchronisés</div>
             </CardContent>
           </Card>
         </motion.div>
@@ -268,12 +279,14 @@ const Dashboard = () => {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-foreground">
-                {dashboardStats.activeContacts.toLocaleString()} 
-                <span className="text-sm font-normal text-muted-foreground ml-1">
-                  ({Math.round(dashboardStats.activeContacts / dashboardStats.totalContacts * 100)}%)
-                </span>
+                {active.toLocaleString()}
+                {total > 0 && (
+                  <span className="text-sm font-normal text-muted-foreground ml-1">
+                    ({Math.round(active / total * 100)}%)
+                  </span>
+                )}
               </div>
-              <div className="text-xs text-success">+{dashboardStats.monthlyGrowth}% {t('dashboard.vsLastMonth')}</div>
+              <div className="text-xs text-muted-foreground">Actifs ces 6 derniers mois</div>
             </CardContent>
           </Card>
         </motion.div>
@@ -284,7 +297,7 @@ const Dashboard = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}
         >
-          <Card className="health-bg-poor border-2">
+          <Card className={duplicates > 0 ? 'health-bg-poor border-2' : ''}>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                 <UserX className="w-4 h-4" />
@@ -293,12 +306,16 @@ const Dashboard = () => {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-foreground">
-                {dashboardStats.duplicatesDetected} 
-                <span className="text-sm font-normal text-muted-foreground ml-1">
-                  ({(dashboardStats.duplicatesDetected / dashboardStats.totalContacts * 100).toFixed(1)}%)
-                </span>
+                {duplicates}
+                {total > 0 && duplicates > 0 && (
+                  <span className="text-sm font-normal text-muted-foreground ml-1">
+                    ({(duplicates / total * 100).toFixed(1)}%)
+                  </span>
+                )}
               </div>
-              <div className="text-xs text-destructive">{t('dashboard.critical')}</div>
+              <div className={`text-xs ${duplicates > 0 ? 'text-destructive' : 'text-success'}`}>
+                {duplicates > 0 ? t('dashboard.critical') : 'Aucun doublon'}
+              </div>
             </CardContent>
           </Card>
         </motion.div>
@@ -332,7 +349,7 @@ const Dashboard = () => {
             </span>
           </div>
         </div>
-        
+
         <Tabs defaultValue="priority" className="space-y-4">
           <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="priority" className="gap-1.5 text-xs">
@@ -356,23 +373,23 @@ const Dashboard = () => {
               <span className="hidden sm:inline">HVT</span>
             </TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="priority">
             <PriorityActions />
           </TabsContent>
-          
+
           <TabsContent value="ghosting">
             <GhostingAlerts />
           </TabsContent>
-          
+
           <TabsContent value="closed-lost">
             <ClosedLostRecycler />
           </TabsContent>
-          
+
           <TabsContent value="champions">
             <ChampionTracker />
           </TabsContent>
-          
+
           <TabsContent value="hvt">
             <ICPQualification />
           </TabsContent>
@@ -392,7 +409,9 @@ const Dashboard = () => {
               <CardTitle className="text-lg font-semibold">{t('dashboard.alerts')}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              {alerts.map((alert) => {
+              {alerts.length === 0 ? (
+                <p className="text-sm text-muted-foreground text-center py-4">Aucune alerte — votre CRM est en bonne santé.</p>
+              ) : alerts.map((alert) => {
                 const AlertIcon = getAlertIcon(alert.type);
                 return (
                   <div
@@ -433,7 +452,9 @@ const Dashboard = () => {
               <CardTitle className="text-lg font-semibold">{t('dashboard.recentActivity')}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              {recentActivity.map((activity) => {
+              {!realStats?.recentActivity?.length ? (
+                <p className="text-sm text-muted-foreground text-center py-4">Aucune activité récente.</p>
+              ) : realStats.recentActivity.map((activity) => {
                 const ActivityIcon = getActivityIcon(activity.type);
                 return (
                   <div key={activity.id} className="flex items-start gap-3 p-2">
@@ -443,7 +464,7 @@ const Dashboard = () => {
                     }`} />
                     <div className="flex-1">
                       <p className="text-sm">{activity.description}</p>
-                      <p className="text-xs text-muted-foreground">{activity.timestamp}</p>
+                      <p className="text-xs text-muted-foreground">{formatRelativeTime(activity.created_at)}</p>
                     </div>
                   </div>
                 );
@@ -453,102 +474,49 @@ const Dashboard = () => {
         </motion.div>
       </div>
 
-      {/* Charts Row */}
-      <div className="grid lg:grid-cols-2 gap-6">
-        {/* Health Evolution Chart */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-        >
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold">{t('dashboard.qualityEvolution')}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={200}>
-                <LineChart data={healthData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis dataKey="day" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                  <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} domain={[60, 100]} />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: 'hsl(var(--card))', 
-                      border: '1px solid hsl(var(--border))',
-                      borderRadius: '8px'
-                    }}
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="score" 
-                    stroke="hsl(var(--primary))" 
-                    strokeWidth={3}
-                    dot={{ fill: 'hsl(var(--primary))', strokeWidth: 2 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        {/* Score Distribution */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.45 }}
-        >
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold">{t('dashboard.contactsByScore')}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-around mb-6">
-                {scoreDistribution.map((item, index) => {
-                  const icons = [Flame, Thermometer, Snowflake];
-                  const colors = ['text-destructive', 'text-warning', 'text-secondary'];
-                  const Icon = icons[index];
-                  return (
-                    <div key={item.name} className="text-center">
-                      <div className="flex items-center gap-2 justify-center mb-1">
-                        <Icon className={`w-5 h-5 ${colors[index]}`} />
-                        <span className="text-2xl font-bold">{item.value.toLocaleString()}</span>
-                      </div>
-                      <span className="text-xs text-muted-foreground">{item.name} ({item.percentage}%)</span>
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="flex h-4 rounded-full overflow-hidden bg-muted">
-                <div className="bg-destructive" style={{ width: `${scoreDistribution[0].percentage}%` }} />
-                <div className="bg-warning" style={{ width: `${scoreDistribution[1].percentage}%` }} />
-                <div className="bg-secondary" style={{ width: `${scoreDistribution[2].percentage}%` }} />
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-      </div>
-
-      {/* Suggested Lists */}
+      {/* CRM Breakdown */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
+        transition={{ delay: 0.45 }}
       >
-        <h2 className="font-display text-lg font-semibold mb-4">{t('dashboard.listsOfMoment')}</h2>
-        <div className="grid md:grid-cols-3 gap-4">
-          {suggestedLists.map((list) => (
-            <Card key={list.id} className="hover-lift">
-              <CardContent className="p-4">
-                <h3 className="font-semibold mb-1">{list.title}</h3>
-                <p className="text-sm text-muted-foreground mb-4">{list.description}</p>
-                <Button variant="outline" size="sm" className="w-full gap-2">
-                  <Download className="w-4 h-4" />
-                  {list.cta}
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg font-semibold">Répartition des contacts</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-around mb-6">
+              <div className="text-center">
+                <div className="flex items-center gap-2 justify-center mb-1">
+                  <Users className="w-5 h-5 text-success" />
+                  <span className="text-2xl font-bold">{active.toLocaleString()}</span>
+                </div>
+                <span className="text-xs text-muted-foreground">Actifs ({total > 0 ? Math.round(active / total * 100) : 0}%)</span>
+              </div>
+              <div className="text-center">
+                <div className="flex items-center gap-2 justify-center mb-1">
+                  <RefreshCw className="w-5 h-5 text-warning" />
+                  <span className="text-2xl font-bold">{inactive.toLocaleString()}</span>
+                </div>
+                <span className="text-xs text-muted-foreground">Dormants ({total > 0 ? Math.round(inactive / total * 100) : 0}%)</span>
+              </div>
+              <div className="text-center">
+                <div className="flex items-center gap-2 justify-center mb-1">
+                  <UserX className="w-5 h-5 text-destructive" />
+                  <span className="text-2xl font-bold">{duplicates}</span>
+                </div>
+                <span className="text-xs text-muted-foreground">Doublons ({total > 0 ? (duplicates / total * 100).toFixed(1) : 0}%)</span>
+              </div>
+            </div>
+            {total > 0 && (
+              <div className="flex h-4 rounded-full overflow-hidden bg-muted">
+                <div className="bg-success" style={{ width: `${Math.round(active / total * 100)}%` }} />
+                <div className="bg-warning" style={{ width: `${Math.round(inactive / total * 100)}%` }} />
+                <div className="bg-destructive" style={{ width: `${Math.min((duplicates / total * 100), 100 - Math.round(active / total * 100) - Math.round(inactive / total * 100))}%` }} />
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </motion.div>
     </div>
   );
