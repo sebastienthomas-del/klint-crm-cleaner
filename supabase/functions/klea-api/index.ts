@@ -288,5 +288,95 @@ Deno.serve(async (req: Request) => {
     return json({ score, total_contacts: t, with_email: e, email_rate: emailRate, with_phone: ph, phone_rate: phoneRate, pending_duplicates: duplicates.count, inactive_contacts: inactive.count })
   }
 
+  // ── GET /hubspot/contact/:hubspot_id ────────────────────────────────────────
+  // Designed for the HubSpot UI Extension — returns contact intel from Kléa
+  if (req.method === 'GET' && seg[0] === 'hubspot' && seg[1] === 'contact' && seg[2]) {
+    const hubspotId = seg[2]
+
+    // Fetch contact by external_id (= HubSpot contact ID)
+    const { data: contacts } = await dbGet(
+      'crm_contacts',
+      `external_id=eq.${hubspotId}&provider=eq.hubspot&user_id=eq.${uid}&select=id,first_name,last_name,email,company,phone,position,last_activity_at`
+    )
+
+    if (!contacts.length) {
+      return json({
+        found: false,
+        message: 'Contact non trouvé dans Kléa. Lancez une synchronisation HubSpot.',
+      })
+    }
+
+    const c = contacts[0] as {
+      id: string
+      first_name: string | null
+      last_name: string | null
+      email: string | null
+      company: string | null
+      phone: string | null
+      position: string | null
+      last_activity_at: string | null
+    }
+
+    // Reactivation score
+    const monthsInactive = c.last_activity_at
+      ? (Date.now() - new Date(c.last_activity_at).getTime()) / (1000 * 60 * 60 * 24 * 30)
+      : 999
+    const reactivationScore = monthsInactive > 12 ? 90 : monthsInactive > 6 ? 70 : monthsInactive > 3 ? 50 : 20
+    const reactivationLabel = reactivationScore >= 80 ? 'Critique' : reactivationScore >= 60 ? 'Élevé' : reactivationScore >= 40 ? 'Modéré' : 'Faible'
+    const reactivationPriority = reactivationScore >= 80 ? 'haute' : reactivationScore >= 60 ? 'moyenne' : 'basse'
+
+    // Duplicate status — check if this contact is in a pending duplicate group
+    const { data: dupLinks } = await dbGet(
+      'duplicate_group_contacts',
+      `contact_id=eq.${c.id}&select=group_id,duplicate_groups(id,confidence,reason,status)`
+    )
+
+    type DupLink = { group_id: string; duplicate_groups: { id: string; confidence: number; reason: string; status: string } }
+    const activeDup = (dupLinks as DupLink[]).find(l => l.duplicate_groups?.status === 'pending')
+
+    let duplicateInfo: Record<string, unknown> = { is_duplicate: false }
+    if (activeDup) {
+      const { data: groupMembers } = await dbGet(
+        'duplicate_group_contacts',
+        `group_id=eq.${activeDup.group_id}&select=contact_id`
+      )
+      duplicateInfo = {
+        is_duplicate: true,
+        group_id: activeDup.group_id,
+        group_count: (groupMembers as unknown[]).length,
+        confidence: activeDup.duplicate_groups.confidence,
+        reason: activeDup.duplicate_groups.reason,
+      }
+    }
+
+    const appUrl = Deno.env.get('APP_URL') ?? 'https://klea.app'
+
+    return json({
+      found: true,
+      contact: {
+        id: c.id,
+        first_name: c.first_name,
+        last_name: c.last_name,
+        email: c.email,
+        company: c.company,
+        position: c.position,
+        last_activity_at: c.last_activity_at,
+        klea_url: `${appUrl}/app/dashboard`,
+      },
+      reactivation: {
+        score: reactivationScore,
+        label: reactivationLabel,
+        priority: reactivationPriority,
+        months_inactive: Math.round(monthsInactive),
+      },
+      duplicate: duplicateInfo,
+      health: {
+        has_email: !!c.email,
+        has_phone: !!c.phone,
+        has_company: !!c.company,
+      },
+    })
+  }
+
   return err(404, `Endpoint introuvable : ${req.method} /${seg.join('/')}`)
 })
