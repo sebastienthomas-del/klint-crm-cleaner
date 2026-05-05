@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Check, Zap, Loader2, CreditCard, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useSubscription, isActive } from '@/hooks/useSubscription';
+import { useSearchParams } from 'react-router-dom';
 
 const PLANS = [
   {
@@ -62,9 +63,25 @@ const PLANS = [
 
 export default function Subscription() {
   const { toast } = useToast();
-  const { data: sub, isLoading: subLoading } = useSubscription();
+  const { data: sub, isLoading: subLoading, refetch } = useSubscription();
   const [isYearly, setIsYearly] = useState(true);
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.get('subscribed') === 'true') {
+      toast({ title: 'Paiement confirmé !', description: 'Votre abonnement est en cours d\'activation (quelques secondes).' });
+      setSearchParams({}, { replace: true });
+      // Poll subscription status for up to 30s
+      let attempts = 0;
+      const interval = setInterval(async () => {
+        attempts++;
+        await refetch();
+        if (attempts >= 10) clearInterval(interval);
+      }, 3000);
+      return () => clearInterval(interval);
+    }
+  }, []);
 
   const currentPlan = sub?.plan ?? null;
   const currentActive = isActive(sub);
