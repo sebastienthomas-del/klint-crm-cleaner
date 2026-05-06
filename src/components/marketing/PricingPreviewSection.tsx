@@ -46,20 +46,7 @@ export const PricingPreviewSection = () => {
   return (
     <section className="py-20 lg:py-32">
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12"
-        >
-          <h2 className="font-display text-3xl lg:text-4xl font-bold mb-4">
-            {t('pricing.title')}
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-            {t('pricing.subtitle')}
-          </p>
-          
+        <div className="text-center mb-12">
           {/* Billing Toggle */}
           <div className="inline-flex items-center gap-3 p-1 rounded-full bg-muted">
             <span className={`px-4 py-2 text-sm font-medium rounded-full transition-colors ${!isYearly ? 'bg-background shadow-sm' : 'text-muted-foreground'}`}>
@@ -73,7 +60,7 @@ export const PricingPreviewSection = () => {
               </span>
             </span>
           </div>
-        </motion.div>
+        </div>
 
         <div className="grid lg:grid-cols-3 gap-6 lg:gap-8 mb-12">
           {plans.map((plan, index) => (
