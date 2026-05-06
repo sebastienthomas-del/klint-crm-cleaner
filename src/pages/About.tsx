@@ -58,13 +58,14 @@ const About = () => (
                 Mai 2026
               </span>
               <p className="text-muted-foreground leading-relaxed mt-5">
-                Kléa est née début mai 2026, d'une conversation qui m'a mis le doigt sur un problème trop
-                souvent ignoré : la qualité des données. Je suis convaincue que des données propres ne sont
-                pas un détail technique — ce sont le moteur réel de la croissance des entreprises.
+                Kléa est née début 2026, d'une conversation qui a pointé du doigt un problème trop souvent
+                ignoré : la qualité des données. Je suis convaincue que des données propres ne sont pas un
+                détail technique, ce sont le moteur réel de la croissance des entreprises.
               </p>
               <p className="text-muted-foreground leading-relaxed mt-4">
                 C'est cette conviction qui m'a poussée à créer Kléa, un programme dédié au data cleaning
-                qui s'appuie sur l'IA pour maintenir votre CRM propre, complet et exploitable — automatiquement.
+                qui s'appuie sur l'IA pour maintenir votre CRM propre, complet et exploitable, automatiquement
+                et continuellement.
               </p>
             </div>
           </motion.div>
