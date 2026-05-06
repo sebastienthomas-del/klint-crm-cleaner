@@ -6,7 +6,7 @@ const values = [
   {
     icon: Zap,
     title: 'Efficacité',
-    description: 'Nous croyons que la technologie doit simplifier la vie, pas la compliquer. Chaque fonctionnalité est conçue pour maximiser votre productivité.',
+    description: 'Nous croyons que l\'innovation IA doit simplifier la vie, pas la compliquer. Chaque fonctionnalité est conçue pour maximiser votre productivité.',
   },
   {
     icon: Shield,
