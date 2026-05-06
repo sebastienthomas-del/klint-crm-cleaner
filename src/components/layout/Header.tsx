@@ -1,7 +1,20 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Menu, X, Sparkles } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
+
+const BroomIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    {/* Handle */}
+    <line x1="19" y1="2" x2="9" y2="12" />
+    {/* Brush head */}
+    <path d="M5 12 L9 12 L11 20 L3 20 Z" />
+    {/* Bristle lines */}
+    <line x1="5" y1="20" x2="4" y2="23" />
+    <line x1="7" y1="20" x2="7" y2="23" />
+    <line x1="9" y1="20" x2="10" y2="23" />
+  </svg>
+);
 import { Button } from '@/components/ui/button';
 import { LanguageSelector } from './LanguageSelector';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -28,7 +41,7 @@ export const Header = () => {
           <Link to="/" className="flex items-center gap-2 group">
             <div className="relative">
               <div className="w-9 h-9 rounded-xl gradient-primary flex items-center justify-center shadow-glow transition-all duration-300 group-hover:shadow-glow-lg">
-                <Sparkles className="w-5 h-5 text-primary-foreground" />
+                <BroomIcon className="w-5 h-5 text-primary-foreground" />
               </div>
             </div>
             <span className="font-display text-xl font-bold gradient-text">Klea</span>
