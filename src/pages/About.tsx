@@ -16,7 +16,7 @@ const values = [
   {
     icon: Target,
     title: 'Fiabilité',
-    description: 'Votre CRM est critique. C\'est pourquoi nous garantissons une disponibilité de 99.9 % et une traçabilité complète de toutes les actions.',
+    description: 'Votre CRM a besoin d\'un bon coup de balai. C\'est pourquoi nous garantissons une traçabilité complète de toutes les actions complètes.',
   },
 ];
 
