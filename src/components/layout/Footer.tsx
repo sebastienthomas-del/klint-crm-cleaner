@@ -9,12 +9,12 @@ const BroomIcon = ({ className }: { className?: string }) => (
     <line x1="5" y1="20" x2="4" y2="23" />
     <line x1="7" y1="20" x2="7" y2="23" />
     <line x1="9" y1="20" x2="10" y2="23" />
-    <path d="M22,3.5 L22.5,4.5 L23.5,5 L22.5,5.5 L22,6.5 L21.5,5.5 L20.5,5 L21.5,4.5 Z" strokeWidth="0.5" fill="currentColor" />
-    <path d="M22,10.5 L22.5,11.5 L23.5,12 L22.5,12.5 L22,13.5 L21.5,12.5 L20.5,12 L21.5,11.5 Z" strokeWidth="0.5" fill="currentColor" />
-    <path d="M21,18.5 L21.5,19.5 L22.5,20 L21.5,20.5 L21,21.5 L20.5,20.5 L19.5,20 L20.5,19.5 Z" strokeWidth="0.5" fill="currentColor" />
-    <path d="M3,1.5 L3.5,2.5 L4.5,3 L3.5,3.5 L3,4.5 L2.5,3.5 L1.5,3 L2.5,2.5 Z" strokeWidth="0.5" fill="currentColor" />
-    <path d="M6,5.5 L6.5,6.5 L7.5,7 L6.5,7.5 L6,8.5 L5.5,7.5 L4.5,7 L5.5,6.5 Z" strokeWidth="0.5" fill="currentColor" />
+    <path d="M2,0.5 L2.5,1.5 L3.5,2 L2.5,2.5 L2,3.5 L1.5,2.5 L0.5,2 L1.5,1.5 Z" strokeWidth="0.5" fill="currentColor" />
+    <path d="M13,1.5 L13.5,2.5 L14.5,3 L13.5,3.5 L13,4.5 L12.5,3.5 L11.5,3 L12.5,2.5 Z" strokeWidth="0.5" fill="currentColor" />
+    <path d="M22,4.5 L22.5,5.5 L23.5,6 L22.5,6.5 L22,7.5 L21.5,6.5 L20.5,6 L21.5,5.5 Z" strokeWidth="0.5" fill="currentColor" />
     <path d="M2,8.5 L2.5,9.5 L3.5,10 L2.5,10.5 L2,11.5 L1.5,10.5 L0.5,10 L1.5,9.5 Z" strokeWidth="0.5" fill="currentColor" />
+    <path d="M22,15.5 L22.5,16.5 L23.5,17 L22.5,17.5 L22,18.5 L21.5,17.5 L20.5,17 L21.5,16.5 Z" strokeWidth="0.5" fill="currentColor" />
+    <path d="M15,20.5 L15.5,21.5 L16.5,22 L15.5,22.5 L15,23.5 L14.5,22.5 L13.5,22 L14.5,21.5 Z" strokeWidth="0.5" fill="currentColor" />
   </svg>
 );
 import { LanguageSelector } from './LanguageSelector';
