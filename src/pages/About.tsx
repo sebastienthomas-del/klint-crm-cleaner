@@ -11,7 +11,7 @@ const values = [
   {
     icon: Shield,
     title: 'Transparence',
-    description: 'Pas de boîte noire. Vous savez exactement ce que fait l\'IA, pourquoi elle le fait, et vous gardez le contrôle à tout moment.',
+    description: 'Vous savez exactement ce que fait l\'IA, pourquoi elle le fait, et vous gardez le contrôle à tout moment sur vos données.',
   },
   {
     icon: Target,
