@@ -7,9 +7,9 @@ const BroomIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <line x1="19" y1="2" x2="9" y2="12" />
     <path d="M5 12 L9 12 L11 20 L3 20 Z" />
-    <path d="M2,-2 L4,2 L8,4 L4,6 L2,10 L0,6 L-4,4 L0,2 Z" strokeWidth="0" fill="currentColor" />
-    <path d="M22,1 L24,5 L28,7 L24,9 L22,13 L20,9 L16,7 L20,5 Z" strokeWidth="0" fill="currentColor" />
-    <path d="M21,10 L23,14 L27,16 L23,18 L21,22 L19,18 L15,16 L19,14 Z" strokeWidth="0" fill="currentColor" />
+    <path d="M5,0 L7,2 L9,4 L7,6 L5,8 L3,6 L1,4 L3,2 Z" strokeWidth="0" fill="currentColor" />
+    <path d="M20,3 L22,5 L24,7 L22,9 L20,11 L18,9 L16,7 L18,5 Z" strokeWidth="0" fill="currentColor" />
+    <path d="M20,12 L22,14 L24,16 L22,18 L20,20 L18,18 L16,16 L18,14 Z" strokeWidth="0" fill="currentColor" />
   </svg>
 );
 import { Button } from '@/components/ui/button';
