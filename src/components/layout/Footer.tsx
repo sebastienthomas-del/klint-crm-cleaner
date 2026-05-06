@@ -12,6 +12,9 @@ const BroomIcon = ({ className }: { className?: string }) => (
     <path d="M21 2 L21.4 3.6 L23 4 L21.4 4.4 L21 6 L20.6 4.4 L19 4 L20.6 3.6 Z" strokeWidth="0.5" fill="currentColor" />
     <path d="M22 11 L22.3 12.3 L23.6 12.6 L22.3 12.9 L22 14.2 L21.7 12.9 L20.4 12.6 L21.7 12.3 Z" strokeWidth="0.5" fill="currentColor" />
     <path d="M19 18 L19.3 19.3 L20.6 19.6 L19.3 19.9 L19 21.2 L18.7 19.9 L17.4 19.6 L18.7 19.3 Z" strokeWidth="0.5" fill="currentColor" />
+    <path d="M2 2 L2.3 3.3 L3.6 3.6 L2.3 3.9 L2 5.2 L1.7 3.9 L0.4 3.6 L1.7 3.3 Z" strokeWidth="0.5" fill="currentColor" />
+    <path d="M5 6 L5.3 7.3 L6.6 7.6 L5.3 7.9 L5 9.2 L4.7 7.9 L3.4 7.6 L4.7 7.3 Z" strokeWidth="0.5" fill="currentColor" />
+    <path d="M1 9 L1.3 10.3 L2.6 10.6 L1.3 10.9 L1 12.2 L0.7 10.9 L-0.6 10.6 L0.7 10.3 Z" strokeWidth="0.5" fill="currentColor" />
   </svg>
 );
 import { LanguageSelector } from './LanguageSelector';
