@@ -12,14 +12,14 @@ export const IntegrationsSection = () => {
   ];
 
   return (
-    <section className="py-20 lg:py-32">
+    <section className="py-10 lg:py-14">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-16"
+          className="text-center mb-8"
         >
           <h2 className="font-display text-3xl lg:text-4xl font-bold mb-4">
             {t('integrations.title')}
