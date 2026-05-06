@@ -40,7 +40,6 @@ const Index = () => {
         description={t('sections.results.description')}
       />
       <ROISection />
-      <TestimonialsSection />
 
       {/* Bloc 3 — Tarifs / Abonnement */}
       <SectionHeader
@@ -51,6 +50,7 @@ const Index = () => {
       />
       <IntegrationsSection />
       <PricingPreviewSection />
+      <TestimonialsSection />
     </MarketingLayout>
   );
 };
