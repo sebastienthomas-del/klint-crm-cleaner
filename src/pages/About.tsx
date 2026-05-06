@@ -35,8 +35,8 @@ const About = () => (
             À propos de <span className="gradient-text">Kléa</span>
           </h1>
           <p className="text-lg text-muted-foreground">
-            Kléa est née d'une conviction simple : des données propres ne sont pas un détail technique —
-            ce sont le moteur réel de la croissance des entreprises.
+            J'ai créé Kléa parce que je suis convaincue que des données propres ne sont pas un détail
+            technique — ce sont le moteur réel de la croissance des entreprises.
           </p>
         </motion.div>
       </div>
@@ -58,14 +58,13 @@ const About = () => (
                 Mai 2026
               </span>
               <p className="text-muted-foreground leading-relaxed mt-5">
-                Kléa est née début mai 2026, d'une conversation qui a mis le doigt sur un problème trop
-                souvent ignoré : la qualité des données. Pour Nolwenn Grivet, fondatrice et CEO, des
-                données propres ne sont pas un détail technique — ce sont le moteur réel de la croissance
-                des entreprises.
+                Kléa est née début mai 2026, d'une conversation qui m'a mis le doigt sur un problème trop
+                souvent ignoré : la qualité des données. Je suis convaincue que des données propres ne sont
+                pas un détail technique — ce sont le moteur réel de la croissance des entreprises.
               </p>
               <p className="text-muted-foreground leading-relaxed mt-4">
-                Cette conviction a donné naissance à Kléa, un programme dédié au data cleaning qui
-                s'appuie sur l'IA pour maintenir votre CRM propre, complet et exploitable — automatiquement.
+                C'est cette conviction qui m'a poussée à créer Kléa, un programme dédié au data cleaning
+                qui s'appuie sur l'IA pour maintenir votre CRM propre, complet et exploitable — automatiquement.
               </p>
             </div>
           </motion.div>
@@ -85,7 +84,7 @@ const About = () => (
         >
           <h2 className="font-display text-3xl lg:text-4xl font-bold mb-4">Notre mission</h2>
           <p className="text-lg text-muted-foreground">
-            Libérer les équipes commerciales du travail manuel sur le CRM pour qu'elles puissent
+            Je veux libérer les équipes commerciales du travail manuel sur le CRM pour qu'elles puissent
             se concentrer sur ce qu'elles font de mieux : créer des relations et conclure des deals.
           </p>
         </motion.div>
@@ -138,8 +137,8 @@ const About = () => (
             <h3 className="font-display text-lg font-semibold">Nolwenn Grivet</h3>
             <p className="text-sm text-primary mb-3">CEO & Fondatrice</p>
             <p className="text-sm text-muted-foreground">
-              Convaincue que la donnée propre est le vrai levier de croissance, Nolwenn a fondé Kléa
-              en mai 2026 après une discussion qui a mis en lumière à quel point le nettoyage de données
+              Convaincue que la donnée propre est le vrai levier de croissance, j'ai fondé Kléa en mai
+              2026 après une discussion qui m'a mis en lumière à quel point le nettoyage de données
               restait un angle mort pour beaucoup d'entreprises.
             </p>
           </motion.div>
