@@ -41,6 +41,8 @@ const Index = () => {
       />
       <ROISection />
 
+      <IntegrationsSection />
+
       {/* Bloc 3 — Tarifs / Abonnement */}
       <SectionHeader
         id="tarifs"
@@ -48,7 +50,6 @@ const Index = () => {
         title={t('sections.pricing.title')}
         description={t('sections.pricing.description')}
       />
-      <IntegrationsSection />
       <PricingPreviewSection />
       <TestimonialsSection />
     </MarketingLayout>
