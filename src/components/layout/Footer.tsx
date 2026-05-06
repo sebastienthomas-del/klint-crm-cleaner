@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Linkedin, Twitter, Youtube } from 'lucide-react';
+import { Linkedin } from 'lucide-react';
 
 const BroomIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -24,35 +24,25 @@ export const Footer = () => {
 
   const productLinks = [
     { label: t('footer.features'), path: '/features' },
-    { label: t('footer.integrations'), path: '/features#integrations' },
-    { label: t('footer.changelog'), path: '#' },
-  ];
-
-  const resourceLinks = [
-    { label: t('footer.documentation'), path: '#' },
-    { label: t('footer.guides'), path: '#' },
-    { label: t('footer.blog'), path: '#' },
-    { label: t('footer.apiDocs'), path: '#' },
+    { label: t('nav.pricing'), path: '/pricing' },
   ];
 
   const companyLinks = [
     { label: t('footer.about'), path: '/about' },
     { label: t('footer.contact'), path: '/contact' },
-    { label: t('footer.careers'), path: '#' },
   ];
 
   const legalLinks = [
     { label: t('footer.terms'), path: '/terms' },
     { label: t('footer.privacy'), path: '/privacy' },
-    { label: t('footer.cookies'), path: '/privacy#cookies' },
   ];
 
   return (
     <footer className="border-t border-border">
       <div className="container mx-auto px-4 py-12 lg:py-16">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 lg:gap-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12">
           {/* Brand Column */}
-          <div className="col-span-2 md:col-span-3 lg:col-span-2">
+          <div className="col-span-2 md:col-span-4 lg:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-4">
               <div className="w-9 h-9 rounded-xl gradient-primary flex items-center justify-center">
                 <BroomIcon className="w-5 h-5 text-primary-foreground" />
@@ -63,14 +53,8 @@ export const Footer = () => {
               {t('footer.description')}
             </p>
             <div className="flex items-center gap-4 mb-6">
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+              <a href="https://linkedin.com/company/klea-crm" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
                 <Linkedin className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                <Youtube className="w-5 h-5" />
               </a>
             </div>
             <LanguageSelector />
@@ -81,23 +65,6 @@ export const Footer = () => {
             <h4 className="font-display font-semibold text-sm mb-4">{t('footer.product')}</h4>
             <ul className="space-y-3">
               {productLinks.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    to={link.path}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Resources Column */}
-          <div>
-            <h4 className="font-display font-semibold text-sm mb-4">{t('footer.resources')}</h4>
-            <ul className="space-y-3">
-              {resourceLinks.map((link) => (
                 <li key={link.label}>
                   <Link
                     to={link.path}
