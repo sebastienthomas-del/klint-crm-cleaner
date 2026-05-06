@@ -5,19 +5,11 @@ import { Menu, X } from 'lucide-react';
 
 const BroomIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    {/* Handle */}
     <line x1="19" y1="2" x2="9" y2="12" />
-    {/* Brush head */}
     <path d="M5 12 L9 12 L11 20 L3 20 Z" />
-    {/* Bristle lines */}
-    <line x1="5" y1="20" x2="4" y2="23" />
-    <line x1="7" y1="20" x2="7" y2="23" />
-    <line x1="9" y1="20" x2="10" y2="23" />
-    <path d="M2,0 L3,2 L5,3 L3,4 L2,6 L1,4 L-1,3 L1,2 Z" strokeWidth="0" fill="currentColor" />
-    <path d="M3,5 L4,7 L6,8 L4,9 L3,11 L2,9 L0,8 L2,7 Z" strokeWidth="0" fill="currentColor" />
-    <path d="M23,3 L24,5 L26,6 L24,7 L23,9 L22,7 L20,6 L22,5 Z" strokeWidth="0" fill="currentColor" />
+    <path d="M2,1 L3,3 L5,4 L3,5 L2,7 L1,5 L-1,4 L1,3 Z" strokeWidth="0" fill="currentColor" />
+    <path d="M22,4 L23,6 L25,7 L23,8 L22,10 L21,8 L19,7 L21,6 Z" strokeWidth="0" fill="currentColor" />
     <path d="M21,13 L22,15 L24,16 L22,17 L21,19 L20,17 L18,16 L20,15 Z" strokeWidth="0" fill="currentColor" />
-    <path d="M17,19 L18,21 L20,22 L18,23 L17,25 L16,23 L14,22 L16,21 Z" strokeWidth="0" fill="currentColor" />
   </svg>
 );
 import { Button } from '@/components/ui/button';
