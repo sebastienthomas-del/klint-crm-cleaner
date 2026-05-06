@@ -10,7 +10,6 @@ import {
   TestimonialsSection,
   IntegrationsSection,
   PricingPreviewSection,
-  CTASection,
   SectionHeader,
 } from '@/components/marketing';
 
@@ -52,7 +51,6 @@ const Index = () => {
       />
       <IntegrationsSection />
       <PricingPreviewSection />
-      <CTASection />
     </MarketingLayout>
   );
 };
