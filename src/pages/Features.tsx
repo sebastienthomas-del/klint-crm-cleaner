@@ -2,17 +2,14 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { MarketingLayout } from '@/components/layout';
-import { 
-  Activity, 
-  Users, 
-  Sparkles, 
-  Target, 
-  RefreshCw, 
+import {
+  Activity,
+  Users,
+  Target,
+  RefreshCw,
   History,
   Bot,
   AlertCircle,
-  BarChart3,
-  Zap,
   Shield,
   Clock
 } from 'lucide-react';
@@ -66,30 +63,6 @@ const Features = () => {
           title: 'Validation temps réel',
           description: 'Vérifiez la validité des emails, téléphones et adresses en temps réel. Évitez les bounces et les données invalides.',
           benefit: '99% d\'emails valides',
-        },
-      ],
-    },
-    {
-      id: 'enrichment',
-      label: 'Enrichissement',
-      features: [
-        {
-          icon: Sparkles,
-          title: 'Enrichissement automatique',
-          description: 'Complétez automatiquement les données manquantes : secteur d\'activité, taille d\'entreprise, LinkedIn, fonction exacte.',
-          benefit: '+60% de complétude des données',
-        },
-        {
-          icon: BarChart3,
-          title: 'Données firmographiques',
-          description: 'Enrichissez vos comptes avec des données entreprise : CA, effectif, croissance, technos utilisées, actualités.',
-          benefit: 'Accès à 100+ champs entreprise',
-        },
-        {
-          icon: Zap,
-          title: 'APIs intégrées',
-          description: 'Connexion native avec Clearbit, Hunter.io, LinkedIn et autres sources de données pour un enrichissement de qualité.',
-          benefit: 'Sources de données premium',
         },
       ],
     },

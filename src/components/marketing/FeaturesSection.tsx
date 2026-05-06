@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Activity, Users, Sparkles, Target, RefreshCw, History } from 'lucide-react';
+import { Activity, Users, Target, RefreshCw, History } from 'lucide-react';
 
 export const FeaturesSection = () => {
   const { t } = useTranslation();
@@ -15,11 +15,6 @@ export const FeaturesSection = () => {
       icon: Users,
       title: t('features.duplicates.title'),
       description: t('features.duplicates.description'),
-    },
-    {
-      icon: Sparkles,
-      title: t('features.enrichment.title'),
-      description: t('features.enrichment.description'),
     },
     {
       icon: Target,
