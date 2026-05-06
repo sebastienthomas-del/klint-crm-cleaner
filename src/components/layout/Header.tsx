@@ -13,16 +13,11 @@ const BroomIcon = ({ className }: { className?: string }) => (
     <line x1="5" y1="20" x2="4" y2="23" />
     <line x1="7" y1="20" x2="7" y2="23" />
     <line x1="9" y1="20" x2="10" y2="23" />
-    {/* Sparkle haut-gauche */}
-    <path d="M1,1 L2,3 L4,4 L2,5 L1,7 L0,5 L-2,4 L0,3 Z" strokeWidth="0" fill="currentColor" />
-    {/* Sparkle haut-centre */}
-    <path d="M12,0 L13,2 L15,3 L13,4 L12,6 L11,4 L9,3 L11,2 Z" strokeWidth="0" fill="currentColor" />
-    {/* Sparkle droite-haut */}
-    <path d="M21,3 L22,5 L24,6 L22,7 L21,9 L20,7 L18,6 L20,5 Z" strokeWidth="0" fill="currentColor" />
-    {/* Sparkle droite-bas */}
-    <path d="M21,15 L22,17 L24,18 L22,19 L21,21 L20,19 L18,18 L20,17 Z" strokeWidth="0" fill="currentColor" />
-    {/* Sparkle bas-centre */}
-    <path d="M14,21 L15,23 L17,24 L15,25 L14,27 L13,25 L11,24 L13,23 Z" strokeWidth="0" fill="currentColor" />
+    <path d="M2,0 L3,2 L5,3 L3,4 L2,6 L1,4 L-1,3 L1,2 Z" strokeWidth="0" fill="currentColor" />
+    <path d="M3,5 L4,7 L6,8 L4,9 L3,11 L2,9 L0,8 L2,7 Z" strokeWidth="0" fill="currentColor" />
+    <path d="M23,3 L24,5 L26,6 L24,7 L23,9 L22,7 L20,6 L22,5 Z" strokeWidth="0" fill="currentColor" />
+    <path d="M21,13 L22,15 L24,16 L22,17 L21,19 L20,17 L18,16 L20,15 Z" strokeWidth="0" fill="currentColor" />
+    <path d="M17,19 L18,21 L20,22 L18,23 L17,25 L16,23 L14,22 L16,21 Z" strokeWidth="0" fill="currentColor" />
   </svg>
 );
 import { Button } from '@/components/ui/button';
