@@ -85,8 +85,8 @@ const About = () => (
         >
           <h2 className="font-display text-3xl lg:text-4xl font-bold mb-4">Notre mission</h2>
           <p className="text-lg text-muted-foreground">
-            Je veux libérer les équipes commerciales du travail manuel sur le CRM pour qu'elles puissent
-            se concentrer sur ce qu'elles font de mieux : créer des relations et conclure des deals.
+            Avec Klea, nous voulons libérer les équipes sales du travail manuel sur le CRM pour qu'elles
+            puissent se concentrer sur ce qu'elles font de mieux : créer des relations et conclure des deals.
           </p>
         </motion.div>
 
