@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Linkedin } from 'lucide-react';
 
 const BroomIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -9,12 +8,11 @@ const BroomIcon = ({ className }: { className?: string }) => (
     <line x1="5" y1="20" x2="4" y2="23" />
     <line x1="7" y1="20" x2="7" y2="23" />
     <line x1="9" y1="20" x2="10" y2="23" />
-    <path d="M2,0.5 L2.5,1.5 L3.5,2 L2.5,2.5 L2,3.5 L1.5,2.5 L0.5,2 L1.5,1.5 Z" strokeWidth="0.5" fill="currentColor" />
-    <path d="M13,1.5 L13.5,2.5 L14.5,3 L13.5,3.5 L13,4.5 L12.5,3.5 L11.5,3 L12.5,2.5 Z" strokeWidth="0.5" fill="currentColor" />
-    <path d="M22,4.5 L22.5,5.5 L23.5,6 L22.5,6.5 L22,7.5 L21.5,6.5 L20.5,6 L21.5,5.5 Z" strokeWidth="0.5" fill="currentColor" />
-    <path d="M2,8.5 L2.5,9.5 L3.5,10 L2.5,10.5 L2,11.5 L1.5,10.5 L0.5,10 L1.5,9.5 Z" strokeWidth="0.5" fill="currentColor" />
-    <path d="M22,15.5 L22.5,16.5 L23.5,17 L22.5,17.5 L22,18.5 L21.5,17.5 L20.5,17 L21.5,16.5 Z" strokeWidth="0.5" fill="currentColor" />
-    <path d="M15,20.5 L15.5,21.5 L16.5,22 L15.5,22.5 L15,23.5 L14.5,22.5 L13.5,22 L14.5,21.5 Z" strokeWidth="0.5" fill="currentColor" />
+    <path d="M1,1 L2,3 L4,4 L2,5 L1,7 L0,5 L-2,4 L0,3 Z" strokeWidth="0" fill="currentColor" />
+    <path d="M12,0 L13,2 L15,3 L13,4 L12,6 L11,4 L9,3 L11,2 Z" strokeWidth="0" fill="currentColor" />
+    <path d="M21,3 L22,5 L24,6 L22,7 L21,9 L20,7 L18,6 L20,5 Z" strokeWidth="0" fill="currentColor" />
+    <path d="M21,15 L22,17 L24,18 L22,19 L21,21 L20,19 L18,18 L20,17 Z" strokeWidth="0" fill="currentColor" />
+    <path d="M14,21 L15,23 L17,24 L15,25 L14,27 L13,25 L11,24 L13,23 Z" strokeWidth="0" fill="currentColor" />
   </svg>
 );
 import { LanguageSelector } from './LanguageSelector';
@@ -25,6 +23,7 @@ export const Footer = () => {
   const productLinks = [
     { label: t('footer.features'), path: '/features' },
     { label: t('nav.pricing'), path: '/pricing' },
+    { label: t('footer.changelog'), path: '/changelog' },
   ];
 
   const companyLinks = [
@@ -52,11 +51,6 @@ export const Footer = () => {
             <p className="text-sm text-muted-foreground mb-6 max-w-xs">
               {t('footer.description')}
             </p>
-            <div className="flex items-center gap-4 mb-6">
-              <a href="https://linkedin.com/company/klea-crm" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-                <Linkedin className="w-5 h-5" />
-              </a>
-            </div>
             <LanguageSelector />
           </div>
 
