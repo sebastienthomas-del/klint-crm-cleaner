@@ -80,11 +80,6 @@ export const Header = () => {
                 {t('nav.login')}
               </Button>
             </Link>
-            <Link to="/demo">
-              <Button size="sm" className="gradient-primary shadow-glow hover:shadow-glow-lg transition-all duration-300">
-                {t('nav.signup')}
-              </Button>
-            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -128,11 +123,6 @@ export const Header = () => {
                 <Link to="/auth" onClick={() => setIsOpen(false)}>
                   <Button variant="outline" className="w-full">
                     {t('nav.login')}
-                  </Button>
-                </Link>
-                <Link to="/demo" onClick={() => setIsOpen(false)}>
-                  <Button className="w-full gradient-primary">
-                    {t('nav.signup')}
                   </Button>
                 </Link>
               </div>
