@@ -3,26 +3,9 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Suspense, lazy, Component, ReactNode } from "react";
+import { Suspense, lazy } from "react";
 import { AuthProvider } from "./hooks/useAuth";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
-
-class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | null }> {
-  state = { error: null };
-  static getDerivedStateFromError(error: Error) { return { error }; }
-  render() {
-    if (this.state.error) {
-      return (
-        <div style={{ padding: 40, fontFamily: 'monospace', background: '#fee', color: '#900' }}>
-          <h2>Erreur détectée :</h2>
-          <pre style={{ whiteSpace: 'pre-wrap' }}>{(this.state.error as Error).message}</pre>
-          <pre style={{ whiteSpace: 'pre-wrap', fontSize: 12 }}>{(this.state.error as Error).stack}</pre>
-        </div>
-      );
-    }
-    return this.props.children;
-  }
-}
 
 // Marketing Pages
 const Index = lazy(() => import("./pages/Index"));
@@ -59,7 +42,6 @@ const PageLoader = () => (
 );
 
 const App = () => (
-  <ErrorBoundary>
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
@@ -108,7 +90,6 @@ const App = () => (
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
-  </ErrorBoundary>
 );
 
 export default App;
