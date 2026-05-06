@@ -169,56 +169,44 @@
     "yearlyBadge": "-20%",
     "perMonth": "/mois",
     "popular": "Le + populaire",
-    "cta": "Commencer gratuitement",
-    "ctaTrial": "Essai gratuit 14 jours",
+    "cta": "1 nettoyage offert — sans CB",
+    "ctaTrial": "1 nettoyage offert — sans CB",
     "ctaContact": "Contactez-nous",
     "starter": {
       "name": "Starter",
-      "price": "89",
-      "priceYearly": "71",
+      "price": "129",
+      "priceYearly": "89",
       "description": "Pour les petites équipes",
       "features": [
         "Jusqu'à 5 000 contacts",
         "Dashboard santé CRM",
         "Détection doublons basique",
-        "Scoring des leads (0-100)",
-        "Historique modifications (30j)",
-        "Support email"
+        "Scoring des leads (0-100)"
       ]
     },
     "professional": {
       "name": "Professional",
-      "price": "229",
-      "priceYearly": "183",
+      "price": "325",
+      "priceYearly": "259",
       "description": "Pour les équipes en croissance",
       "features": [
-        "Jusqu'à 25 000 contacts",
+        "Jusqu'à 10 000 contacts",
         "Tout Starter +",
-        "Enrichissement automatique",
         "Détection contacts obsolètes",
         "Validation temps réel",
-        "Alertes intelligentes",
-        "Automatisations avancées",
-        "Historique illimité",
-        "Support prioritaire"
+        "Alertes intelligentes"
       ]
     },
     "enterprise": {
       "name": "Enterprise",
-      "price": "579",
-      "priceYearly": "463",
+      "price": "1 509",
+      "priceYearly": "1 509",
       "description": "Pour les grandes organisations",
       "features": [
-        "Contacts illimités",
+        "Contacts + 10 000 avec paliers",
         "Tout Professional +",
         "Consolidation niveau compte",
-        "Détection opportunités perdues",
-        "Analyse territoire/couverture",
-        "Nettoyage champs custom",
-        "API access",
-        "Onboarding dédié",
-        "Account manager",
-        "SLA garanti"
+        "Détection opportunités perdues"
       ]
     },
     "viewAll": "Voir tous les tarifs"

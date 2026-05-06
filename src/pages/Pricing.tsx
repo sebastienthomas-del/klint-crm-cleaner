@@ -35,6 +35,8 @@ const Pricing = () => {
       features: t('pricing.starter.features', { returnObjects: true }) as string[],
       cta: t('pricing.cta'),
       popular: false,
+      pricePrefix: '',
+      priceNote: '',
     },
     {
       key: 'professional',
@@ -44,15 +46,19 @@ const Pricing = () => {
       features: t('pricing.professional.features', { returnObjects: true }) as string[],
       cta: t('pricing.ctaTrial'),
       popular: true,
+      pricePrefix: '',
+      priceNote: '',
     },
     {
       key: 'enterprise',
       name: t('pricing.enterprise.name'),
-      price: isYearly ? t('pricing.enterprise.priceYearly') : t('pricing.enterprise.price'),
+      price: t('pricing.enterprise.priceYearly'),
       description: t('pricing.enterprise.description'),
       features: t('pricing.enterprise.features', { returnObjects: true }) as string[],
       cta: t('pricing.ctaContact'),
       popular: false,
+      pricePrefix: 'À partir de',
+      priceNote: '· sur devis',
     },
   ];
 
@@ -179,9 +185,17 @@ const Pricing = () => {
                 <div className="text-center mb-6">
                   <h3 className="font-display text-xl font-semibold mb-2">{plan.name}</h3>
                   <p className="text-sm text-muted-foreground mb-4">{plan.description}</p>
-                  <div className="flex items-baseline justify-center gap-1">
-                    <span className="text-4xl font-bold">{plan.price}€</span>
-                    <span className="text-muted-foreground">{t('pricing.perMonth')}</span>
+                  <div className="flex flex-col items-center gap-1">
+                    {plan.pricePrefix && (
+                      <span className="text-xs text-muted-foreground">{plan.pricePrefix}</span>
+                    )}
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-4xl font-bold">{plan.price}€</span>
+                      <span className="text-muted-foreground">{t('pricing.perMonth')}</span>
+                    </div>
+                    {plan.priceNote && (
+                      <span className="text-xs text-muted-foreground">{plan.priceNote}</span>
+                    )}
                   </div>
                 </div>
 
@@ -256,21 +270,21 @@ const Pricing = () => {
           >
             <div className="inline-flex flex-col items-center gap-4 p-8 rounded-2xl bg-accent/50 border border-primary/20">
               <h3 className="font-display text-xl font-semibold">
-                Prêt à essayer Klea ?
+                Prêt à essayer Kléa ?
               </h3>
               <p className="text-muted-foreground">
-                14 jours d'essai gratuit • Aucune carte bancaire requise
+                1 cycle de nettoyage offert • Aucune carte bancaire requise
               </p>
               <Button
                 className="gradient-primary shadow-glow hover:shadow-glow-lg gap-2"
-                onClick={() => handleCheckout('professional')}
-                disabled={loadingPlan === 'professional'}
+                onClick={() => handleCheckout('starter')}
+                disabled={loadingPlan === 'starter'}
               >
-                {loadingPlan === 'professional' ? (
+                {loadingPlan === 'starter' ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
                 ) : (
                   <>
-                    Commencer gratuitement
+                    1 nettoyage offert — sans CB
                     <ArrowRight className="w-4 h-4" />
                   </>
                 )}

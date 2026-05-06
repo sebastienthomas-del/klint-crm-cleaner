@@ -18,22 +18,28 @@ export const PricingPreviewSection = () => {
       features: (t('pricing.starter.features', { returnObjects: true }) as string[]).slice(0, 4),
       cta: t('pricing.cta'),
       popular: false,
+      pricePrefix: '',
+      priceNote: '',
     },
     {
       name: t('pricing.professional.name'),
       price: isYearly ? t('pricing.professional.priceYearly') : t('pricing.professional.price'),
       description: t('pricing.professional.description'),
-      features: (t('pricing.professional.features', { returnObjects: true }) as string[]).slice(0, 6),
+      features: (t('pricing.professional.features', { returnObjects: true }) as string[]).slice(0, 5),
       cta: t('pricing.ctaTrial'),
       popular: true,
+      pricePrefix: '',
+      priceNote: '',
     },
     {
       name: t('pricing.enterprise.name'),
-      price: isYearly ? t('pricing.enterprise.priceYearly') : t('pricing.enterprise.price'),
+      price: t('pricing.enterprise.priceYearly'),
       description: t('pricing.enterprise.description'),
       features: (t('pricing.enterprise.features', { returnObjects: true }) as string[]).slice(0, 4),
       cta: t('pricing.ctaContact'),
       popular: false,
+      pricePrefix: 'À partir de',
+      priceNote: '· sur devis',
     },
   ];
 
@@ -95,9 +101,17 @@ export const PricingPreviewSection = () => {
               <div className="text-center mb-6">
                 <h3 className="font-display text-xl font-semibold mb-2">{plan.name}</h3>
                 <p className="text-sm text-muted-foreground mb-4">{plan.description}</p>
-                <div className="flex items-baseline justify-center gap-1">
-                  <span className="text-4xl font-bold">{plan.price}€</span>
-                  <span className="text-muted-foreground">{t('pricing.perMonth')}</span>
+                <div className="flex flex-col items-center gap-1">
+                  {plan.pricePrefix && (
+                    <span className="text-xs text-muted-foreground">{plan.pricePrefix}</span>
+                  )}
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-4xl font-bold">{plan.price}€</span>
+                    <span className="text-muted-foreground">{t('pricing.perMonth')}</span>
+                  </div>
+                  {plan.priceNote && (
+                    <span className="text-xs text-muted-foreground">{plan.priceNote}</span>
+                  )}
                 </div>
               </div>
 
