@@ -137,9 +137,9 @@ const About = () => (
             <h3 className="font-display text-lg font-semibold">Nolwenn Grivet</h3>
             <p className="text-sm text-primary mb-3">CEO & Fondatrice</p>
             <p className="text-sm text-muted-foreground">
-              Convaincue que la donnée propre est le vrai levier de croissance, j'ai fondé Kléa en mai
+              « Convaincue que la donnée propre est le vrai levier de croissance, j'ai fondé Kléa en mai
               2026 pour optimiser la qualité des données. Car personne ne veut le faire, mais le nettoyage
-              de données est essentiel et reste un angle mort pour beaucoup d'entreprises.
+              de données est essentiel et reste un angle mort pour beaucoup d'entreprises. »
             </p>
           </motion.div>
         </div>
