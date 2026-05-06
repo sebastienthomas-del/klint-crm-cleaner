@@ -36,8 +36,7 @@ const Contact = () => {
           >
             <h1 className="font-display text-4xl lg:text-5xl font-bold mb-4">Contact</h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Une question, une demande de démo ou un besoin spécifique ?
-              Notre équipe vous répond dans les 24 heures.
+              Une question, une démo ou un besoin spécifique ? Nous vous répondons dans les 24 heures.
             </p>
           </motion.div>
 
