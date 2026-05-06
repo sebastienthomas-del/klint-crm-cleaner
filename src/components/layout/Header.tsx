@@ -13,9 +13,12 @@ const BroomIcon = ({ className }: { className?: string }) => (
     <line x1="5" y1="20" x2="4" y2="23" />
     <line x1="7" y1="20" x2="7" y2="23" />
     <line x1="9" y1="20" x2="10" y2="23" />
-    {/* Sparkles */}
-    <path d="M20 8 L20.5 6 L21 8 L23 8.5 L21 9 L20.5 11 L20 9 L18 8.5 Z" strokeWidth="1" fill="currentColor" />
-    <path d="M15 3 L15.3 2 L15.6 3 L16.6 3.3 L15.6 3.6 L15.3 4.6 L15 3.6 L14 3.3 Z" strokeWidth="1" fill="currentColor" />
+    {/* Sparkle top-right */}
+    <path d="M21 2 L21.4 3.6 L23 4 L21.4 4.4 L21 6 L20.6 4.4 L19 4 L20.6 3.6 Z" strokeWidth="0.5" fill="currentColor" />
+    {/* Sparkle mid-right */}
+    <path d="M22 11 L22.3 12.3 L23.6 12.6 L22.3 12.9 L22 14.2 L21.7 12.9 L20.4 12.6 L21.7 12.3 Z" strokeWidth="0.5" fill="currentColor" />
+    {/* Sparkle bottom-right */}
+    <path d="M19 18 L19.3 19.3 L20.6 19.6 L19.3 19.9 L19 21.2 L18.7 19.9 L17.4 19.6 L18.7 19.3 Z" strokeWidth="0.5" fill="currentColor" />
   </svg>
 );
 import { Button } from '@/components/ui/button';
