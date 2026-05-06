@@ -31,6 +31,12 @@ export const Header = () => {
               <div className="w-9 h-9 rounded-xl gradient-primary flex items-center justify-center shadow-glow transition-all duration-300 group-hover:shadow-glow-lg">
                 <Broom className="w-5 h-5 text-primary-foreground" weight="bold" />
               </div>
+              <svg className="absolute -top-1.5 -right-1.5 w-3 h-3 text-primary" viewBox="0 0 12 12" fill="currentColor">
+                <path d="M6,0 L7,5 L12,6 L7,7 L6,12 L5,7 L0,6 L5,5 Z" />
+              </svg>
+              <svg className="absolute -bottom-1 -left-1 w-2 h-2 text-primary" viewBox="0 0 12 12" fill="currentColor">
+                <path d="M6,0 L7,5 L12,6 L7,7 L6,12 L5,7 L0,6 L5,5 Z" />
+              </svg>
             </div>
             <span className="font-display text-xl font-bold gradient-text">Klea</span>
           </Link>
