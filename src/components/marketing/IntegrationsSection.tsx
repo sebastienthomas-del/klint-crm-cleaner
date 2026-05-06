@@ -8,8 +8,6 @@ export const IntegrationsSection = () => {
   const integrations = [
     {
       name: 'HubSpot',
-      logo: 'H',
-      color: 'from-orange-500 to-orange-600',
     },
   ];
 
@@ -43,8 +41,10 @@ export const IntegrationsSection = () => {
             >
               <div className="relative bg-card border border-border rounded-2xl p-8 lg:p-10 hover-lift text-center">
                 {/* Logo */}
-                <div className={`w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br ${integration.color} flex items-center justify-center mb-4 shadow-lg group-hover:shadow-xl transition-shadow duration-300`}>
-                  <span className="text-3xl font-bold text-white">{integration.logo}</span>
+                <div className="w-20 h-20 mx-auto rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:shadow-xl transition-shadow duration-300" style={{ backgroundColor: '#FF7A59' }}>
+                  <svg viewBox="0 0 24 24" fill="white" className="w-11 h-11">
+                    <path d="M18.164 7.93V5.958a1.97 1.97 0 0 0 1.136-1.778V4.14a1.97 1.97 0 0 0-1.969-1.969h-.04a1.97 1.97 0 0 0-1.969 1.969v.04c0 .8.476 1.49 1.137 1.778V7.93a5.578 5.578 0 0 0-2.656 1.169L6.513 4.297a2.312 2.312 0 1 0-.964.862l7.081 4.74a5.578 5.578 0 0 0-.822 2.913 5.578 5.578 0 0 0 .862 3.006L10.516 17c-.19-.06-.39-.095-.601-.095a1.97 1.97 0 0 0-1.969 1.969v.04a1.97 1.97 0 0 0 1.969 1.969h.04a1.97 1.97 0 0 0 1.969-1.969v-.04a1.969 1.969 0 0 0-.242-.944l2.15-1.168a5.623 5.623 0 0 0 3.336 1.093 5.634 5.634 0 0 0 5.634-5.634 5.634 5.634 0 0 0-4.638-5.291zm-.978 8.483a3.183 3.183 0 1 1 0-6.366 3.183 3.183 0 0 1 0 6.366z" />
+                  </svg>
                 </div>
                 
                 {/* Name */}
