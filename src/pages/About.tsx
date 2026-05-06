@@ -35,8 +35,7 @@ const About = () => (
             À propos de <span className="gradient-text">Kléa</span>
           </h1>
           <p className="text-lg text-muted-foreground">
-            J'ai créé Kléa parce que je suis convaincue que des données propres ne sont pas un détail
-            technique — ce sont le moteur réel de la croissance des entreprises.
+            Kléa existe pour une bonne raison : transformer la qualité des données en levier de croissance.
           </p>
         </motion.div>
       </div>
