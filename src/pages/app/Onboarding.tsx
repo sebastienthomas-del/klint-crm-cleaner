@@ -7,7 +7,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
 const STEPS = [
-  { id: 'welcome', title: 'Bienvenue sur Kléa', subtitle: 'Votre CRM va enfin respirer.' },
+  { id: 'welcome', title: 'Bienvenue sur Klea', subtitle: 'Votre CRM va enfin respirer.' },
   { id: 'plan', title: 'Votre abonnement', subtitle: 'Choisissez le plan qui vous correspond.' },
   { id: 'hubspot', title: 'Connectez HubSpot', subtitle: "L'IA commence à travailler dès la connexion." },
   { id: 'done', title: 'Tout est prêt !', subtitle: 'Votre premier scan démarre automatiquement.' },
@@ -56,7 +56,7 @@ export default function Onboarding() {
           <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center">
             <Pickaxe className="w-6 h-6 text-primary-foreground" />
           </div>
-          <span className="font-display text-2xl font-bold">Kléa</span>
+          <span className="font-display text-2xl font-bold">Klea</span>
         </div>
 
         {/* Step indicators */}
@@ -131,7 +131,7 @@ export default function Onboarding() {
             {step === 2 && (
               <div className="space-y-4">
                 <p className="text-sm text-muted-foreground">
-                  Connectez votre compte HubSpot en un clic. Kléa importera vos contacts et lancera le premier scan de doublons automatiquement.
+                  Connectez votre compte HubSpot en un clic. Klea importera vos contacts et lancera le premier scan de doublons automatiquement.
                 </p>
                 <Button
                   className="w-full gradient-primary shadow-glow gap-2"
@@ -155,7 +155,7 @@ export default function Onboarding() {
                   </div>
                 </div>
                 <p className="text-sm text-center text-muted-foreground">
-                  Kléa analyse votre CRM en arrière-plan. Les premiers résultats apparaîtront dans votre tableau de bord dans quelques minutes.
+                  Klea analyse votre CRM en arrière-plan. Les premiers résultats apparaîtront dans votre tableau de bord dans quelques minutes.
                 </p>
               </div>
             )}

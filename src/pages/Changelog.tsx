@@ -11,7 +11,7 @@ const entries = [
       'Dashboard santé CRM connecté aux données réelles HubSpot',
       'Scoring des leads 0-100 basé sur l\'ICP et l\'engagement',
       'Page Réactivation avec listes priorisées',
-      'Extension HubSpot — carte Kléa sur les fiches contacts',
+      'Extension HubSpot — carte Klea sur les fiches contacts',
     ],
   },
   {
@@ -32,7 +32,7 @@ const entries = [
     tag: 'Lancement',
     tagColor: 'bg-accent text-accent-foreground',
     changes: [
-      'Lancement de Kléa en accès anticipé',
+      'Lancement de Klea en accès anticipé',
       'Intégration native HubSpot',
       'Dashboard de santé CRM',
       'Plans Starter, Professional et Enterprise',
@@ -52,7 +52,7 @@ const Changelog = () => (
         >
           <h1 className="font-display text-4xl lg:text-5xl font-bold mb-4">Changelog</h1>
           <p className="text-lg text-muted-foreground">
-            Toutes les nouveautés et améliorations de Kléa.
+            Toutes les nouveautés et améliorations de Klea.
           </p>
         </motion.div>
 

@@ -53,7 +53,7 @@ const ChampionCard = () => (
 
       <div className="bg-muted/40 rounded-lg p-3">
         <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1.5">
-          Hook suggéré par Kléa
+          Hook suggéré par Klea
         </div>
         <p className="text-sm italic text-foreground/80 leading-relaxed">{champion.suggestedHook}</p>
       </div>
@@ -147,7 +147,7 @@ export const StepSalesOps = () => {
           6. Sales Ops Intelligence
         </h2>
         <p className="text-muted-foreground">
-          Kléa détecte les opportunités invisibles dans votre CRM — avant vos concurrents.
+          Klea détecte les opportunités invisibles dans votre CRM — avant vos concurrents.
         </p>
       </div>
 

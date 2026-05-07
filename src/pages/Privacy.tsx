@@ -11,7 +11,7 @@ const Privacy = () => (
 
           <section>
             <h2 className="font-display text-xl font-semibold mb-3">1. Responsable du traitement</h2>
-            <p><strong>Monsieur Pipeline</strong> — éditeur de la plateforme Kléa (<strong>klea.app</strong>)<br />
+            <p><strong>Monsieur Pipeline</strong> — éditeur de la plateforme Klea (<strong>klea.app</strong>)<br />
             Contact DPO : <strong>privacy@klea.app</strong></p>
           </section>
 
@@ -80,7 +80,7 @@ const Privacy = () => (
 
           <section>
             <h2 className="font-display text-xl font-semibold mb-3">8. Cookies</h2>
-            <p>Kléa utilise uniquement des cookies strictement nécessaires au fonctionnement du service (session d'authentification). Aucun cookie publicitaire ou de tracking tiers n'est utilisé.</p>
+            <p>Klea utilise uniquement des cookies strictement nécessaires au fonctionnement du service (session d'authentification). Aucun cookie publicitaire ou de tracking tiers n'est utilisé.</p>
           </section>
 
         </div>

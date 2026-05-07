@@ -173,7 +173,7 @@ const Contact = () => {
                 <p className="text-sm text-muted-foreground mb-4">
                   Réservez un créneau de 30 minutes avec notre équipe
                 </p>
-                <a href={`mailto:${CONTACT_EMAIL}?subject=Demande de démo Kléa`}>
+                <a href={`mailto:${CONTACT_EMAIL}?subject=Demande de démo Klea`}>
                   <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
                     Planifier une démo
                   </Button>

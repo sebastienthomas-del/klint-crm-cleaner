@@ -94,11 +94,11 @@
     },
     "champion": {
       "title": "Champion Tracker",
-      "description": "Un contact clé change d'entreprise ? Kléa te l'indique avant que ton concurrent ne le contacte."
+      "description": "Un contact clé change d'entreprise ? Klea te l'indique avant que ton concurrent ne le contacte."
     },
     "recycler": {
       "title": "Closed-Lost Recycler",
-      "description": "Kléa remonte les deals perdus redevenus chauds : nouveau poste, budget débloqué, délai écoulé."
+      "description": "Klea remonte les deals perdus redevenus chauds : nouveau poste, budget débloqué, délai écoulé."
     }
   },
   "howItWorks": {
@@ -111,7 +111,7 @@
     },
     "step2": {
       "title": "L'agent analyse votre base",
-      "description": "Kléa scanne vos contacts, détecte les doublons, les incohérences et les opportunités dormantes."
+      "description": "Klea scanne vos contacts, détecte les doublons, les incohérences et les opportunités dormantes."
     },
     "step3": {
       "title": "Agissez sur ce qui compte",

@@ -32,10 +32,10 @@ const About = () => (
           className="max-w-3xl mx-auto text-center"
         >
           <h1 className="font-display text-4xl lg:text-5xl font-bold mb-6">
-            À propos de <span className="gradient-text">Kléa</span>
+            À propos de <span className="gradient-text">Klea</span>
           </h1>
           <p className="text-lg text-muted-foreground">
-            Kléa existe pour une bonne raison : transformer la qualité des données en levier de croissance.
+            Klea existe pour une bonne raison : transformer la qualité des données en levier de croissance.
           </p>
         </motion.div>
       </div>
@@ -57,12 +57,12 @@ const About = () => (
                 Mai 2026
               </span>
               <p className="text-muted-foreground leading-relaxed mt-5">
-                Kléa est née début 2026, d'une conversation qui a pointé du doigt un problème trop souvent
+                Klea est née début 2026, d'une conversation qui a pointé du doigt un problème trop souvent
                 ignoré : la qualité des données. Je suis convaincue que des données propres ne sont pas un
                 détail technique, ce sont le moteur réel de la croissance des entreprises.
               </p>
               <p className="text-muted-foreground leading-relaxed mt-4">
-                C'est cette conviction qui m'a poussée à créer Kléa, un programme dédié au data cleaning
+                C'est cette conviction qui m'a poussée à créer Klea, un programme dédié au data cleaning
                 qui s'appuie sur l'IA pour maintenir votre CRM propre, complet et exploitable, automatiquement
                 et continuellement.
               </p>
@@ -137,7 +137,7 @@ const About = () => (
             <h3 className="font-display text-lg font-semibold">Nolwenn Grivet</h3>
             <p className="text-sm text-primary mb-3">CEO & Fondatrice</p>
             <p className="text-sm text-muted-foreground">
-              « Convaincue que la donnée propre est le vrai levier de croissance, j'ai fondé Kléa en mai
+              « Convaincue que la donnée propre est le vrai levier de croissance, j'ai fondé Klea en mai
               2026 pour optimiser la qualité des données. Car personne ne veut le faire, mais le nettoyage
               de données est essentiel et reste un angle mort pour beaucoup d'entreprises. »
             </p>

@@ -46,7 +46,7 @@ const DemoTour = () => {
             <div className="w-7 h-7 rounded-lg gradient-primary flex items-center justify-center text-primary-foreground">
               <Broom weight="bold" className="w-4 h-4" />
             </div>
-            <span className="font-display font-semibold">Kléa</span>
+            <span className="font-display font-semibold">Klea</span>
             <span className="text-xs text-muted-foreground hidden sm:inline">— Démo produit guidée</span>
           </Link>
           <div className="flex items-center gap-2">

@@ -132,7 +132,7 @@ export default function Subscription() {
           <CreditCard className="w-7 h-7 text-primary" />
           <h1 className="font-display text-2xl font-bold">Abonnement</h1>
         </div>
-        <p className="text-muted-foreground">Gérez votre plan Kléa.</p>
+        <p className="text-muted-foreground">Gérez votre plan Klea.</p>
       </motion.div>
 
       {/* Current plan status */}

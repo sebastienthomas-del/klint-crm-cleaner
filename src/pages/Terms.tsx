@@ -11,12 +11,12 @@ const Terms = () => (
 
           <section>
             <h2 className="font-display text-xl font-semibold mb-3">1. Objet</h2>
-            <p>Les présentes Conditions Générales d'Utilisation (CGU) régissent l'accès et l'utilisation de la plateforme Kléa, éditée par Monsieur Pipeline, accessible à l'adresse <strong>klea.app</strong>. En créant un compte, vous acceptez sans réserve les présentes CGU.</p>
+            <p>Les présentes Conditions Générales d'Utilisation (CGU) régissent l'accès et l'utilisation de la plateforme Klea, éditée par Monsieur Pipeline, accessible à l'adresse <strong>klea.app</strong>. En créant un compte, vous acceptez sans réserve les présentes CGU.</p>
           </section>
 
           <section>
             <h2 className="font-display text-xl font-semibold mb-3">2. Description du service</h2>
-            <p>Kléa est un outil SaaS d'optimisation de bases de données CRM. Il permet notamment :</p>
+            <p>Klea est un outil SaaS d'optimisation de bases de données CRM. Il permet notamment :</p>
             <ul className="list-disc pl-6 space-y-1 mt-2">
               <li>La détection et la fusion automatique de contacts doublons</li>
               <li>L'enrichissement de données de contacts</li>
@@ -28,7 +28,7 @@ const Terms = () => (
 
           <section>
             <h2 className="font-display text-xl font-semibold mb-3">3. Compte utilisateur</h2>
-            <p>L'accès au service requiert la création d'un compte. Vous êtes responsable de la confidentialité de vos identifiants. Tout usage de votre compte relève de votre responsabilité. Kléa se réserve le droit de suspendre tout compte en cas d'utilisation abusive.</p>
+            <p>L'accès au service requiert la création d'un compte. Vous êtes responsable de la confidentialité de vos identifiants. Tout usage de votre compte relève de votre responsabilité. Klea se réserve le droit de suspendre tout compte en cas d'utilisation abusive.</p>
           </section>
 
           <section>
@@ -38,17 +38,17 @@ const Terms = () => (
 
           <section>
             <h2 className="font-display text-xl font-semibold mb-3">5. Données traitées</h2>
-            <p>Dans le cadre du service, Kléa traite des données de contacts CRM importées par l'utilisateur. L'utilisateur est seul responsable de la légalité de ces données et de leur conformité au RGPD. Kléa agit en qualité de <strong>sous-traitant</strong> au sens de l'article 28 du RGPD.</p>
+            <p>Dans le cadre du service, Klea traite des données de contacts CRM importées par l'utilisateur. L'utilisateur est seul responsable de la légalité de ces données et de leur conformité au RGPD. Klea agit en qualité de <strong>sous-traitant</strong> au sens de l'article 28 du RGPD.</p>
           </section>
 
           <section>
             <h2 className="font-display text-xl font-semibold mb-3">6. Propriété intellectuelle</h2>
-            <p>L'ensemble des éléments de la plateforme (interface, algorithmes, marque Kléa) est la propriété exclusive de Monsieur Pipeline. Toute reproduction ou exploitation non autorisée est interdite.</p>
+            <p>L'ensemble des éléments de la plateforme (interface, algorithmes, marque Klea) est la propriété exclusive de Monsieur Pipeline. Toute reproduction ou exploitation non autorisée est interdite.</p>
           </section>
 
           <section>
             <h2 className="font-display text-xl font-semibold mb-3">7. Limitation de responsabilité</h2>
-            <p>Kléa ne saurait être tenu responsable des pertes de données, interruptions de service ou dommages indirects. La responsabilité de Kléa est limitée au montant des sommes versées par l'utilisateur au cours des trois derniers mois.</p>
+            <p>Klea ne saurait être tenu responsable des pertes de données, interruptions de service ou dommages indirects. La responsabilité de Klea est limitée au montant des sommes versées par l'utilisateur au cours des trois derniers mois.</p>
           </section>
 
           <section>

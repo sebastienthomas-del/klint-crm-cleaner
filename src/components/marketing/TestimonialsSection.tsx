@@ -15,7 +15,7 @@ export const TestimonialsSection = () => {
           className="max-w-2xl mx-auto text-center"
         >
           <h2 className="font-display text-3xl lg:text-4xl font-bold mb-4">
-            Kléa vient de naître.
+            Klea vient de naître.
           </h2>
           <p className="text-lg text-muted-foreground mb-2">
             Le programme est en phase de lancement — tu es parmi les premiers à le découvrir.
@@ -23,7 +23,7 @@ export const TestimonialsSection = () => {
           <p className="text-lg text-muted-foreground mb-8">
             Tu veux en faire partie ?
           </p>
-          <a href={`mailto:${CONTACT_EMAIL}?subject=Je veux tester Kléa`}>
+          <a href={`mailto:${CONTACT_EMAIL}?subject=Je veux tester Klea`}>
             <Button className="gradient-primary shadow-glow hover:shadow-glow-lg px-8">
               Nous contacter
             </Button>

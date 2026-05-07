@@ -111,9 +111,9 @@ export default function ApiKeys() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-display text-2xl font-bold">API Kléa</h1>
+          <h1 className="font-display text-2xl font-bold">API Klea</h1>
           <p className="text-muted-foreground mt-1">
-            Connectez votre CRM à Kléa via notre API REST sécurisée.
+            Connectez votre CRM à Klea via notre API REST sécurisée.
           </p>
         </div>
         <Button onClick={() => setShowCreate(true)} className="gradient-primary shadow-glow gap-2">
