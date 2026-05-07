@@ -3,8 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { ArrowRight, Play, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { DashboardMockup } from './DashboardMockup';
-
 export const HeroSection = () => {
   const { t } = useTranslation();
 
@@ -71,15 +69,6 @@ export const HeroSection = () => {
           </motion.div>
         </div>
 
-        {/* Dashboard Preview */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="mt-16 lg:mt-24"
-        >
-          <DashboardMockup />
-        </motion.div>
       </div>
     </section>
   );
