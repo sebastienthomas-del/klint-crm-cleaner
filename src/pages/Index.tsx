@@ -3,7 +3,6 @@ import { MarketingLayout } from '@/components/layout';
 import {
   HeroSection,
   ProblemSection,
-  SolutionSection,
   FeaturesSection,
   HowItWorksSection,
   ROISection,
@@ -28,7 +27,6 @@ const Index = () => {
         description={t('sections.features.description')}
       />
       <ProblemSection />
-      <SolutionSection />
       <FeaturesSection />
       <HowItWorksSection />
 
