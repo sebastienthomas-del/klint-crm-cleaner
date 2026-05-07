@@ -1,11 +1,17 @@
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Plug2, ScanSearch, ListChecks, ArrowRight } from 'lucide-react';
+import { ScanSearch, ListChecks, ArrowRight } from 'lucide-react';
+
+const HubSpotIcon = () => (
+  <svg viewBox="0 0 24 24" fill="white" className="w-8 h-8">
+    <path d="M18.164 7.93V5.958a1.97 1.97 0 0 0 1.136-1.778V4.14a1.97 1.97 0 0 0-1.969-1.969h-.04a1.97 1.97 0 0 0-1.969 1.969v.04c0 .8.476 1.49 1.137 1.778V7.93a5.578 5.578 0 0 0-2.656 1.169L6.513 4.297a2.312 2.312 0 1 0-.964.862l7.081 4.74a5.578 5.578 0 0 0-.822 2.913 5.578 5.578 0 0 0 .862 3.006L10.516 17c-.19-.06-.39-.095-.601-.095a1.97 1.97 0 0 0-1.969 1.969v.04a1.97 1.97 0 0 0 1.969 1.969h.04a1.97 1.97 0 0 0 1.969-1.969v-.04a1.969 1.969 0 0 0-.242-.944l2.15-1.168a5.623 5.623 0 0 0 3.336 1.093 5.634 5.634 0 0 0 5.634-5.634 5.634 5.634 0 0 0-4.638-5.291zm-.978 8.483a3.183 3.183 0 1 1 0-6.366 3.183 3.183 0 0 1 0 6.366z" />
+  </svg>
+);
 
 const steps = [
-  { icon: Plug2 },
-  { icon: ScanSearch },
-  { icon: ListChecks },
+  { customIcon: HubSpotIcon, lucideIcon: null },
+  { customIcon: null, lucideIcon: ScanSearch },
+  { customIcon: null, lucideIcon: ListChecks },
 ];
 
 export const HowItWorksSection = () => {
@@ -16,6 +22,7 @@ export const HowItWorksSection = () => {
     title: t(`howItWorks.step${i + 1}.title`),
     description: t(`howItWorks.step${i + 1}.description`),
   }));
+
 
   return (
     <section className="py-20 lg:py-32">
@@ -52,7 +59,7 @@ export const HowItWorksSection = () => {
                 <div className="relative inline-flex items-center justify-center mb-6">
                   <div className="absolute w-24 h-24 rounded-full bg-primary/10 animate-pulse" />
                   <div className="relative w-20 h-20 rounded-full gradient-primary flex items-center justify-center shadow-glow">
-                    <step.icon className="w-8 h-8 text-primary-foreground" />
+                    {step.customIcon ? <step.customIcon /> : step.lucideIcon && <step.lucideIcon className="w-8 h-8 text-primary-foreground" />}
                   </div>
                 </div>
                 <h3 className="font-display text-xl font-semibold mb-3">
