@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { CheckCircle2, Loader2, ShieldCheck } from 'lucide-react';
+import { Broom } from '@phosphor-icons/react';
 import { useEffect, useState } from 'react';
 
 export const StepConnect = () => {
@@ -19,8 +20,8 @@ export const StepConnect = () => {
 
       <div className="bg-card border border-border rounded-2xl p-8 shadow-lg">
         <div className="flex items-center justify-center gap-6 mb-8">
-          <div className="w-20 h-20 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center font-display text-2xl font-bold text-primary">
-            K
+          <div className="w-20 h-20 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+            <Broom weight="bold" className="w-10 h-10 text-primary" />
           </div>
           <motion.div
             initial={{ width: 0 }}
@@ -44,7 +45,7 @@ export const StepConnect = () => {
           ) : (
             <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="flex items-center gap-2">
               <CheckCircle2 className="w-5 h-5 text-success" />
-              <span className="font-medium text-success">Connexion établie — 12 847 contacts détectés</span>
+              <span className="font-medium text-success">Connexion établie — 8 420 contacts détectés</span>
             </motion.div>
           )}
         </div>

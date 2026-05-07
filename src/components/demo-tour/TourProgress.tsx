@@ -19,7 +19,7 @@ export const TourProgress = ({ step, total, playing, onPrev, onNext, onTogglePla
         <span>Étape {step + 1} / {total}</span>
         <span className="text-foreground">{labels[step]}</span>
       </div>
-      <div className="grid grid-cols-6 gap-1.5 mb-4">
+      <div className="grid gap-1.5 mb-4" style={{ gridTemplateColumns: `repeat(${total}, minmax(0, 1fr))` }}>
         {Array.from({ length: total }).map((_, i) => (
           <div
             key={i}

@@ -3,20 +3,23 @@ import { Link } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, X } from 'lucide-react';
+import { Broom } from '@phosphor-icons/react';
 import { TourProgress } from '@/components/demo-tour/TourProgress';
 import { StepConnect } from '@/components/demo-tour/StepConnect';
 import { StepAudit } from '@/components/demo-tour/StepAudit';
 import { StepDuplicates } from '@/components/demo-tour/StepDuplicates';
 import { StepMerge } from '@/components/demo-tour/StepMerge';
 import { StepEnrich } from '@/components/demo-tour/StepEnrich';
+import { StepSalesOps } from '@/components/demo-tour/StepSalesOps';
 import { StepResults } from '@/components/demo-tour/StepResults';
 
 const STEPS = [
   { label: 'Connexion HubSpot', component: StepConnect, duration: 4000 },
-  { label: 'Audit Flash', component: StepAudit, duration: 4500 },
-  { label: 'Détection doublons', component: StepDuplicates, duration: 5000 },
+  { label: 'Audit Flash', component: StepAudit, duration: 5000 },
+  { label: 'Détection doublons', component: StepDuplicates, duration: 5500 },
   { label: 'Auto-merge', component: StepMerge, duration: 4500 },
-  { label: 'Enrichissement', component: StepEnrich, duration: 5000 },
+  { label: 'Enrichissement', component: StepEnrich, duration: 5500 },
+  { label: 'Sales Ops Intelligence', component: StepSalesOps, duration: 7000 },
   { label: 'Résultats', component: StepResults, duration: 99999 },
 ];
 
@@ -40,8 +43,10 @@ const DemoTour = () => {
       <header className="sticky top-0 z-30 backdrop-blur-md bg-background/70 border-b border-border">
         <div className="container mx-auto px-4 h-14 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg gradient-primary flex items-center justify-center text-primary-foreground font-display font-bold text-sm">K</div>
-            <span className="font-display font-semibold">Klea</span>
+            <div className="w-7 h-7 rounded-lg gradient-primary flex items-center justify-center text-primary-foreground">
+              <Broom weight="bold" className="w-4 h-4" />
+            </div>
+            <span className="font-display font-semibold">Kléa</span>
             <span className="text-xs text-muted-foreground hidden sm:inline">— Démo produit guidée</span>
           </Link>
           <div className="flex items-center gap-2">
