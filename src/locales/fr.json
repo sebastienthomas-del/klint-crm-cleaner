@@ -119,23 +119,24 @@
     }
   },
   "roi": {
-    "title": "ROI garanti en 30 jours",
-    "subtitle": "Des résultats mesurables dès les premières semaines",
+    "title": "Ce que vous gagnez dès le premier mois",
+    "subtitle": "Des gains concrets, pas des estimations.",
+    "cta": "Tester sur ma base",
     "stat1": {
       "value": "-15h",
-      "label": "de nettoyage manuel économisées par semaine"
+      "label": "par semaine récupérées sur le nettoyage manuel"
     },
     "stat2": {
-      "value": "+18%",
-      "label": "de ROI estimé sur données propres vs données sales"
+      "value": "+25%",
+      "label": "de leads exploitables en plus dans votre pipeline"
     },
     "stat3": {
-      "value": "30 j",
-      "label": "pour voir les premiers résultats concrets"
+      "value": "487",
+      "label": "doublons détectés en moyenne sur une base de 5 000 contacts"
     },
     "stat4": {
-      "value": "100%",
-      "label": "traçable — chaque action de l'agent est visible et réversible"
+      "value": "30 j",
+      "label": "pour un CRM propre, complet et actionnable"
     }
   },
   "testimonials": {

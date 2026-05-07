@@ -1,5 +1,8 @@
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export const ROISection = () => {
   const { t } = useTranslation();
@@ -12,7 +15,7 @@ export const ROISection = () => {
   ];
 
   return (
-    <section className="py-20 lg:py-32">
+    <section className="py-20 lg:py-32 bg-muted/40">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -29,7 +32,7 @@ export const ROISection = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-12">
           {stats.map((stat, index) => (
             <motion.div
               key={index}
@@ -51,6 +54,21 @@ export const ROISection = () => {
             </motion.div>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="text-center"
+        >
+          <Link to="/contact">
+            <Button size="lg" className="gradient-primary shadow-glow hover:shadow-glow-lg gap-2 px-8">
+              {t('roi.cta')}
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+          </Link>
+        </motion.div>
       </div>
     </section>
   );
