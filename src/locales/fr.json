@@ -99,16 +99,16 @@
     "title": "Comment ça marche",
     "subtitle": "3 étapes pour un CRM toujours propre",
     "step1": {
-      "title": "Connectez votre CRM",
-      "description": "HubSpot, Pipedrive ou Salesforce. Connexion sécurisée en 2 clics."
+      "title": "Connectez HubSpot",
+      "description": "Connexion OAuth sécurisée en 2 clics. Aucun export, aucune manipulation de fichier."
     },
     "step2": {
-      "title": "L'IA analyse et nettoie",
-      "description": "Notre agent scanne votre base, détecte les problèmes et les corrige automatiquement."
+      "title": "L'agent analyse votre base",
+      "description": "Kléa scanne vos contacts, détecte les doublons, les incohérences et les opportunités dormantes."
     },
     "step3": {
-      "title": "Recevez vos listes",
-      "description": "Chaque semaine, recevez des listes prioritaires et des alertes intelligentes."
+      "title": "Agissez sur ce qui compte",
+      "description": "Validez les fusions, relancez les bons contacts, suivez vos priorités depuis votre dashboard."
     }
   },
   "roi": {

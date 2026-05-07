@@ -1,30 +1,21 @@
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Link2, Bot, ListTodo } from 'lucide-react';
+import { Plug2, ScanSearch, ListChecks, ArrowRight } from 'lucide-react';
+
+const steps = [
+  { icon: Plug2 },
+  { icon: ScanSearch },
+  { icon: ListChecks },
+];
 
 export const HowItWorksSection = () => {
   const { t } = useTranslation();
 
-  const steps = [
-    {
-      number: '01',
-      icon: Link2,
-      title: t('howItWorks.step1.title'),
-      description: t('howItWorks.step1.description'),
-    },
-    {
-      number: '02',
-      icon: Bot,
-      title: t('howItWorks.step2.title'),
-      description: t('howItWorks.step2.description'),
-    },
-    {
-      number: '03',
-      icon: ListTodo,
-      title: t('howItWorks.step3.title'),
-      description: t('howItWorks.step3.description'),
-    },
-  ];
+  const stepsWithText = steps.map((s, i) => ({
+    ...s,
+    title: t(`howItWorks.step${i + 1}.title`),
+    description: t(`howItWorks.step${i + 1}.description`),
+  }));
 
   return (
     <section className="py-20 lg:py-32">
@@ -47,31 +38,23 @@ export const HowItWorksSection = () => {
           </p>
         </motion.div>
 
-        <div className="relative">
-          {/* Connection Line */}
-          <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary/30 to-transparent transform -translate-y-1/2" />
-          
-          <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
-            {steps.map((step, index) => (
+        <div className="flex flex-col lg:flex-row items-start justify-center gap-0">
+          {stepsWithText.map((step, index) => (
+            <>
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.2 }}
-                className="relative text-center"
+                className="flex-1 text-center px-4 lg:px-8"
               >
-                {/* Step Number */}
                 <div className="relative inline-flex items-center justify-center mb-6">
                   <div className="absolute w-24 h-24 rounded-full bg-primary/10 animate-pulse" />
                   <div className="relative w-20 h-20 rounded-full gradient-primary flex items-center justify-center shadow-glow">
                     <step.icon className="w-8 h-8 text-primary-foreground" />
                   </div>
-                  <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-background border-2 border-primary flex items-center justify-center">
-                    <span className="text-xs font-bold text-primary">{step.number}</span>
-                  </div>
                 </div>
-                
                 <h3 className="font-display text-xl font-semibold mb-3">
                   {step.title}
                 </h3>
@@ -79,8 +62,14 @@ export const HowItWorksSection = () => {
                   {step.description}
                 </p>
               </motion.div>
-            ))}
-          </div>
+
+              {index < stepsWithText.length - 1 && (
+                <div className="hidden lg:flex items-start justify-center pt-10 shrink-0">
+                  <ArrowRight className="w-6 h-6 text-primary/40" />
+                </div>
+              )}
+            </>
+          ))}
         </div>
       </div>
     </section>
