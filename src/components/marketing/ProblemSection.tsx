@@ -3,9 +3,9 @@ import { motion } from 'framer-motion';
 import { Trash2, UserX, Clock } from 'lucide-react';
 
 const problems = [
-  { icon: Trash2, key: 'card1', stat: '1/5',  accent: 'border-l-destructive', statColor: 'text-destructive', iconColor: 'text-destructive' },
-  { icon: UserX,  key: 'card2', stat: '∞',    accent: 'border-l-warning',     statColor: 'text-warning',     iconColor: 'text-warning' },
-  { icon: Clock,  key: 'card3', stat: '−15h', accent: 'border-l-secondary',   statColor: 'text-secondary',   iconColor: 'text-secondary' },
+  { icon: Trash2, key: 'card1', stat: '1/5',  accent: 'border-l-primary',     statColor: 'text-primary',     iconColor: 'text-primary' },
+  { icon: UserX,  key: 'card2', stat: '∞',    accent: 'border-l-primary/60',  statColor: 'text-primary/70',  iconColor: 'text-primary/70' },
+  { icon: Clock,  key: 'card3', stat: '−15h', accent: 'border-l-primary/30',  statColor: 'text-primary/50',  iconColor: 'text-primary/50' },
 ];
 
 export const ProblemSection = () => {
