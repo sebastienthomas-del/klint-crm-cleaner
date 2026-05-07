@@ -115,20 +115,20 @@
     "title": "ROI garanti en 30 jours",
     "subtitle": "Des résultats mesurables dès les premières semaines",
     "stat1": {
-      "value": "30%",
-      "label": "de leads réactivés"
+      "value": "-15h",
+      "label": "de nettoyage manuel économisées par semaine"
     },
     "stat2": {
-      "value": "15h",
-      "label": "économisées par semaine"
+      "value": "+18%",
+      "label": "de ROI estimé sur données propres vs données sales"
     },
     "stat3": {
-      "value": "98%",
-      "label": "de données valides"
+      "value": "30 j",
+      "label": "pour voir les premiers résultats concrets"
     },
     "stat4": {
-      "value": "2x",
-      "label": "plus de conversions"
+      "value": "100%",
+      "label": "traçable — chaque action de l'agent est visible et réversible"
     }
   },
   "testimonials": {
