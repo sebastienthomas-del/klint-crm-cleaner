@@ -35,19 +35,22 @@
     }
   },
   "problem": {
-    "title": "Le problème que vous connaissez",
-    "subtitle": "Chaque équipe sales fait face aux mêmes défis avec son CRM",
+    "title": "Votre CRM vous coûte de l'argent",
+    "subtitle": "Et personne ne s'en occupe — parce que personne n'a le temps.",
     "card1": {
-      "title": "CRM pollué",
-      "description": "Doublons, données obsolètes, emails invalides... Votre base est un cimetière de leads morts."
+      "stat": "1/5",
+      "title": "Contacts corrompus",
+      "description": "Doublons, emails invalides, fiches incomplètes. Votre base sabote vos campagnes sans que vous le sachiez."
     },
     "card2": {
-      "title": "Leads inactifs",
-      "description": "Des milliers de contacts dorment dans votre CRM. Impossible de savoir lesquels réactiver."
+      "stat": "∞",
+      "title": "Pipeline fantôme",
+      "description": "Deals perdus redevenus chauds, champions qui ont changé d'entreprise, leads dormants — tout ça dort dans votre CRM."
     },
     "card3": {
-      "title": "Temps perdu",
-      "description": "15h par semaine passées à nettoyer manuellement. Du temps volé à la prospection."
+      "stat": "−15h",
+      "title": "Temps volé",
+      "description": "Par semaine, vos commerciaux nettoient à la main ce qu'une IA peut faire en continu."
     }
   },
   "solution": {

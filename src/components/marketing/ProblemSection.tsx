@@ -2,32 +2,17 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Trash2, UserX, Clock } from 'lucide-react';
 
+const problems = [
+  { icon: Trash2, key: 'card1', stat: '1/5',  accent: 'border-l-destructive', statColor: 'text-destructive', iconColor: 'text-destructive' },
+  { icon: UserX,  key: 'card2', stat: '∞',    accent: 'border-l-warning',     statColor: 'text-warning',     iconColor: 'text-warning' },
+  { icon: Clock,  key: 'card3', stat: '−15h', accent: 'border-l-secondary',   statColor: 'text-secondary',   iconColor: 'text-secondary' },
+];
+
 export const ProblemSection = () => {
   const { t } = useTranslation();
 
-  const problems = [
-    {
-      icon: Trash2,
-      title: t('problem.card1.title'),
-      description: t('problem.card1.description'),
-      color: 'destructive',
-    },
-    {
-      icon: UserX,
-      title: t('problem.card2.title'),
-      description: t('problem.card2.description'),
-      color: 'warning',
-    },
-    {
-      icon: Clock,
-      title: t('problem.card3.title'),
-      description: t('problem.card3.description'),
-      color: 'secondary',
-    },
-  ];
-
   return (
-    <section className="py-20 lg:py-32">
+    <section className="py-20 lg:py-32 bg-muted/40">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -52,20 +37,20 @@ export const ProblemSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative bg-card border border-border rounded-xl p-6 lg:p-8 hover-lift"
+              className={`relative bg-card border border-border border-l-4 ${problem.accent} rounded-xl p-6 lg:p-8 hover-lift`}
             >
-              <div className={`w-14 h-14 rounded-xl bg-${problem.color}/10 flex items-center justify-center mb-6`}>
-                <problem.icon className={`w-7 h-7 text-${problem.color}`} />
+              <div className={`font-display text-5xl font-bold mb-3 ${problem.statColor}`}>
+                {problem.stat}
               </div>
-              <h3 className="font-display text-xl font-semibold mb-3">
-                {problem.title}
-              </h3>
+              <div className="flex items-center gap-2 mb-3">
+                <problem.icon className={`w-5 h-5 ${problem.iconColor}`} />
+                <h3 className="font-display text-xl font-semibold">
+                  {t(`problem.${problem.key}.title`)}
+                </h3>
+              </div>
               <p className="text-muted-foreground">
-                {problem.description}
+                {t(`problem.${problem.key}.description`)}
               </p>
-              
-              {/* Decorative gradient */}
-              <div className={`absolute inset-0 rounded-xl bg-gradient-to-br from-${problem.color}/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
             </motion.div>
           ))}
         </div>
