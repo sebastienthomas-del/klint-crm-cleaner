@@ -18,12 +18,14 @@ import {
   Briefcase,
   Flame,
   Play,
+  PlugZap,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAgent } from '@/hooks/useAgent';
 import { useSalesOpsAgent } from '@/hooks/useSalesOpsAgent';
 import { useDashboardStats } from '@/hooks/useDashboardStats';
+import { useHubSpot } from '@/hooks/useHubSpot';
 import { Progress } from '@/components/ui/progress';
 import {
   PriorityActions,
@@ -49,6 +51,9 @@ const Dashboard = () => {
   const { state: agentState, startScan } = useAgent();
   const { stats: salesOpsStats } = useSalesOpsAgent();
   const { data: realStats } = useDashboardStats();
+  const { connection } = useHubSpot();
+
+  const isCrmConnected = !!connection.data;
 
   const healthScore = realStats?.healthScore ?? 0;
   const healthStatus = healthScore >= 80 ? 'excellent' : healthScore >= 60 ? 'good' : 'poor';
@@ -98,6 +103,35 @@ const Dashboard = () => {
       default: return CheckCircle;
     }
   };
+
+  if (!isCrmConnected) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-md"
+        >
+          <div className="w-20 h-20 rounded-2xl gradient-primary flex items-center justify-center mx-auto mb-6">
+            <PlugZap className="w-10 h-10 text-primary-foreground" />
+          </div>
+          <h1 className="font-display text-2xl font-bold mb-3">Connectez votre CRM</h1>
+          <p className="text-muted-foreground mb-8">
+            Votre tableau de bord s'affichera dès que votre CRM est connecté. Klea synchronise vos contacts et lance l'analyse automatiquement.
+          </p>
+          <Link to="/app/settings">
+            <Button size="lg" className="gradient-primary shadow-glow gap-2">
+              <PlugZap className="w-4 h-4" />
+              Connecter HubSpot
+            </Button>
+          </Link>
+          <p className="text-xs text-muted-foreground mt-4">
+            Vous pouvez aussi connecter votre CRM depuis les <Link to="/app/settings" className="underline">Paramètres</Link>.
+          </p>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
