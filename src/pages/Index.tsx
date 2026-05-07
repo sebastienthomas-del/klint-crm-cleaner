@@ -5,6 +5,7 @@ import {
   ProblemSection,
   FeaturesSection,
   HowItWorksSection,
+  DashboardPreviewSection,
   ROISection,
   TestimonialsSection,
   IntegrationsSection,
@@ -29,6 +30,7 @@ const Index = () => {
       <ProblemSection />
       <FeaturesSection />
       <HowItWorksSection />
+      <DashboardPreviewSection />
 
       {/* Bloc 2 — Résultats */}
       <SectionHeader

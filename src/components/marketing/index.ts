@@ -3,6 +3,7 @@ export { ProblemSection } from './ProblemSection';
 export { SolutionSection } from './SolutionSection';
 export { FeaturesSection } from './FeaturesSection';
 export { HowItWorksSection } from './HowItWorksSection';
+export { DashboardPreviewSection } from './DashboardPreviewSection';
 export { ROISection } from './ROISection';
 export { TestimonialsSection } from './TestimonialsSection';
 export { IntegrationsSection } from './IntegrationsSection';
