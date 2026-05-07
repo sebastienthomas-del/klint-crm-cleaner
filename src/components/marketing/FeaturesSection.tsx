@@ -1,37 +1,22 @@
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Activity, Users, Target, RefreshCw, History } from 'lucide-react';
+import { Activity, Users, Target, RefreshCw, Award, RotateCcw } from 'lucide-react';
 
 export const FeaturesSection = () => {
   const { t } = useTranslation();
 
   const features = [
-    {
-      icon: Activity,
-      title: t('features.health.title'),
-      description: t('features.health.description'),
-    },
-    {
-      icon: Users,
-      title: t('features.duplicates.title'),
-      description: t('features.duplicates.description'),
-    },
-    {
-      icon: Target,
-      title: t('features.scoring.title'),
-      description: t('features.scoring.description'),
-    },
-    {
-      icon: RefreshCw,
-      title: t('features.reactivation.title'),
-      description: t('features.reactivation.description'),
-    },
-    {
-      icon: History,
-      title: t('features.history.title'),
-      description: t('features.history.description'),
-    },
-  ];
+    { icon: Activity,   key: 'health' },
+    { icon: Users,      key: 'duplicates' },
+    { icon: Target,     key: 'scoring' },
+    { icon: RefreshCw,  key: 'reactivation' },
+    { icon: Award,      key: 'champion' },
+    { icon: RotateCcw,  key: 'recycler' },
+  ].map(({ icon, key }) => ({
+    icon,
+    title: t(`features.${key}.title`),
+    description: t(`features.${key}.description`),
+  }));
 
   return (
     <section className="py-20 lg:py-32">

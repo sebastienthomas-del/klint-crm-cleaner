@@ -89,9 +89,13 @@
       "title": "Listes réactivation",
       "description": "Identifiez les contacts dormants à fort potentiel de réengagement."
     },
-    "history": {
-      "title": "Traçabilité totale",
-      "description": "Historique complet de toutes les modifications avec possibilité de rollback."
+    "champion": {
+      "title": "Champion Tracker",
+      "description": "Un contact clé change d'entreprise ? Kléa te l'indique avant que ton concurrent ne le contacte."
+    },
+    "recycler": {
+      "title": "Closed-Lost Recycler",
+      "description": "Kléa remonte les deals perdus redevenus chauds : nouveau poste, budget débloqué, délai écoulé."
     }
   },
   "howItWorks": {
